@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class FileLoader{
 	private String path;
 
@@ -22,4 +24,8 @@ class LoadedFiles {
 	public Item[] items;
 	public Recepture[] receptures;
 	public boolean success;
+
+	public boolean Equals(LoadedFiles files) {
+		return Arrays.equals(files.items, this.items) && Arrays.equals(files.receptures, this.receptures) && files.success == this.success;
+	}
 }
