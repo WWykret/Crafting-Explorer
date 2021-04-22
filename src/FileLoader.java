@@ -25,7 +25,10 @@ class LoadedFiles {
 	public Recepture[] receptures;
 	public boolean success;
 
-	public boolean Equals(LoadedFiles files) {
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null || obj.getClass() != this.getClass()) return false;
+	    LoadedFiles files = (LoadedFiles) obj;
 		return Arrays.equals(files.items, this.items) && Arrays.equals(files.receptures, this.receptures) && files.success == this.success;
 	}
 }
