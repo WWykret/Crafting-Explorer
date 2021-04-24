@@ -1,13 +1,11 @@
 import java.awt.*;
 public class Item{
 
-	public Item(int id, String name,Image graphics,Item[] types ,String description) {
+	public Item(int id, String name,String graphicsPath,Item[] types ,String description) {
 	}
-
-	public Item(int id, String name,Image graphics,Item[] types) {
-		this(id, name, graphics, types, "");
+	public Item(int id, String name,String graphicsPath,Item[] types) {
+		this(id, name, graphicsPath, types, "");
 	}
-
 
 	public int GetID() {
 		return 0;
@@ -25,7 +23,7 @@ public class Item{
 		return null;
 	}
 
-	public Image GetGraphics() {
+	public String GetGraphics() {
 		return null;
 	}
 
