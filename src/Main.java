@@ -3,15 +3,15 @@ public class Main{
 		return null;
 	}
 
+	public static void SetItems(Item[] _items) {
+
+	}
+
 	public static Recepture[] GetReceptures() {
 		return null;
 	}
 
-	public static void Update(Item[] items) {
-
-	}
-
-	public static void Update(Recepture[] receptures) {
+	public static void SetReceptures(Recepture[] _receptures) {
 
 	}
 
