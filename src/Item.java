@@ -1,11 +1,14 @@
-import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class Item{
 
 	public Item(int id, String name,String graphicsPath,Item[] types ,String description) {
 	}
+
 	public Item(int id, String name,String graphicsPath,Item[] types) {
 		this(id, name, graphicsPath, types, "");
 	}
+
 
 	public int GetID() {
 		return 0;
@@ -23,7 +26,7 @@ public class Item{
 		return null;
 	}
 
-	public String GetGraphics() {
+	public BufferedImage GetGraphics() {
 		return null;
 	}
 

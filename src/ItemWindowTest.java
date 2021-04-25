@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 class ItemWindowTest{
 	@Test
 	void getReceptures(){
@@ -12,8 +10,7 @@ class ItemWindowTest{
 		ReceptureArrayCreator(arr, items);
 
 		ItemWindow window = new ItemWindow(arr, null);
-		Assertions.assertEquals(window.GetReceptures(), arr);
-
+		Assertions.assertEquals(arr, window.GetReceptures());
 	}
 
 	@Test
@@ -30,7 +27,7 @@ class ItemWindowTest{
 		items[2] = new Item(2, "cooked porkchop", null, null);
 
 		ItemWindow window = new ItemWindow(arr, nextItems);
-		Assertions.assertEquals(window.GetNextItems(), nextItems);
+		Assertions.assertEquals(nextItems, window.GetNextItems());
 	}
 	@Test
 	void getCurrentRecepture(){
@@ -40,7 +37,7 @@ class ItemWindowTest{
 		ItemsArrayCreator(items);
 		ReceptureArrayCreator(arr, items);
 		ItemWindow window = new ItemWindow(arr, null);
-		Assertions.assertEquals(window.GetCurrentRecepture(), arr[0]);
+		Assertions.assertEquals(arr[0], window.GetCurrentRecepture());
 	}
 	@Test
 	void nextRecepture(){
@@ -51,7 +48,7 @@ class ItemWindowTest{
 		ReceptureArrayCreator(arr, items);
 		ItemWindow window = new ItemWindow(arr, null);
 		window.NextRecepture();
-		Assertions.assertEquals(window.GetCurrentRecepture(), arr[1]);
+		Assertions.assertEquals(arr[1], window.GetCurrentRecepture());
 	}
 	@Test
 	void prevRecepture(){
@@ -62,7 +59,7 @@ class ItemWindowTest{
 		ReceptureArrayCreator(arr, items);
 		ItemWindow window = new ItemWindow(arr, null);
 		window.PrevRecepture();
-		Assertions.assertEquals(window.GetCurrentRecepture(), arr[4]);
+		Assertions.assertEquals(arr[4], window.GetCurrentRecepture());
 	}
 
 	private static void ReceptureArrayCreator(Recepture[] arr, Item[] items){
@@ -99,7 +96,7 @@ class ItemWindowTest{
 	}
 
 	public static void ItemsArrayCreator(Item[] items) {
-		items[0] = new Item(-1, null, null, null);
+		items[0] = null;
 		items[1] = new Item(0, "aa", null, null);
 		items[2] = new Item(1, "aab", null, null);
 		items[3] = new Item(2, "bab", null, null);
