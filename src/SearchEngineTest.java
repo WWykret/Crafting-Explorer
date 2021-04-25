@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SearchEngineTest{
 	@Test
 	void filterRecepies(){
-		Recepture arr[] = new Recepture[10];
+		Recepture[] arr = new Recepture[10];
 		Item[] items = new Item[10];
 
 		ItemWindowTest.ItemsArrayCreator(items);
@@ -23,30 +23,30 @@ class SearchEngineTest{
 		arr[8] = new Recepture(0, "crafting_table", null, items[8], 0);
 		arr[9] = new Recepture(0, "crafting_table", null, items[9], 0);
 
-		Recepture test1[] = new Recepture[3];
+		Recepture[] test1 = new Recepture[3];
 		test1[0] = arr[9];
 		test1[1] = arr[1];
 		test1[2] = arr[2];
 
-		Recepture test2[] = new Recepture[0];
+		Recepture[] test2 = new Recepture[0];
 
-		Recepture test3[] = new Recepture[2];
+		Recepture[] test3 = new Recepture[2];
 		test3[0] = arr[1];
 		test3[1] = arr[2];
 
-		Recepture test4[] = new Recepture[0];
+		Recepture[] test4 = new Recepture[0];
 
-		Recepture test5[] = new Recepture[0];
+		Recepture[] test5 = new Recepture[0];
 
-		Recepture test6[] = new Recepture[2];
+		Recepture[] test6 = new Recepture[2];
 		test6[0] = arr[7];
 		test6[1] = arr[8];
 
-		Assertions.assertEquals(SearchEngine.FilterRecepies(arr, "a"), test1);
-		Assertions.assertEquals(SearchEngine.FilterRecepies(arr, "baba"), test2);
-		Assertions.assertEquals(SearchEngine.FilterRecepies(arr, "aa"), test3);
-		Assertions.assertEquals(SearchEngine.FilterRecepies(arr, "ab"), test4);
-		Assertions.assertEquals(SearchEngine.FilterRecepies(arr, "z"), test5);
-		Assertions.assertEquals(SearchEngine.FilterRecepies(arr, "k k"), test6);
+		Assertions.assertEquals(test1, SearchEngine.FilterRecepies(arr, "a"));
+		Assertions.assertEquals(test2, SearchEngine.FilterRecepies(arr, "baba"));
+		Assertions.assertEquals(test3, SearchEngine.FilterRecepies(arr, "aa"));
+		Assertions.assertEquals(test4, SearchEngine.FilterRecepies(arr, "ab"));
+		Assertions.assertEquals(test5, SearchEngine.FilterRecepies(arr, "z"));
+		Assertions.assertEquals(test6, SearchEngine.FilterRecepies(arr, "k k"));
 	}
 }

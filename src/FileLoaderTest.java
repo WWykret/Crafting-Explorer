@@ -64,8 +64,8 @@ class FileLoaderTest {
                 {items[1], null, null, items[2], null, null, null, null, null}
         };
         result.receptures = new Recepture[]{
-                new Recepture(0, "crafting", receptures[0], items[3], 4),
-                new Recepture(0, "crafting", receptures[1], items[3], 4)
+                new Recepture(0, "crafting_table", receptures[0], items[3], 4),
+                new Recepture(1, "crafting_table", receptures[1], items[3], 4)
         };
         assertEquals(result, loader.LoadFiles());
     }
