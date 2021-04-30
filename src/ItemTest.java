@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.file.FileSystems;
 
 class ItemTest {
     Item[] a;
@@ -13,27 +14,30 @@ class ItemTest {
     public void setUp() {
         a = new Item[18];
 
-        a[0] = new Item(1, "Fishing Rod", "C:/Users/Apka/Rod.jpg", null, "lowi sie tym");
-        a[1] = new Item(20, "Wooden Sword", "C:/Users/Apka/W_Sword.jpg", null, "bije sie tym");
-        a[2] = new Item(22, "Iron Sword", "C:/Users/Apka/I_Sword.jpg", null, "mocno bije sie tym");
-        a[3] = new Item(23, "Diamond Sword", "C:/Users/Apka/D_Sword.jpg", null, "mega mocno bije sie tym");
+        String relativePath=".\\grafiki";
+        String absolutePath = FileSystems.getDefault().getPath(relativePath).normalize().toAbsolutePath().toString();
 
-        a[4] = new Item(6237, "Bow", "C:/Users/Apka/Bow.jpg", null);
-        a[5] = new Item(43, "Stick", "C:/Users/Apka/Stick.jpg", null);
-        a[6] = new Item(969348, "Ladder", "C:/Users/Apka/Planks.jpg", null);
-        a[7] = new Item(201, "Minecart", "C:/Users/Apka/Minecart.jpg", null);
+        a[0] = new Item(1, "Fishing Rod", absolutePath+"\\Rod.png", null, "lowi sie tym");
+        a[1] = new Item(20, "Wooden Sword", absolutePath+"\\W_Sword.png", null, "bije sie tym");
+        a[2] = new Item(22, "Iron Sword", absolutePath+"\\I_Sword.png", null, "mocno bije sie tym");
+        a[3] = new Item(23, "Diamond Sword", absolutePath+"\\D_Sword.png", null, "mega mocno bije sie tym");
 
-        a[8] = new Item(326, "Oak Wood", "C:/Users/Apka/O_Wood.jpg", null, "Oak dzwewo");
-        a[9] = new Item(327, "Spruce Wood", "C:/Users/Apka/S_Wood.jpg", null, "Spruce dzwewo");
-        a[10] = new Item(328, "Birch Wood", "C:/Users/Apka/B_Wood.jpg", null, "Birch dzwewo");
-        a[11] = new Item(329, "Wood", "C:/Users/Apka/Wood.jpg", new Item[]{a[8], a[9], a[10]}, "Zwykle dzwewo");
+        a[4] = new Item(6237, "Bow", absolutePath+"\\Bow.png", null);
+        a[5] = new Item(43, "Stick", absolutePath+"\\Stick.png", null);
+        a[6] = new Item(969348, "Ladder", absolutePath+"\\Planks.png", null);
+        a[7] = new Item(201, "Minecart", absolutePath+"\\Minecart.png", null);
 
-        a[12] = new Item(1524, "Oak Button", "C:/Users/Apka/O_Button.jpg", null);
-        a[13] = new Item(1525, "Spruce Button", "C:/Users/Apka/Sp_Button.jpg", null);
-        a[14] = new Item(1526, "Birch Button", "C:/Users/Apka/B_Button.jpg", null);
-        a[15] = new Item(1527, "Wood Button", "C:/Users/Apka/W_Button.jpg", new Item[]{a[12], a[13], a[14]});
-        a[16] = new Item(1510, "Stone Button", "C:/Users/Apka/St_Button.jpg", null);
-        a[17] = new Item(1530, "Button", "C:/Users/Apka/Button.jpg", new Item[]{a[15], a[16]});
+        a[8] = new Item(326, "Oak Wood", absolutePath+"\\O_Wood.png", null, "Oak dzwewo");
+        a[9] = new Item(327, "Spruce Wood", absolutePath+"\\S_Wood.png", null, "Spruce dzwewo");
+        a[10] = new Item(328, "Birch Wood", absolutePath+"\\B_Wood.png", null, "Birch dzwewo");
+        a[11] = new Item(329, "Wood", absolutePath+"\\Wood.png", new Item[]{a[8], a[9], a[10]}, "Zwykle dzwewo");
+
+        a[12] = new Item(1524, "Oak Button", absolutePath+"\\O_Button.png", null);
+        a[13] = new Item(1525, "Spruce Button", absolutePath+"\\Sp_Button.png", null);
+        a[14] = new Item(1526, "Birch Button", absolutePath+"\\B_Button.png", null);
+        a[15] = new Item(1527, "Wood Button", absolutePath+"\\W_Button.png", new Item[]{a[12], a[13], a[14]});
+        a[16] = new Item(1510, "Stone Button", absolutePath+"\\St_Button.png", null);
+        a[17] = new Item(1530, "Button", absolutePath+"\\Button.png", new Item[]{a[15], a[16]});
     }
 
     @Test
@@ -148,32 +152,36 @@ class ItemTest {
 
     @Test
     void getGraphics() {
+        String relativePath=".\\grafiki";
+        String absolutePath = FileSystems.getDefault().getPath(relativePath).normalize().toAbsolutePath().toString();
+        System.out.println(absolutePath+"\\Rod.png");
         try {
             BufferedImage[] images = {
-                    ImageIO.read(new File("C:/Users/Apka/Rod.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/W_Sword.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/I_Sword.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/D_Sword.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/Bow.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/Stick.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/Planks.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/Minecart.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/O_Wood.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/S_Wood.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/B_Wood.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/Wood.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/O_Button.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/Sp_Button.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/B_Button.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/W_Button.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/St_Button.jpg")),
-                    ImageIO.read(new File("C:/Users/Apka/Button.jpg"))
+                    ImageIO.read(new File(absolutePath+"\\Rod.png")),
+                    ImageIO.read(new File(absolutePath+"\\W_Sword.png")),
+                    ImageIO.read(new File(absolutePath+"\\I_Sword.png")),
+                    ImageIO.read(new File(absolutePath+"\\D_Sword.png")),
+                    ImageIO.read(new File(absolutePath+"\\Bow.png")),
+                    ImageIO.read(new File(absolutePath+"\\Stick.png")),
+                    ImageIO.read(new File(absolutePath+"\\Planks.png")),
+                    ImageIO.read(new File(absolutePath+"\\Minecart.png")),
+                    ImageIO.read(new File(absolutePath+"\\O_Wood.png")),
+                    ImageIO.read(new File(absolutePath+"\\S_Wood.png")),
+                    ImageIO.read(new File(absolutePath+"\\B_Wood.png")),
+                    ImageIO.read(new File(absolutePath+"\\Wood.png")),
+                    ImageIO.read(new File(absolutePath+"\\O_Button.png")),
+                    ImageIO.read(new File(absolutePath+"\\Sp_Button.png")),
+                    ImageIO.read(new File(absolutePath+"\\B_Button.png")),
+                    ImageIO.read(new File(absolutePath+"\\W_Button.png")),
+                    ImageIO.read(new File(absolutePath+"\\St_Button.png")),
+                    ImageIO.read(new File(absolutePath+"\\Button.png"))
             };
-
             for (int i = 0; i < 18; i++) {
+                System.out.println(images[i].getHeight());
+                System.out.println(i+1);
                 Assertions.assertTrue(compareImages(images[i], a[i].GetGraphics()), "blad w tescie " + (i+1));
             }
-        } catch (Exception e) {
+        } catch (Exception e){
         }
     }
 
