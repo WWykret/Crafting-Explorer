@@ -47,8 +47,17 @@ class ItemWindowTest{
 		ItemsArrayCreator(items);
 		ReceptureArrayCreator(arr, items);
 		ItemWindow window = new ItemWindow(arr, null);
+
 		window.NextRecepture();
 		Assertions.assertEquals(arr[1], window.GetCurrentRecepture());
+
+		window.NextRecepture();
+		Assertions.assertEquals(arr[2], window.GetCurrentRecepture());
+
+		window.NextRecepture();
+		window.NextRecepture();
+		window.NextRecepture();
+		Assertions.assertEquals(arr[0], window.GetCurrentRecepture());
 	}
 	@Test
 	void prevRecepture(){
@@ -58,8 +67,17 @@ class ItemWindowTest{
 		ItemsArrayCreator(items);
 		ReceptureArrayCreator(arr, items);
 		ItemWindow window = new ItemWindow(arr, null);
+
 		window.PrevRecepture();
 		Assertions.assertEquals(arr[4], window.GetCurrentRecepture());
+
+		window.PrevRecepture();
+		Assertions.assertEquals(arr[3], window.GetCurrentRecepture());
+
+		window.PrevRecepture();
+		window.PrevRecepture();
+		window.PrevRecepture();
+		Assertions.assertEquals(arr[0], window.GetCurrentRecepture());
 	}
 
 	private static void ReceptureArrayCreator(Recepture[] arr, Item[] items){
