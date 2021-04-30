@@ -154,7 +154,6 @@ class ItemTest {
     void getGraphics() {
         String relativePath=".\\grafiki";
         String absolutePath = FileSystems.getDefault().getPath(relativePath).normalize().toAbsolutePath().toString();
-        System.out.println(absolutePath+"\\Rod.png");
         try {
             BufferedImage[] images = {
                     ImageIO.read(new File(absolutePath+"\\Rod.png")),
@@ -177,8 +176,6 @@ class ItemTest {
                     ImageIO.read(new File(absolutePath+"\\Button.png"))
             };
             for (int i = 0; i < 18; i++) {
-                System.out.println(images[i].getHeight());
-                System.out.println(i+1);
                 Assertions.assertTrue(compareImages(images[i], a[i].GetGraphics()), "blad w tescie " + (i+1));
             }
         } catch (Exception e){
