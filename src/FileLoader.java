@@ -20,21 +20,30 @@ public class FileLoader {
         return path;
     }
 
+    private Path CopyFiles() {
+        //DLA TESTOWANIA
+        path = "C:\\Users\\Admin\\AppData\\Roaming\\.minecraft\\versions\\1.16.5\\1.16.5.jar";
+        Path sourcePath = Paths.get(path);
+        //DLA TESTOWANIA
+        Path destPath;
+        try {
+            destPath = Paths.get(new File("./files/minecraft.jar").getCanonicalPath());
+            Files.copy(sourcePath, destPath);
+        } catch (IOException e) {
+            destPath = null;
+        }
+        return destPath;
+    }
+
+    private void Unpack(Path path) {
+
+    }
+
     public LoadedFiles LoadFiles() {
         LoadedFiles result = new LoadedFiles();
-
-        //DLA TESTOWANIA
-		path = "C:\\Users\\Admin\\AppData\\Roaming\\.minecraft\\versions\\1.16.5\\1.16.5.jar";
-		Path sourcePath = Paths.get(path);
-		//DLA TESTOWANIA
-		Path destPath;
-		try {
-			destPath = Paths.get(new File("./files/minecraft.jar").getCanonicalPath());
-			Files.copy(sourcePath, destPath);
-		} catch (IOException e) {
-			destPath = null;
-		}
-
+        Path jarPath = CopyFiles();
+        if (jarPath == null) return result;
+        System.out.print("");
         return result;
     }
 }
