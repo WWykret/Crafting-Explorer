@@ -28,6 +28,8 @@ public class FileLoader {
         Path destPath;
         try {
             destPath = Paths.get(new File("./files/minecraft.jar").getCanonicalPath());
+            File target = new File(destPath.toString());
+            if (target.exists()) target.delete();
             Files.copy(sourcePath, destPath);
         } catch (IOException e) {
             destPath = null;
@@ -35,15 +37,27 @@ public class FileLoader {
         return destPath;
     }
 
-    private void Unpack(Path path) {
+    private void Unpack(Path jarDir, Path unpackerDir) throws IOException, InterruptedException {
+        //rozpakowanie pliku .jar konsola, bo jest prosciej xd
 
+        String command = String.format("%s\\unpacker.bat %s", unpackerDir.toString(), jarDir.toString());
+
+        System.out.println(command);
+
+        Process cmd = Runtime.getRuntime().exec(command);
+        cmd.waitFor();
     }
 
     public LoadedFiles LoadFiles() {
         LoadedFiles result = new LoadedFiles();
         Path jarPath = CopyFiles();
         if (jarPath == null) return result;
-        System.out.print("");
+        try {
+            Unpack(jarPath.getParent(), jarPath.getParent().getParent());
+        } catch (Exception e) {
+            System.out.println(e.getClass());
+        }
+        //System.out.print(jarPath.toString());
         return result;
     }
 }
