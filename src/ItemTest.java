@@ -5,12 +5,16 @@ import org.junit.jupiter.api.Test;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.LinkedList;
 
 class ItemTest {
     Item[] a;
 
     @BeforeEach
     public void setUp() {
+        LinkedList<Item> one = new LinkedList<>();
+        LinkedList<Item> two = new LinkedList<>();
+        LinkedList<Item> three = new LinkedList<>();
         a = new Item[18];
 
         a[0] = new Item(1, "Fishing Rod", "C:/Users/Apka/Rod.jpg", null, "lowi sie tym");
@@ -26,14 +30,22 @@ class ItemTest {
         a[8] = new Item(326, "Oak Wood", "C:/Users/Apka/O_Wood.jpg", null, "Oak dzwewo");
         a[9] = new Item(327, "Spruce Wood", "C:/Users/Apka/S_Wood.jpg", null, "Spruce dzwewo");
         a[10] = new Item(328, "Birch Wood", "C:/Users/Apka/B_Wood.jpg", null, "Birch dzwewo");
-        a[11] = new Item(329, "Wood", "C:/Users/Apka/Wood.jpg", new Item[]{a[8], a[9], a[10]}, "Zwykle dzwewo");
+        one.add((a[8]));
+        one.add((a[9]));
+        one.add((a[10]));
+        a[11] = new Item(329, "Wood", "C:/Users/Apka/Wood.jpg", one, "Zwykle dzwewo");
 
         a[12] = new Item(1524, "Oak Button", "C:/Users/Apka/O_Button.jpg", null);
         a[13] = new Item(1525, "Spruce Button", "C:/Users/Apka/Sp_Button.jpg", null);
         a[14] = new Item(1526, "Birch Button", "C:/Users/Apka/B_Button.jpg", null);
-        a[15] = new Item(1527, "Wood Button", "C:/Users/Apka/W_Button.jpg", new Item[]{a[12], a[13], a[14]});
+        two.add(a[12]);
+        two.add(a[13]);
+        two.add(a[14]);
+        a[15] = new Item(1527, "Wood Button", "C:/Users/Apka/W_Button.jpg", two);
         a[16] = new Item(1510, "Stone Button", "C:/Users/Apka/St_Button.jpg", null);
-        a[17] = new Item(1530, "Button", "C:/Users/Apka/Button.jpg", new Item[]{a[15], a[16]});
+        three.add(a[15]);
+        three.add(a[16]);
+        a[17] = new Item(1530, "Button", "C:/Users/Apka/Button.jpg", three);
     }
 
     @Test
@@ -179,6 +191,10 @@ class ItemTest {
 
     @Test
     void getTypes() {
+        LinkedList<Item> one = new LinkedList<>();
+        LinkedList<Item> two = new LinkedList<>();
+        LinkedList<Item> three = new LinkedList<>();
+
 		Assertions.assertNull(a[0].GetTypes(), "blad w tescie 1");
 		Assertions.assertNull(a[1].GetTypes(), "blad w tescie 2");
 		Assertions.assertNull(a[2].GetTypes(), "blad w tescie 3");
@@ -192,14 +208,22 @@ class ItemTest {
 		Assertions.assertNull(a[8].GetTypes(), "blad w tescie 9");
 		Assertions.assertNull(a[9].GetTypes(), "blad w tescie 10");
 		Assertions.assertNull(a[10].GetTypes(), "blad w tescie 11");
-        Assertions.assertEquals(new Item[]{a[8], a[9], a[10]}, a[11].GetTypes(), "blad w tescie 12");
+		one.add(a[8]);
+		one.add(a[9]);
+		one.add(a[10]);
+        Assertions.assertEquals(one, a[11].GetTypes(), "blad w tescie 12");
 
 		Assertions.assertNull(a[12].GetTypes(), "blad w tescie 13");
 		Assertions.assertNull(a[13].GetTypes(), "blad w tescie 14");
 		Assertions.assertNull(a[14].GetTypes(), "blad w tescie 15");
-        Assertions.assertEquals(new Item[]{a[12], a[13], a[14]}, a[15].GetTypes(), "blad w tescie 16");
+		two.add(a[12]);
+		two.add(a[13]);
+		two.add(a[14]);
+        Assertions.assertEquals(two, a[15].GetTypes(), "blad w tescie 16");
 		Assertions.assertNull(a[16].GetTypes(), "blad w tescie 17");
-        Assertions.assertEquals(new Item[]{a[15], a[16]}, a[17].GetTypes(), "blad w tescie 18");
+		three.add(a[15]);
+		three.add(a[16]);
+        Assertions.assertEquals(three, a[17].GetTypes(), "blad w tescie 18");
     }
 
 	public static boolean compareImages(BufferedImage imgA, BufferedImage imgB) {
