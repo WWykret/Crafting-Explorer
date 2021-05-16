@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -22,10 +23,7 @@ public class FileLoader {
     }
 
     private Path CopyFiles() {
-        //DLA TESTOWANIA
-        path = "C:\\Users\\Admin\\AppData\\Roaming\\.minecraft\\versions\\1.16.5\\1.16.5.jar";
         Path sourcePath = Paths.get(path);
-        //DLA TESTOWANIA
         Path destPath;
         try {
             destPath = Paths.get(new File("./files/minecraft.jar").getCanonicalPath());
@@ -97,12 +95,45 @@ public class FileLoader {
         return false;
     }
 
+    private ArrayList<String> ReadTagsFromFiles(Path dir) throws IOException {
+        ArrayList<File> files = GetAllFilesFromDir(dir.toString());
+
+        //rodzdzielanie plikow
+        ArrayList<String> tagPath = new ArrayList<>();
+        ArrayList<String> recipePath = new ArrayList<>();
+        for (File f: files) {
+            String filePath = f.toString().replace("\\","/"); //jak są \ zamiast / to się regex psuje
+            if (Pattern.matches(".*/tags/.*", filePath)) tagPath.add(filePath);
+            else if (Pattern.matches(".*/recipes/.*", filePath)) recipePath.add(filePath);
+        }
+
+        
+
+        return null;
+    }
+
+    private ArrayList<File> GetAllFilesFromDir(String dir) throws IOException{
+        ArrayList<File> files = new ArrayList<File>();
+        File[] filesInDir = new File(dir).listFiles();
+        if (filesInDir == null) return files;
+        for (File file: filesInDir) {
+            if (file.isFile()) files.add(file);
+            else files.addAll(GetAllFilesFromDir(file.toString()));
+        }
+        return files;
+    }
+
     public LoadedFiles LoadFiles() {
+        //DLA TESTOWANIA
+        path = "C:\\Users\\Admin\\AppData\\Roaming\\.minecraft\\versions\\1.16.5\\1.16.5.jar";
+        //DLA TESTOWANIA
         LoadedFiles result = new LoadedFiles();
         Path jarPath = CopyFiles();
+        //System.out.println(jarPath.getParent().toString());
         if (jarPath == null) return result;
         try {
             UnpackJar(jarPath);
+            ReadTagsFromFiles(jarPath.getParent());
         } catch (Exception e) {
             System.out.println(e.getClass());
         }
