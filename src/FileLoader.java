@@ -60,7 +60,7 @@ public class FileLoader {
         return directoryToBeDeleted.delete();
     }
 
-    private void Unpack(Path jarPath) throws IOException {
+    private void UnpackJar(Path jarPath) throws IOException {
         //zmodyfikowany kod z SO xd
         java.util.jar.JarFile jar = new java.util.jar.JarFile(jarPath.toString());
         java.util.Enumeration enumEntries = jar.entries();
@@ -85,8 +85,16 @@ public class FileLoader {
     }
 
     private boolean IsCorrectFile(String filename) {
-        String filesToInclude = "(data/minecraft/tags/|data/minecraft/recipes/|assets/minecraft/textures/).*";
-        return Pattern.matches(filesToInclude, filename);
+        String[] dirs = new String[] {
+            "data/minecraft/tags/",
+            "data/minecraft/recipes/",
+            "assets/minecraft/textures/"
+        };
+
+        for (String dir: dirs) {
+            if (Pattern.matches(dir + ".*", filename)) return true;
+        }
+        return false;
     }
 
     public LoadedFiles LoadFiles() {
@@ -94,7 +102,7 @@ public class FileLoader {
         Path jarPath = CopyFiles();
         if (jarPath == null) return result;
         try {
-            Unpack(jarPath);
+            UnpackJar(jarPath);
         } catch (Exception e) {
             System.out.println(e.getClass());
         }
