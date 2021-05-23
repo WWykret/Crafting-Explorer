@@ -22,14 +22,14 @@ class ReceptureTest{
 		a[8]=new Item(326,"Oak Wood","C:/Users/Apka/O_Wood.jpg",null,"Oak dzwewo");
 		a[9]=new Item(327,"Spruce Wood","C:/Users/Apka/S_Wood.jpg",null,"Spruce dzwewo");
 		a[10]=new Item(328,"Birch Wood","C:/Users/Apka/B_Wood.jpg",null,"Birch dzwewo");
-		a[11]=new Item(329,"Wood","C:/Users/Apka/Wood.jpg",new Item[] {a[8], a[9], a[10]},"Zwykle dzwewo");
+		//a[11]=new Item(329,"Wood","C:/Users/Apka/Wood.jpg",new Item[] {a[8], a[9], a[10]},"Zwykle dzwewo");
 
 		a[12]=new Item(1524,"Oak Button","C:/Users/Apka/O_Button.jpg",null);
 		a[13]=new Item(1525,"Spruce Button","C:/Users/Apka/Sp_Button.jpg",null);
 		a[14]=new Item(1526,"Birch Button","C:/Users/Apka/B_Button.jpg",null);
-		a[15]=new Item(1527,"Wood Button","C:/Users/Apka/W_Button.jpg",new Item[] {a[12], a[13], a[14]});
+		//a[15]=new Item(1527,"Wood Button","C:/Users/Apka/W_Button.jpg",new Item[] {a[12], a[13], a[14]});
 		a[16]=new Item(1510,"Stone Button","C:/Users/Apka/St_Button.jpg",null);
-		a[17]=new Item(1530,"Button","C:/Users/Apka/Button.jpg",new Item[] {a[15], a[16]});
+		//a[17]=new Item(1530,"Button","C:/Users/Apka/Button.jpg",new Item[] {a[15], a[16]});
 
 		b[0]=new Recepture(1,"crafting_table",new Item[] {a[5], a[6], null,   a[5], null, a[6],   a[5], a[6], null},a[4],64);
 		b[1]=new Recepture(2,"crafting_table",new Item[] {null, null, null,   null, a[11], null,   null, null, null},a[12],6);

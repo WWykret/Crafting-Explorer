@@ -1,11 +1,19 @@
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class FileLoader {
     private String path;
@@ -95,21 +103,80 @@ public class FileLoader {
         return false;
     }
 
-    private ArrayList<String> ReadTagsFromFiles(Path dir) throws IOException {
+    private LinkedHashSet<Item> ReadItemsFromFiles(Path dir) throws IOException, org.json.simple.parser.ParseException {
         ArrayList<File> files = GetAllFilesFromDir(dir.toString());
 
         //rodzdzielanie plikow
-        ArrayList<String> tagPath = new ArrayList<>();
+        ArrayList<String> tagsPath = new ArrayList<>();
         ArrayList<String> recipePath = new ArrayList<>();
+        ArrayList<String> texturePath = new ArrayList<>();
         for (File f: files) {
             String filePath = f.toString().replace("\\","/"); //jak są \ zamiast / to się regex psuje
-            if (Pattern.matches(".*/tags/.*", filePath)) tagPath.add(filePath);
+            if (Pattern.matches(".*/tags/.*", filePath)) tagsPath.add(filePath);
             else if (Pattern.matches(".*/recipes/.*", filePath)) recipePath.add(filePath);
+            else if (Pattern.matches(".*/textures/.*", filePath)) texturePath.add(filePath);
         }
 
+        //tagi z plikow z katalogu .../tags/...
+        LinkedHashSet<Item> allItems = GetTagsFromTagFiles(tagsPath, texturePath);
+        System.out.println("1/2.....");
+        allItems.addAll(GetTagsFromRecipeFiles(recipePath, texturePath));
 
+        return allItems;
+    }
 
-        return null;
+    private LinkedHashSet<Item> GetTagsFromTagFiles(ArrayList<String> tagPaths, ArrayList<String> texturePaths) throws IOException, org.json.simple.parser.ParseException{
+        LinkedHashSet<Item> items = new LinkedHashSet<Item>();
+        ArrayList<Item> subItems = new ArrayList<Item>();
+
+        JSONParser parser = new JSONParser();
+        for (String path: tagPaths) {
+            JSONObject obj = (JSONObject) parser.parse(new FileReader(path));
+            JSONArray tagValues = (JSONArray) obj.get("values");
+
+            subItems.clear();
+
+            for (Object subTagObj: tagValues) {
+                String subTag = (String) subTagObj;
+                if (subTag.charAt(0) != '#') {
+                    Item subItem = new Item(0, subTag, GetTextureForTag(subTag, texturePaths), null);
+                    subItems.add(subItem);
+                    items.add(subItem);
+                }
+            }
+
+            String[] splitPath = path.split("/");
+            String[] splitFilename = splitPath[splitPath.length - 1].split("\\.");
+            String itemTag = "minecraft:" + splitFilename[0];
+            items.add(new Item(0, itemTag, GetTextureForTag(itemTag, texturePaths), subItems));
+        }
+
+        return items;
+    }
+
+    private LinkedHashSet<Item> GetTagsFromRecipeFiles(ArrayList<String> recipePaths, ArrayList<String> texturePaths) {
+        LinkedHashSet<Item> items = new LinkedHashSet<Item>();
+
+        for (String path: recipePaths) {
+            String[] splitPath = path.split("/");
+            String[] splitFilename = splitPath[splitPath.length - 1].split("\\.");
+            String itemTag = "minecraft:" + splitFilename[0];
+            items.add(new Item(0, itemTag, GetTextureForTag(itemTag, texturePaths), null));
+        }
+
+        return items;
+    }
+
+    private String GetTextureForTag(String tag, ArrayList<String> texturePaths) {
+        String[] splitTag = tag.split(":");
+        String itemName = splitTag[splitTag.length - 1];
+
+        Pattern pattern = Pattern.compile(".*/" + itemName + ".*\\.png");
+
+        List<String> candidates = texturePaths.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
+
+        if (candidates.size() > 0) return candidates.get(0);
+        else return "";
     }
 
     private ArrayList<File> GetAllFilesFromDir(String dir) throws IOException{
@@ -133,7 +200,7 @@ public class FileLoader {
         if (jarPath == null) return result;
         try {
             UnpackJar(jarPath);
-            ReadTagsFromFiles(jarPath.getParent());
+            LinkedHashSet<Item> allItems = ReadItemsFromFiles(jarPath.getParent());
         } catch (Exception e) {
             System.out.println(e.getClass());
         }
