@@ -1,6 +1,18 @@
-public class Recepture{
-	public Recepture(int id, String method, Item[] ingredients, Item result, int resultQuantity) {
+import java.util.ArrayList;
 
+public class Recepture{
+	int id;
+	String method;
+	ArrayList<Item> ingredients;
+	Item result;
+	int resultQuantity;
+
+	public Recepture(int id, String method, ArrayList<Item> ingredients, Item result, int resultQuantity) {
+		this.id = id;
+		this.method = method;
+		this.ingredients = new ArrayList<Item>(ingredients);
+		this.result = result;
+		this.resultQuantity = resultQuantity;
 	}
 
 	public int GetID() {

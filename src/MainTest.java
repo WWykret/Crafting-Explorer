@@ -14,8 +14,8 @@ class MainTest {
             {items[1], null, null, items[2], null, null, null, null, null}
     };
     private static Recepture[] receptures = new Recepture[]{
-            new Recepture(0, "crafting", craftings[0], items[3], 4),
-            new Recepture(0, "crafting", craftings[1], items[3], 4)
+            /*new Recepture(0, "crafting", craftings[0], items[3], 4),
+            new Recepture(0, "crafting", craftings[1], items[3], 4)*/
     };
 
     @Test

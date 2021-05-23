@@ -88,11 +88,11 @@ class ItemWindowTest{
 				items[0], items[0], items[0],
 				items[0], items[0], items[0]
 		};
-		arr[0] = new Recepture(0, "crafting_table", recepture1, items[0], 0);
+		/*arr[0] = new Recepture(0, "crafting_table", recepture1, items[0], 0);
 		arr[1] = new Recepture(0, "crafting_table", recepture2, items[0], 0);
 		arr[2] = new Recepture(0, "furnance", recepture3, items[0], 0);
 		arr[3] = new Recepture(0, "brewing_stand", recepture4, items[0], 0);
-		arr[4] = new Recepture(0, "smithing_table", recepture5, items[0], 0);
+		arr[4] = new Recepture(0, "smithing_table", recepture5, items[0], 0);*/
 	}
 
 	public static void ItemsArrayCreator(Item[] items) {

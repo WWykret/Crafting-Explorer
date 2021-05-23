@@ -31,7 +31,7 @@ class ReceptureTest{
 		a[16]=new Item(1510,"Stone Button","C:/Users/Apka/St_Button.jpg",null);
 		//a[17]=new Item(1530,"Button","C:/Users/Apka/Button.jpg",new Item[] {a[15], a[16]});
 
-		b[0]=new Recepture(1,"crafting_table",new Item[] {a[5], a[6], null,   a[5], null, a[6],   a[5], a[6], null},a[4],64);
+		/*b[0]=new Recepture(1,"crafting_table",new Item[] {a[5], a[6], null,   a[5], null, a[6],   a[5], a[6], null},a[4],64);
 		b[1]=new Recepture(2,"crafting_table",new Item[] {null, null, null,   null, a[11], null,   null, null, null},a[12],6);
 		b[2]=new Recepture(3,"crafting_table",new Item[] {a[11], a[11], a[11],   null, a[5], null,   null, a[5], null},a[1],1);
 		b[3]=new Recepture(4,"crafting_table",new Item[] {a[15], a[15], null,   a[15], a[15], null,   null, null, null},a[15],4);
@@ -40,7 +40,7 @@ class ReceptureTest{
 		b[6]=new Recepture(546643442,"brewing_stand",new Item[] {a[12], a[13], a[14]},a[15],5645737);
 		b[7]=new Recepture(200,"smithing_table",new Item[] {a[5]},a[0],0);
 		b[8]=new Recepture(27,"smithing_table",new Item[] {},a[8],2);
-		b[9]=new Recepture(56,"",new Item[] {null, null, null,a[6],a[6],a[6]},a[4],17);
+		b[9]=new Recepture(56,"",new Item[] {null, null, null,a[6],a[6],a[6]},a[4],17);*/
 	}
 
 	@Test

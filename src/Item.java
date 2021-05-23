@@ -34,7 +34,7 @@ public class Item{
 	}
 
 	public String GetName() {
-		return null;
+		return this.name;
 	}
 
 	public BufferedImage GetGraphics() {

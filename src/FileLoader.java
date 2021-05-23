@@ -48,7 +48,7 @@ public class FileLoader {
         File dir = new File(dirPath.toString());
         File[] files = dir.listFiles();
         if (files == null) return;
-        for (File file: files) {
+        for (File file : files) {
             boolean success = false;
             if (file.isDirectory()) success = deleteDirectory(file);
             else success = file.delete();
@@ -91,13 +91,13 @@ public class FileLoader {
     }
 
     private boolean IsCorrectFile(String filename) {
-        String[] dirs = new String[] {
-            "data/minecraft/tags/",
-            "data/minecraft/recipes/",
-            "assets/minecraft/textures/"
+        String[] dirs = new String[]{
+            ".*/data/minecraft/tags/",
+            ".*/data/minecraft/recipes/",
+            ".*/assets/minecraft/textures/"
         };
 
-        for (String dir: dirs) {
+        for (String dir : dirs) {
             if (Pattern.matches(dir + ".*", filename)) return true;
         }
         return false;
@@ -110,8 +110,8 @@ public class FileLoader {
         ArrayList<String> tagsPath = new ArrayList<>();
         ArrayList<String> recipePath = new ArrayList<>();
         ArrayList<String> texturePath = new ArrayList<>();
-        for (File f: files) {
-            String filePath = f.toString().replace("\\","/"); //jak są \ zamiast / to się regex psuje
+        for (File f : files) {
+            String filePath = f.toString().replace("\\", "/"); //jak są \ zamiast / to się regex psuje
             if (Pattern.matches(".*/tags/.*", filePath)) tagsPath.add(filePath);
             else if (Pattern.matches(".*/recipes/.*", filePath)) recipePath.add(filePath);
             else if (Pattern.matches(".*/textures/.*", filePath)) texturePath.add(filePath);
@@ -119,24 +119,23 @@ public class FileLoader {
 
         //tagi z plikow z katalogu .../tags/...
         LinkedHashSet<Item> allItems = GetTagsFromTagFiles(tagsPath, texturePath);
-        System.out.println("1/2.....");
         allItems.addAll(GetTagsFromRecipeFiles(recipePath, texturePath));
 
         return allItems;
     }
 
-    private LinkedHashSet<Item> GetTagsFromTagFiles(ArrayList<String> tagPaths, ArrayList<String> texturePaths) throws IOException, org.json.simple.parser.ParseException{
+    private LinkedHashSet<Item> GetTagsFromTagFiles(ArrayList<String> tagPaths, ArrayList<String> texturePaths) throws IOException, org.json.simple.parser.ParseException {
         LinkedHashSet<Item> items = new LinkedHashSet<Item>();
         ArrayList<Item> subItems = new ArrayList<Item>();
 
         JSONParser parser = new JSONParser();
-        for (String path: tagPaths) {
+        for (String path : tagPaths) {
             JSONObject obj = (JSONObject) parser.parse(new FileReader(path));
             JSONArray tagValues = (JSONArray) obj.get("values");
 
             subItems.clear();
 
-            for (Object subTagObj: tagValues) {
+            for (Object subTagObj : tagValues) {
                 String subTag = (String) subTagObj;
                 if (subTag.charAt(0) != '#') {
                     Item subItem = new Item(0, subTag, GetTextureForTag(subTag, texturePaths), null);
@@ -157,7 +156,7 @@ public class FileLoader {
     private LinkedHashSet<Item> GetTagsFromRecipeFiles(ArrayList<String> recipePaths, ArrayList<String> texturePaths) {
         LinkedHashSet<Item> items = new LinkedHashSet<Item>();
 
-        for (String path: recipePaths) {
+        for (String path : recipePaths) {
             String[] splitPath = path.split("/");
             String[] splitFilename = splitPath[splitPath.length - 1].split("\\.");
             String itemTag = "minecraft:" + splitFilename[0];
@@ -165,6 +164,97 @@ public class FileLoader {
         }
 
         return items;
+    }
+
+    private LinkedHashSet<Recepture> ReadRecipesFromFiles(Path dir, LinkedHashSet<Item> allItems) throws IOException, org.json.simple.parser.ParseException {
+        ArrayList<File> files = GetAllFilesFromDir(dir.toString());
+
+        //rodzdzielanie plikow
+        ArrayList<String> recipePath = new ArrayList<>();
+        for (File f : files) {
+            String filePath = f.toString().replace("\\", "/"); //jak są \ zamiast / to się regex psuje
+            if (Pattern.matches(".*/recipes/.*", filePath)) recipePath.add(filePath);
+        }
+
+        //tagi z plikow z katalogu .../tags/...
+        LinkedHashSet<Recepture> allRecipes = GetRecipesFromFiles(recipePath, allItems);
+
+        return null;
+    }
+
+    private LinkedHashSet<Recepture> GetRecipesFromFiles(ArrayList<String> recipePaths, LinkedHashSet<Item> allItems) throws IOException, org.json.simple.parser.ParseException {
+        LinkedHashSet<Recepture> recipes = new LinkedHashSet<Recepture>();
+
+        JSONParser parser = new JSONParser();
+        for (String path : recipePaths) {
+            JSONObject obj = (JSONObject) parser.parse(new FileReader(path));
+            String craftingType = (String) obj.get("type");
+            if (craftingType.equals("minecraft:crafting_shaped")) {
+                JSONArray craftingPattern = (JSONArray) obj.get("pattern");
+                String patternString = "";
+                for (Object lineObj : craftingPattern) {
+                    String line = (String) lineObj;
+                    while (line.length() < 3) line = line + " ";
+                    patternString += line;
+                }
+                ArrayList<ArrayList<Item>> recipesList = new ArrayList<ArrayList<Item>>();
+                recipesList.add(new ArrayList<Item>());
+
+                for (int i = 0; i < patternString.length(); i++) {
+                    String ingredient = patternString.substring(i, i + 1);
+                    JSONObject ingredientsDict = (JSONObject) obj.get("key");
+                    try {
+                        JSONObject itemEntry = (JSONObject) ingredientsDict.get(ingredient);
+                        if (itemEntry == null) {
+                            for (ArrayList<Item> recipe : recipesList) {
+                                recipe.add(null);
+                            }
+                            continue;
+                        }
+
+                        Item craftingItem = GetItemFromJSON(itemEntry, allItems);
+
+                        for (ArrayList<Item> recipe : recipesList) {
+                            recipe.add(craftingItem);
+                        }
+                    } catch (ClassCastException e) {
+                        JSONArray dictList = (JSONArray) ingredientsDict.get(ingredient);
+                        ArrayList<ArrayList<Item>> tempRecipes = new ArrayList<ArrayList<Item>>();
+                        for (Object dictObj : dictList) {
+                            JSONObject itemDict = (JSONObject) dictObj;
+
+                            Item itemVariant = GetItemFromJSON(itemDict, allItems);
+
+                            ArrayList<ArrayList<Item>> recipesWithItem = new ArrayList<ArrayList<Item>>();
+                            for (ArrayList<Item> recipe : recipesList) {
+                                ArrayList<Item> recipeWithItem = new ArrayList<Item>(recipe);
+                                recipeWithItem.add(itemVariant);
+                                recipesWithItem.add(recipeWithItem);
+                            }
+                            tempRecipes.addAll(recipesWithItem);
+                        }
+                        recipesList = new ArrayList<ArrayList<Item>>(tempRecipes);
+                    }
+                }
+                String resultItemName = (String) ((JSONObject) obj.get("result")).get("item");
+                Item resultItem = allItems.stream().filter(item -> resultItemName.equals(item.GetName())).findFirst().orElse(null);
+                long itemQuantity = (long) ((JSONObject) obj.get("result")).get("count");
+                for (ArrayList<Item> recipe : recipesList) {
+                    recipes.add(new Recepture(0, craftingType, recipe, resultItem, (int) itemQuantity));
+                }
+            } else {
+                //piec itp
+            }
+        }
+
+        return recipes;
+    }
+
+    private Item GetItemFromJSON(JSONObject obj, LinkedHashSet<Item> allItems) {
+        String itemName;
+        if (obj.get("tag") != null) itemName = (String) obj.get("tag");
+        else itemName = (String) obj.get("item");
+        return allItems.stream().filter(item -> itemName.equals(item.GetName())).findFirst().orElse(null);
     }
 
     private String GetTextureForTag(String tag, ArrayList<String> texturePaths) {
@@ -179,11 +269,11 @@ public class FileLoader {
         else return "";
     }
 
-    private ArrayList<File> GetAllFilesFromDir(String dir) throws IOException{
+    private ArrayList<File> GetAllFilesFromDir(String dir) throws IOException {
         ArrayList<File> files = new ArrayList<File>();
         File[] filesInDir = new File(dir).listFiles();
         if (filesInDir == null) return files;
-        for (File file: filesInDir) {
+        for (File file : filesInDir) {
             if (file.isFile()) files.add(file);
             else files.addAll(GetAllFilesFromDir(file.toString()));
         }
@@ -192,7 +282,8 @@ public class FileLoader {
 
     public LoadedFiles LoadFiles() {
         //DLA TESTOWANIA
-        path = "C:\\Users\\Admin\\AppData\\Roaming\\.minecraft\\versions\\1.16.5\\1.16.5.jar";
+        //path = "C:\\Users\\Admin\\AppData\\Roaming\\.minecraft\\versions\\1.16.5\\1.16.5.jar";
+        path = "C:\\Users\\Admin\\IdeaProjects\\Projekt-IO\\resources\\example.jar";
         //DLA TESTOWANIA
         LoadedFiles result = new LoadedFiles();
         Path jarPath = CopyFiles();
@@ -201,6 +292,7 @@ public class FileLoader {
         try {
             UnpackJar(jarPath);
             LinkedHashSet<Item> allItems = ReadItemsFromFiles(jarPath.getParent());
+            LinkedHashSet<Recepture> allRecipes = ReadRecipesFromFiles(jarPath.getParent(), allItems);
         } catch (Exception e) {
             System.out.println(e.getClass());
         }
