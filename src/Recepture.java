@@ -1,26 +1,37 @@
 public class Recepture{
-	public Recepture(int id, String method, Item[] ingredients, Item result, int resultQuantity) {
 
+	private int id;
+	private String method;
+	private Item[] ingredients;
+	private Item result;
+	private int resultQuantity;
+
+	public Recepture(int id, String method, Item[] ingredients, Item result, int resultQuantity) {
+		this.id = id;
+		this.method = method;
+		this.ingredients = ingredients;
+		this.result = result;
+		this.resultQuantity = resultQuantity;
 	}
 
 	public int GetID() {
-		return 0;
+		return id;
 	}
 
 	public String GetMethod() {
-		return null;
+		return method;
 	}
 
 	public Item[] GetIngredients() {
-		return null;
+		return ingredients;
 	}
 
 	public Item GetResult() {
-		return null;
+		return result;
 	}
 
 	public int GetResultQuantity() {
-		return 0;
+		return resultQuantity;
 	}
 
 }

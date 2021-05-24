@@ -1,18 +1,23 @@
+import java.util.LinkedList;
+
 public class Main{
-	public static Item[] GetItems() {
-		return null;
+	private static LinkedList<Item> items;
+	private static LinkedList<Recepture> receptures;
+
+	public static LinkedList<Item> GetItems() {
+		return items;
 	}
 
-	public static void SetItems(Item[] _items) {
-
+	public static void SetItems(LinkedList<Item> _items) {
+		items = _items;
 	}
 
-	public static Recepture[] GetReceptures() {
-		return null;
+	public static LinkedList<Recepture> GetReceptures() {
+		return receptures;
 	}
 
-	public static void SetReceptures(Recepture[] _receptures) {
-
+	public static void SetReceptures(LinkedList<Recepture> _receptures) {
+		receptures = _receptures;
 	}
 
 	public static void Update() {
