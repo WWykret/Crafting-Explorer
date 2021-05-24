@@ -17,7 +17,7 @@ class ItemTest {
         LinkedList<Item> three = new LinkedList<>();
         a = new Item[18];
 
-        a[0] = new Item(1, "Fishing Rod", "C:/Users/Apka/Rod.jpg", null, "lowi sie tym");
+        a[0] = new Item(1, "Fishing Rod", null, null, "lowi sie tym");
         a[1] = new Item(20, "Wooden Sword", "C:/Users/Apka/W_Sword.jpg", null, "bije sie tym");
         a[2] = new Item(22, "Iron Sword", "C:/Users/Apka/I_Sword.jpg", null, "mocno bije sie tym");
         a[3] = new Item(23, "Diamond Sword", "C:/Users/Apka/D_Sword.jpg", null, "mega mocno bije sie tym");
@@ -162,7 +162,7 @@ class ItemTest {
     void getGraphics() {
         try {
             BufferedImage[] images = {
-                    ImageIO.read(new File("C:/Users/Apka/Rod.jpg")),
+                    null,
                     ImageIO.read(new File("C:/Users/Apka/W_Sword.jpg")),
                     ImageIO.read(new File("C:/Users/Apka/I_Sword.jpg")),
                     ImageIO.read(new File("C:/Users/Apka/D_Sword.jpg")),
