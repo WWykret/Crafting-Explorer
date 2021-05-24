@@ -8,10 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -127,6 +124,7 @@ public class FileLoader {
     private LinkedHashSet<Item> GetTagsFromTagFiles(ArrayList<String> tagPaths, ArrayList<String> texturePaths) throws IOException, org.json.simple.parser.ParseException {
         LinkedHashSet<Item> items = new LinkedHashSet<Item>();
         ArrayList<Item> subItems = new ArrayList<Item>();
+        HashMap<String, ArrayList<String>> itemsToAdd = new HashMap<String, ArrayList<String>>();
 
         JSONParser parser = new JSONParser();
         for (String path : tagPaths) {
@@ -135,19 +133,41 @@ public class FileLoader {
 
             subItems.clear();
 
+            String[] splitPath = path.split("/");
+            String[] splitFilename = splitPath[splitPath.length - 1].split("\\.");
+            String itemTag = "minecraft:" + splitFilename[0];
+
             for (Object subTagObj : tagValues) {
                 String subTag = (String) subTagObj;
                 if (subTag.charAt(0) != '#') {
                     Item subItem = new Item(0, subTag, GetTextureForTag(subTag, texturePaths), null);
                     subItems.add(subItem);
                     items.add(subItem);
+                } else { //taki zaczynajace sie od #
+                    ArrayList<String> itemsToAddList;
+                    String name = subTag.substring(1);
+                    if (!itemsToAdd.containsKey(itemTag)) {
+                        itemsToAddList = new ArrayList<String>();
+                        itemsToAddList.add(name);
+                        itemsToAdd.put(itemTag, itemsToAddList);
+                    } else {
+                        itemsToAddList = itemsToAdd.get(itemTag);
+                        itemsToAddList.add(name);
+                    }
                 }
             }
 
-            String[] splitPath = path.split("/");
-            String[] splitFilename = splitPath[splitPath.length - 1].split("\\.");
-            String itemTag = "minecraft:" + splitFilename[0];
             items.add(new Item(0, itemTag, GetTextureForTag(itemTag, texturePaths), subItems));
+        }
+
+        //dodawanie podtypow
+        for (Map.Entry<String, ArrayList<String>> item: itemsToAdd.entrySet()) {
+            ArrayList<Item> childItems = new ArrayList<Item>();
+            for (String itemName: item.getValue()) {
+                childItems.add(GetItemFromHashSet(itemName, items));
+            }
+            Item parentItem = GetItemFromHashSet(item.getKey(), items);
+            parentItem.AddTypes(childItems);
         }
 
         return items;
@@ -176,10 +196,10 @@ public class FileLoader {
             if (Pattern.matches(".*/recipes/.*", filePath)) recipePath.add(filePath);
         }
 
-        //tagi z plikow z katalogu .../tags/...
+        //receptury z plikow z katalogu .../recipes/...
         LinkedHashSet<Recepture> allRecipes = GetRecipesFromFiles(recipePath, allItems);
 
-        return null;
+        return allRecipes;
     }
 
     private LinkedHashSet<Recepture> GetRecipesFromFiles(ArrayList<String> recipePaths, LinkedHashSet<Item> allItems) throws IOException, org.json.simple.parser.ParseException {
@@ -237,13 +257,25 @@ public class FileLoader {
                     }
                 }
                 String resultItemName = (String) ((JSONObject) obj.get("result")).get("item");
-                Item resultItem = allItems.stream().filter(item -> resultItemName.equals(item.GetName())).findFirst().orElse(null);
+                Item resultItem = GetItemFromHashSet(resultItemName, allItems);
                 long itemQuantity = (long) ((JSONObject) obj.get("result")).get("count");
                 for (ArrayList<Item> recipe : recipesList) {
                     recipes.add(new Recepture(0, craftingType, recipe, resultItem, (int) itemQuantity));
                 }
-            } else {
-                //piec itp
+            } else if (craftingType.equals("minecraft:smelting")) {
+                //PIEC (zakładam że surowiec to zawsze obiekt)
+                try {
+                    JSONObject ingredientObj = (JSONObject) obj.get("ingredient");
+                    Item ingredientItem = GetItemFromJSON(ingredientObj, allItems);
+                    ArrayList<Item> smeltItem = new ArrayList<Item>();
+                    smeltItem.add(ingredientItem);
+                    String resultItemName = (String) obj.get("result");
+                    Item resultItem = GetItemFromHashSet(resultItemName, allItems);
+                    recipes.add(new Recepture(0, craftingType, smeltItem, resultItem, 1));
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
+                //PIEC
             }
         }
 
@@ -254,6 +286,10 @@ public class FileLoader {
         String itemName;
         if (obj.get("tag") != null) itemName = (String) obj.get("tag");
         else itemName = (String) obj.get("item");
+        return allItems.stream().filter(item -> itemName.equals(item.GetName())).findFirst().orElse(null);
+    }
+
+    private Item GetItemFromHashSet(String itemName, LinkedHashSet<Item> allItems) {
         return allItems.stream().filter(item -> itemName.equals(item.GetName())).findFirst().orElse(null);
     }
 
@@ -282,11 +318,12 @@ public class FileLoader {
 
     public LoadedFiles LoadFiles() {
         //DLA TESTOWANIA
-        long start = System.currentTimeMillis();
-        path = "C:\\Users\\Admin\\AppData\\Roaming\\.minecraft\\versions\\1.16.5\\1.16.5.jar";
+        //long start = System.currentTimeMillis();
+        //path = "C:\\Users\\Admin\\AppData\\Roaming\\.minecraft\\versions\\1.16.5\\1.16.5.jar";
         //path = "C:\\Users\\Admin\\IdeaProjects\\Projekt-IO\\resources\\example.jar";
         //DLA TESTOWANIA
         LoadedFiles result = new LoadedFiles();
+        result.success = false;
         Path jarPath = CopyFiles();
         //System.out.println(jarPath.getParent().toString());
         if (jarPath == null) return result;
@@ -294,24 +331,29 @@ public class FileLoader {
             UnpackJar(jarPath);
             LinkedHashSet<Item> allItems = ReadItemsFromFiles(jarPath.getParent());
             LinkedHashSet<Recepture> allRecipes = ReadRecipesFromFiles(jarPath.getParent(), allItems);
+            result.success = (allItems.size() > 0) && (allRecipes.size() > 0);
+            ArrayList<Item> allItemsList = new ArrayList<Item>(allItems);
+            result.items = allItemsList;
+            ArrayList<Recepture> allRecipesList = new ArrayList<Recepture>(allRecipes);
+            result.receptures = allRecipesList;
         } catch (Exception e) {
             System.out.println(e.getClass());
         }
-        long finish = System.currentTimeMillis();
-        System.out.println((finish - start)/1000);
+        //long finish = System.currentTimeMillis();
+        //System.out.println((finish - start)/1000);
         return result;
     }
 }
 
 class LoadedFiles {
-    public Item[] items;
-    public Recepture[] receptures;
+    public ArrayList<Item> items;
+    public ArrayList<Recepture> receptures;
     public boolean success;
 
     @Override
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != this.getClass()) return false;
         LoadedFiles files = (LoadedFiles) obj;
-        return Arrays.equals(files.items, this.items) && Arrays.equals(files.receptures, this.receptures) && files.success == this.success;
+        return this.items.equals(files.items) && this.receptures.equals(files.receptures) && files.success == this.success;
     }
 }

@@ -37,6 +37,11 @@ public class Item{
 		return this.name;
 	}
 
+	public void AddTypes(ArrayList<Item> typesToAdd) {
+		if (this.types != null) this.types.addAll(typesToAdd);
+		else this.types = new ArrayList<Item>(typesToAdd);
+	}
+
 	public BufferedImage GetGraphics() {
 		return null;
 	}
