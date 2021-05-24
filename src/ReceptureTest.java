@@ -1,6 +1,10 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+
 class ReceptureTest{
 	Item[] a;
 	Recepture[] b;
@@ -8,6 +12,9 @@ class ReceptureTest{
 	public void setUp() {
 		a=new Item[18];
 		b=new Recepture[10];
+		LinkedList<Item> one = new LinkedList<Item>();
+		LinkedList<Item> two = new LinkedList<Item>();
+		LinkedList<Item> three = new LinkedList<Item>();
 
 		a[0]=new Item(1,"Fishing Rod","C:/Users/Apka/Rod.jpg",null,"lowi sie tym");
 		a[1]=new Item(20,"Wooden Sword","C:/Users/Apka/W_Sword.jpg",null,"bije sie tym");
@@ -22,14 +29,22 @@ class ReceptureTest{
 		a[8]=new Item(326,"Oak Wood","C:/Users/Apka/O_Wood.jpg",null,"Oak dzwewo");
 		a[9]=new Item(327,"Spruce Wood","C:/Users/Apka/S_Wood.jpg",null,"Spruce dzwewo");
 		a[10]=new Item(328,"Birch Wood","C:/Users/Apka/B_Wood.jpg",null,"Birch dzwewo");
-		a[11]=new Item(329,"Wood","C:/Users/Apka/Wood.jpg",new Item[] {a[8], a[9], a[10]},"Zwykle dzwewo");
+		one.add(a[8]);
+		one.add(a[9]);
+		one.add(a[10]);
+		a[11]=new Item(329,"Wood","C:/Users/Apka/Wood.jpg",one,"Zwykle dzwewo");
 
 		a[12]=new Item(1524,"Oak Button","C:/Users/Apka/O_Button.jpg",null);
 		a[13]=new Item(1525,"Spruce Button","C:/Users/Apka/Sp_Button.jpg",null);
 		a[14]=new Item(1526,"Birch Button","C:/Users/Apka/B_Button.jpg",null);
-		a[15]=new Item(1527,"Wood Button","C:/Users/Apka/W_Button.jpg",new Item[] {a[12], a[13], a[14]});
+		two.add(a[12]);
+		two.add(a[13]);
+		two.add(a[14]);
+		a[15]=new Item(1527,"Wood Button","C:/Users/Apka/W_Button.jpg",two);
 		a[16]=new Item(1510,"Stone Button","C:/Users/Apka/St_Button.jpg",null);
-		a[17]=new Item(1530,"Button","C:/Users/Apka/Button.jpg",new Item[] {a[15], a[16]});
+		three.add(a[15]);
+		three.add(a[16]);
+		a[17]=new Item(1530,"Button","C:/Users/Apka/Button.jpg",three);
 
 		b[0]=new Recepture(1,"crafting_table",new Item[] {a[5], a[6], null,   a[5], null, a[6],   a[5], a[6], null},a[4],64);
 		b[1]=new Recepture(2,"crafting_table",new Item[] {null, null, null,   null, a[11], null,   null, null, null},a[12],6);
@@ -71,16 +86,15 @@ class ReceptureTest{
 	}
 	@Test
 	void getIngredients(){
-		Assertions.assertEquals(new Item[] {a[5], a[6], null,   a[5], null, a[6],   a[5], a[6], null},b[0].GetIngredients(),"blad w tescie 1");
-		Assertions.assertEquals(new Item[] {null, null, null,   null, a[11], null,   null, null, null},b[1].GetIngredients(),"blad w tescie 2");
-		Assertions.assertEquals(new Item[] {a[11], a[11], a[11],   null, a[5], null,   null, a[5], null},b[2].GetIngredients(),"blad w tescie 3");
-		Assertions.assertEquals(new Item[] {a[15], a[15], null,   a[15], a[15], null,   null, null, null},b[3].GetIngredients(),"blad w tescie 4");
-		Assertions.assertEquals(new Item[] {a[9]},b[4].GetIngredients(),"blad w tescie 5");
-		Assertions.assertEquals(new Item[] {a[2], a[5]},b[5].GetIngredients(),"blad w tescie 6");
-		Assertions.assertEquals(new Item[] {a[12], a[13], a[14]},b[6].GetIngredients(),"blad w tescie 7");
-		Assertions.assertEquals(new Item[] {a[5]},b[7].GetIngredients(),"blad w tescie 8");
-		Assertions.assertEquals(new Item[] {},b[8].GetIngredients(),"blad w tescie 9");
-		Assertions.assertEquals(new Item[] {null, null, null,a[6],a[6],a[6]},b[9].GetIngredients(),"blad w tescie 10");
+		Assertions.assertArrayEquals(new Item[]{a[5], a[6], null, a[5], null, a[6], a[5], a[6], null}, b[0].GetIngredients(), "blad w tescie 1");
+		Assertions.assertArrayEquals(new Item[]{null, null, null, null, a[11], null, null, null, null}, b[1].GetIngredients(), "blad w tescie 2");
+		Assertions.assertArrayEquals(new Item[]{a[11], a[11], a[11], null, a[5], null, null, a[5], null}, b[2].GetIngredients(), "blad w tescie 3");
+		Assertions.assertArrayEquals(new Item[]{a[15], a[15], null, a[15], a[15], null, null, null, null}, b[3].GetIngredients(), "blad w tescie 4");
+		Assertions.assertArrayEquals(new Item[]{a[9]}, b[4].GetIngredients(), "blad w tescie 5");
+		Assertions.assertArrayEquals(new Item[] {a[2], a[5]},b[5].GetIngredients(),"blad w tescie 6");
+		Assertions.assertArrayEquals(new Item[] {a[5]},b[7].GetIngredients(),"blad w tescie 8");
+		Assertions.assertArrayEquals(new Item[] {},b[8].GetIngredients(),"blad w tescie 9");
+		Assertions.assertArrayEquals(new Item[] {null, null, null,a[6],a[6],a[6]},b[9].GetIngredients(),"blad w tescie 10");
 	}
 	@Test
 	void getResult(){

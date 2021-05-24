@@ -1,9 +1,12 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.LinkedList;
+
 class ItemWindowTest{
 	@Test
 	void getReceptures(){
-		Recepture[] arr = new Recepture[5];
+		LinkedList<Recepture> arr = new LinkedList<>();
 		Item[] items = new Item[10];
 
 		ItemsArrayCreator(items);
@@ -15,54 +18,72 @@ class ItemWindowTest{
 
 	@Test
 	void getNextItems(){
-		Recepture[] arr = new Recepture[5];
+		LinkedList<Recepture> arr = new LinkedList<>();
 		Item[] items = new Item[10];
 
 		ItemsArrayCreator(items);
 		ReceptureArrayCreator(arr, items);
 
-		Item[] nextItems = new Item[3];
-		items[0] = new Item(0, "stick", null, null);
-		items[1] = new Item(1, "flint", null, null);
-		items[2] = new Item(2, "cooked porkchop", null, null);
+		LinkedList<Item> nextItems = new LinkedList<>();
+		nextItems.add(new Item(0, "stick", null, null));
+		nextItems.add(new Item(1, "flint", null, null));
+		nextItems.add(new Item(2, "cooked porkchop", null, null));
 
 		ItemWindow window = new ItemWindow(arr, nextItems);
 		Assertions.assertEquals(nextItems, window.GetNextItems());
 	}
 	@Test
 	void getCurrentRecepture(){
-		Recepture[] arr = new Recepture[5];
+		LinkedList<Recepture> arr = new LinkedList<>();
 		Item[] items = new Item[10];
 
 		ItemsArrayCreator(items);
 		ReceptureArrayCreator(arr, items);
 		ItemWindow window = new ItemWindow(arr, null);
-		Assertions.assertEquals(arr[0], window.GetCurrentRecepture());
+		Assertions.assertEquals(arr.get(0), window.GetCurrentRecepture());
 	}
 	@Test
 	void nextRecepture(){
-		Recepture[] arr = new Recepture[5];
+		LinkedList<Recepture> arr = new LinkedList<>();
 		Item[] items = new Item[10];
 
 		ItemsArrayCreator(items);
 		ReceptureArrayCreator(arr, items);
-		ItemWindow window = new ItemWindow(arr, null);
+		ItemWindow window = new ItemWindow((LinkedList<Recepture>) arr.clone(), null);
+
 		window.NextRecepture();
-		Assertions.assertEquals(arr[1], window.GetCurrentRecepture());
+		Assertions.assertEquals(arr.get(1), window.GetCurrentRecepture());
+
+		window.NextRecepture();
+		Assertions.assertEquals(arr.get(2), window.GetCurrentRecepture());
+
+		window.NextRecepture();
+		window.NextRecepture();
+		window.NextRecepture();
+		Assertions.assertEquals(arr.get(0), window.GetCurrentRecepture());
 	}
 	@Test
 	void prevRecepture(){
-		Recepture[] arr = new Recepture[5];
+		LinkedList<Recepture> arr = new LinkedList<>();
 		Item[] items = new Item[10];
 
 		ItemsArrayCreator(items);
 		ReceptureArrayCreator(arr, items);
-		ItemWindow window = new ItemWindow(arr, null);
+		ItemWindow window = new ItemWindow((LinkedList<Recepture>) arr.clone(), null);
+
 		window.PrevRecepture();
-		Assertions.assertEquals(arr[4], window.GetCurrentRecepture());
+		Assertions.assertEquals(arr.get(4), window.GetCurrentRecepture());
+
+		window.PrevRecepture();
+		Assertions.assertEquals(arr.get(3), window.GetCurrentRecepture());
+
+		window.PrevRecepture();
+		window.PrevRecepture();
+		window.PrevRecepture();
+		Assertions.assertEquals(arr.get(0), window.GetCurrentRecepture());
 	}
 
-	private static void ReceptureArrayCreator(Recepture[] arr, Item[] items){
+	private static void ReceptureArrayCreator(LinkedList<Recepture> arr, Item[] items){
 		Item[] recepture1 = {
 				items[1], items[0], items[0],
 				items[1], items[0], items[0],
@@ -88,11 +109,11 @@ class ItemWindowTest{
 				items[0], items[0], items[0],
 				items[0], items[0], items[0]
 		};
-		arr[0] = new Recepture(0, "crafting_table", recepture1, items[0], 0);
-		arr[1] = new Recepture(0, "crafting_table", recepture2, items[0], 0);
-		arr[2] = new Recepture(0, "furnance", recepture3, items[0], 0);
-		arr[3] = new Recepture(0, "brewing_stand", recepture4, items[0], 0);
-		arr[4] = new Recepture(0, "smithing_table", recepture5, items[0], 0);
+		arr.add(new Recepture(0, "crafting_table", recepture1, items[0], 0));
+		arr.add(new Recepture(0, "crafting_table", recepture2, items[0], 0));
+		arr.add(new Recepture(0, "furnance", recepture3, items[0], 0));
+		arr.add(new Recepture(0, "brewing_stand", recepture4, items[0], 0));
+		arr.add(new Recepture(0, "smithing_table", recepture5, items[0], 0));
 	}
 
 	public static void ItemsArrayCreator(Item[] items) {
@@ -104,7 +125,7 @@ class ItemWindowTest{
 		items[5] = new Item(4, "g", null, null);
 		items[6] = new Item(5, "z", null, null);
 		items[7] = new Item(6, "k klet", null, null);
-		items[8] = new Item(7, "kk", null, null);
+		items[8] = new Item(7, "k k", null, null);
 		items[9] = new Item(8, "a", null, null);
 	}
 }
