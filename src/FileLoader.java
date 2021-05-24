@@ -92,9 +92,9 @@ public class FileLoader {
 
     private boolean IsCorrectFile(String filename) {
         String[] dirs = new String[]{
-            ".*/data/minecraft/tags/",
-            ".*/data/minecraft/recipes/",
-            ".*/assets/minecraft/textures/"
+            "(.*/)?data/minecraft/tags/",
+            "(.*/)?data/minecraft/recipes/",
+            "(.*/)?assets/minecraft/textures/"
         };
 
         for (String dir : dirs) {
@@ -282,8 +282,9 @@ public class FileLoader {
 
     public LoadedFiles LoadFiles() {
         //DLA TESTOWANIA
-        //path = "C:\\Users\\Admin\\AppData\\Roaming\\.minecraft\\versions\\1.16.5\\1.16.5.jar";
-        path = "C:\\Users\\Admin\\IdeaProjects\\Projekt-IO\\resources\\example.jar";
+        long start = System.currentTimeMillis();
+        path = "C:\\Users\\Admin\\AppData\\Roaming\\.minecraft\\versions\\1.16.5\\1.16.5.jar";
+        //path = "C:\\Users\\Admin\\IdeaProjects\\Projekt-IO\\resources\\example.jar";
         //DLA TESTOWANIA
         LoadedFiles result = new LoadedFiles();
         Path jarPath = CopyFiles();
@@ -296,6 +297,8 @@ public class FileLoader {
         } catch (Exception e) {
             System.out.println(e.getClass());
         }
+        long finish = System.currentTimeMillis();
+        System.out.println((finish - start)/1000);
         return result;
     }
 }
