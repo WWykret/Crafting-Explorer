@@ -16,7 +16,7 @@ public class Item{
 		this.name = name;
 		try {
 			graphics = ImageIO.read(new File(graphicsPath));
-		} catch (Exception ignored) {}
+		} catch (Exception e) {graphics = null;}
 
 		this.types = types;
 		this.description = description;
