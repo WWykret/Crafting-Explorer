@@ -17,7 +17,7 @@ public class Recepture {
     }
 
     public int GetID() {
-        return 0;
+        return id;
     }
 
     public String GetMethod() {
