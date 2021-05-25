@@ -46,7 +46,21 @@ public class Item{
 		return null;
 	}
 
-	public Item[] GetTypes() {
-		return null;
+	public ArrayList<Item> GetTypes() {
+		return types;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || obj.getClass() != this.getClass()) return false;
+		Item other = (Item) obj;
+		boolean subItemsOk;
+		if (this.types == null && other.GetTypes() == null) subItemsOk = true;
+		else if (this.types != null && other.GetTypes() != null) {
+			subItemsOk = this.types.containsAll(other.GetTypes()) && other.GetTypes().containsAll(this.types);
+		}
+		else subItemsOk = false;
+		boolean nameOk = other.GetName().equals(this.name);
+		return nameOk && subItemsOk;
 	}
 }

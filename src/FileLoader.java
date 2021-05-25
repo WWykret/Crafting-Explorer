@@ -161,9 +161,9 @@ public class FileLoader {
         }
 
         //dodawanie podtypow
-        for (Map.Entry<String, ArrayList<String>> item: itemsToAdd.entrySet()) {
+        for (Map.Entry<String, ArrayList<String>> item : itemsToAdd.entrySet()) {
             ArrayList<Item> childItems = new ArrayList<Item>();
-            for (String itemName: item.getValue()) {
+            for (String itemName : item.getValue()) {
                 childItems.add(GetItemFromHashSet(itemName, items));
             }
             Item parentItem = GetItemFromHashSet(item.getKey(), items);
@@ -334,8 +334,10 @@ public class FileLoader {
             result.success = (allItems.size() > 0) && (allRecipes.size() > 0);
             ArrayList<Item> allItemsList = new ArrayList<Item>(allItems);
             result.items = allItemsList;
+            //result.items = allItems;
             ArrayList<Recepture> allRecipesList = new ArrayList<Recepture>(allRecipes);
             result.receptures = allRecipesList;
+            //result.receptures = allRecipes;
         } catch (Exception e) {
             System.out.println(e.getClass());
         }
@@ -354,6 +356,19 @@ class LoadedFiles {
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != this.getClass()) return false;
         LoadedFiles files = (LoadedFiles) obj;
-        return this.items.equals(files.items) && this.receptures.equals(files.receptures) && files.success == this.success;
+        boolean itemsOK, recipesOK;
+        if (this.items == null && files.items == null) itemsOK = true;
+        else if (this.items != null && files.items != null) {
+            itemsOK = this.items.containsAll(files.items) && files.items.containsAll(this.items);
+        }
+        else itemsOK = false;
+        if (this.receptures == null && files.receptures == null) recipesOK = true;
+        else if (this.receptures != null && files.receptures != null) {
+            boolean c1 = this.receptures.containsAll(files.receptures);
+            boolean c2 = files.receptures.containsAll(this.receptures);
+            recipesOK = c1 && c2;
+        }
+        else recipesOK = false;
+        return itemsOK && recipesOK && this.success == files.success;
     }
 }
