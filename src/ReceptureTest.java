@@ -1,5 +1,12 @@
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 class ReceptureTest{
-	/*Item[] a;
+	Item[] a;
 	Recepture[] b;
 	@BeforeEach
 	public void setUp() {
@@ -39,16 +46,16 @@ class ReceptureTest{
 		three.add(a[16]);
 		a[17]=new Item(1530,"Button","C:/Users/Apka/Button.jpg",three);
 
-		b[0]=new Recepture(1,"crafting_table",new Item[] {a[5], a[6], null,   a[5], null, a[6],   a[5], a[6], null},a[4],64);
-		b[1]=new Recepture(2,"crafting_table",new Item[] {null, null, null,   null, a[11], null,   null, null, null},a[12],6);
-		b[2]=new Recepture(3,"crafting_table",new Item[] {a[11], a[11], a[11],   null, a[5], null,   null, a[5], null},a[1],1);
-		b[3]=new Recepture(4,"crafting_table",new Item[] {a[15], a[15], null,   a[15], a[15], null,   null, null, null},a[15],4);
-		b[4]=new Recepture(546,"furnance",new Item[] {a[9]},a[10],1);
-		b[5]=new Recepture(15,"furnance",new Item[] {a[2], a[5]},a[3],500);
-		b[6]=new Recepture(546643442,"brewing_stand",new Item[] {a[12], a[13], a[14]},a[15],5645737);
-		b[7]=new Recepture(200,"smithing_table",new Item[] {a[5]},a[0],0);
-		b[8]=new Recepture(27,"smithing_table",new Item[] {},a[8],2);
-		b[9]=new Recepture(56,"",new Item[] {null, null, null,a[6],a[6],a[6]},a[4],17);
+		b[0]=new Recepture(1,"crafting_table",new ArrayList<>(Arrays.asList(a[5], a[6], null,   a[5], null, a[6],   a[5], a[6], null)),a[4],64);
+		b[1]=new Recepture(2,"crafting_table",new ArrayList<>(Arrays.asList(null, null, null,   null, a[11], null,   null, null, null)),a[12],6);
+		b[2]=new Recepture(3,"crafting_table",new ArrayList<>(Arrays.asList(a[11], a[11], a[11],   null, a[5], null,   null, a[5], null)),a[1],1);
+		b[3]=new Recepture(4,"crafting_table",new ArrayList<>(Arrays.asList(a[15], a[15], null,   a[15], a[15], null,   null, null, null)),a[15],4);
+		b[4]=new Recepture(546,"furnance",new ArrayList<>(Arrays.asList(a[9])),a[10],1);
+		b[5]=new Recepture(15,"furnance",new ArrayList<>(Arrays.asList(a[2], a[5])),a[3],500);
+		b[6]=new Recepture(546643442,"brewing_stand",new ArrayList<>(Arrays.asList(a[12], a[13], a[14])),a[15],5645737);
+		b[7]=new Recepture(200,"smithing_table",new ArrayList<>(Arrays.asList(a[5])),a[0],0);
+		b[8]=new Recepture(27,"smithing_table",new ArrayList<>(Arrays.asList()),a[8],2);
+		b[9]=new Recepture(56,"",new ArrayList<>(Arrays.asList(null, null, null,a[6],a[6],a[6])),a[4],17);
 	}
 
 	@Test
@@ -79,15 +86,15 @@ class ReceptureTest{
 	}
 	@Test
 	void getIngredients(){
-		Assertions.assertArrayEquals(new Item[]{a[5], a[6], null, a[5], null, a[6], a[5], a[6], null}, b[0].GetIngredients(), "blad w tescie 1");
-		Assertions.assertArrayEquals(new Item[]{null, null, null, null, a[11], null, null, null, null}, b[1].GetIngredients(), "blad w tescie 2");
-		Assertions.assertArrayEquals(new Item[]{a[11], a[11], a[11], null, a[5], null, null, a[5], null}, b[2].GetIngredients(), "blad w tescie 3");
-		Assertions.assertArrayEquals(new Item[]{a[15], a[15], null, a[15], a[15], null, null, null, null}, b[3].GetIngredients(), "blad w tescie 4");
-		Assertions.assertArrayEquals(new Item[]{a[9]}, b[4].GetIngredients(), "blad w tescie 5");
-		Assertions.assertArrayEquals(new Item[] {a[2], a[5]},b[5].GetIngredients(),"blad w tescie 6");
-		Assertions.assertArrayEquals(new Item[] {a[5]},b[7].GetIngredients(),"blad w tescie 8");
-		Assertions.assertArrayEquals(new Item[] {},b[8].GetIngredients(),"blad w tescie 9");
-		Assertions.assertArrayEquals(new Item[] {null, null, null,a[6],a[6],a[6]},b[9].GetIngredients(),"blad w tescie 10");
+		Assertions.assertEquals(new ArrayList<>(Arrays.asList(a[5], a[6], null, a[5], null, a[6], a[5], a[6], null)), b[0].GetIngredients(), "blad w tescie 1");
+		Assertions.assertEquals(new ArrayList<>(Arrays.asList(null, null, null, null, a[11], null, null, null, null)), b[1].GetIngredients(), "blad w tescie 2");
+		Assertions.assertEquals(new ArrayList<>(Arrays.asList(a[11], a[11], a[11], null, a[5], null, null, a[5], null)), b[2].GetIngredients(), "blad w tescie 3");
+		Assertions.assertEquals(new ArrayList<>(Arrays.asList(a[15], a[15], null, a[15], a[15], null, null, null, null)), b[3].GetIngredients(), "blad w tescie 4");
+		Assertions.assertEquals(new ArrayList<>(Arrays.asList(a[9])), b[4].GetIngredients(), "blad w tescie 5");
+		Assertions.assertEquals(new ArrayList<>(Arrays.asList(a[2], a[5])),b[5].GetIngredients(),"blad w tescie 6");
+		Assertions.assertEquals(new ArrayList<>(Arrays.asList(a[5])),b[7].GetIngredients(),"blad w tescie 8");
+		Assertions.assertEquals(new ArrayList<>(Arrays.asList()),b[8].GetIngredients(),"blad w tescie 9");
+		Assertions.assertEquals(new ArrayList<>(Arrays.asList(null, null, null, a[6], a[6], a[6])),b[9].GetIngredients(),"blad w tescie 10");
 	}
 	@Test
 	void getResult(){
@@ -115,5 +122,4 @@ class ReceptureTest{
 		Assertions.assertEquals(2,b[8].GetResultQuantity(),"blad w tescie 9");
 		Assertions.assertEquals(17,b[9].GetResultQuantity(),"blad w tescie 10");
 	}
-	*/
 }
