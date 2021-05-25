@@ -1,20 +1,13 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.LinkedList;
-
 class ReceptureTest{
-	Item[] a;
+	/*Item[] a;
 	Recepture[] b;
 	@BeforeEach
 	public void setUp() {
 		a=new Item[18];
 		b=new Recepture[10];
-		LinkedList<Item> one = new LinkedList<Item>();
-		LinkedList<Item> two = new LinkedList<Item>();
-		LinkedList<Item> three = new LinkedList<Item>();
+		ArrayList<Item> one = new ArrayList<Item>();
+		ArrayList<Item> two = new ArrayList<Item>();
+		ArrayList<Item> three = new ArrayList<Item>();
 
 		a[0]=new Item(1,"Fishing Rod","C:/Users/Apka/Rod.jpg",null,"lowi sie tym");
 		a[1]=new Item(20,"Wooden Sword","C:/Users/Apka/W_Sword.jpg",null,"bije sie tym");
@@ -122,4 +115,5 @@ class ReceptureTest{
 		Assertions.assertEquals(2,b[8].GetResultQuantity(),"blad w tescie 9");
 		Assertions.assertEquals(17,b[9].GetResultQuantity(),"blad w tescie 10");
 	}
+	*/
 }

@@ -1,34 +1,34 @@
-import javax.swing.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class ItemWindow{
-	static private LinkedList<Recepture> receptures;
-	static private LinkedList<Item> nextStep;
+	static private ArrayList<Recepture> receptures;
+	static private ArrayList<Item> nextStep;
+	static private int index = 0;
 
-	public ItemWindow(LinkedList<Recepture> input, LinkedList<Item> nexStep) {
+	public ItemWindow(ArrayList<Recepture> input, ArrayList<Item> nexStep) {
 		receptures = input;
 		nextStep = nexStep;
 	}
 
-	public LinkedList<Recepture> GetReceptures() {
+	public ArrayList<Recepture> GetReceptures() {
 		return receptures;
 	}
 
-	public LinkedList<Item> GetNextItems() {
+	public ArrayList<Item> GetNextItems() {
 		return nextStep;
 	}
 
 	public Recepture GetCurrentRecepture() {
-		return receptures.peek();
+		return receptures.get(index);
 	}
 
 	public void NextRecepture() {
-		Recepture temp = receptures.pollFirst();
-		receptures.addLast(temp);
+		index++;
+		if (index >= receptures.size()) index = 0;;
 	}
 
 	public void PrevRecepture() {
-		Recepture temp = receptures.pollLast();
-		receptures.addFirst(temp);
+		index--;
+		if (index < 0) index = receptures.size() - 1;
 	}
 }
