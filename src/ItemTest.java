@@ -182,7 +182,8 @@ class ItemTest {
                     ImageIO.read(new File("C:/Users/Apka/Button.jpg"))
             };
 
-            for (int i = 0; i < 18; i++) {
+            Assertions.assertNull(a[0].GetGraphics(),"blad w tescie " + 1);
+            for (int i = 1; i < 18; i++) {
                 Assertions.assertTrue(compareImages(images[i], a[i].GetGraphics()), "blad w tescie " + (i+1));
             }
         } catch (Exception e) {
