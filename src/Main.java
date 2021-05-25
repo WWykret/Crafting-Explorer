@@ -1,9 +1,14 @@
 import java.util.LinkedList;
 
 public class Main{
+
 	private static LinkedList<Item> items;
 	private static LinkedList<Recepture> receptures;
 
+	public static void main(String[] args){
+		Window window = new Window();
+		window.displayWindow();
+	}
 	public static LinkedList<Item> GetItems() {
 		return items;
 	}
