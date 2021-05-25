@@ -5,8 +5,12 @@ public class Main{
 	private static ArrayList<Recepture> receptures;
 
 	public static void main(String[] args) {
+		Window window = new Window();
+		window.displayWindow();
+		/*
         FileLoader f = new FileLoader("");
         f.LoadFiles();
+        */
     }
 	
 	public static ArrayList<Item> GetItems() {

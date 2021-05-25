@@ -84,7 +84,7 @@ public class Window implements ActionListener {
         JButton b17 = new JButton("7");
         JButton b18 = new JButton("8");
         JButton b19 = new JButton("9");
-
+        
         craftingscreen.add(b11);
         craftingscreen.add(b12);
         craftingscreen.add(b13);
@@ -95,9 +95,11 @@ public class Window implements ActionListener {
         craftingscreen.add(b18);
         craftingscreen.add(b19);
 
-
+        JButton b20 = new JButton("X");
+        ItemPanel.add(b20);
 
     }
+
 
     void displayItemWindow(Item itemIn){
 
