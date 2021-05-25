@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class SearchEngine{
 
-	public static LinkedList<Recepture> FilterRecepies(LinkedList<Recepture> original, String filter) {
+	public static LinkedList<Recepture> FilterRecepies(LinkedList<Recepture> original, String filter){
 		LinkedList<Recepture> filtered = new LinkedList<>();
 		for (Recepture i : original) {
 			if (i.GetResult() != null)
@@ -15,5 +15,4 @@ public class SearchEngine{
 		}
 		return filtered;
 	}
-
 }
