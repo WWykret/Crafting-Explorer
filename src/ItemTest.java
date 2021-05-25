@@ -5,16 +5,16 @@ import org.junit.jupiter.api.Test;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 class ItemTest {
     Item[] a;
 
     @BeforeEach
     public void setUp() {
-        LinkedList<Item> one = new LinkedList<>();
-        LinkedList<Item> two = new LinkedList<>();
-        LinkedList<Item> three = new LinkedList<>();
+        ArrayList<Item> one = new ArrayList<>();
+        ArrayList<Item> two = new ArrayList<>();
+        ArrayList<Item> three = new ArrayList<>();
         a = new Item[18];
 
         a[0] = new Item(1, "Fishing Rod", null, null, "lowi sie tym");
@@ -182,7 +182,8 @@ class ItemTest {
                     ImageIO.read(new File("C:/Users/Apka/Button.jpg"))
             };
 
-            for (int i = 0; i < 18; i++) {
+            Assertions.assertNull(a[0].GetGraphics(),"blad w tescie " + 1);
+            for (int i = 1; i < 18; i++) {
                 Assertions.assertTrue(compareImages(images[i], a[i].GetGraphics()), "blad w tescie " + (i+1));
             }
         } catch (Exception e) {
@@ -191,9 +192,9 @@ class ItemTest {
 
     @Test
     void getTypes() {
-        LinkedList<Item> one = new LinkedList<>();
-        LinkedList<Item> two = new LinkedList<>();
-        LinkedList<Item> three = new LinkedList<>();
+        ArrayList<Item> one = new ArrayList<>();
+        ArrayList<Item> two = new ArrayList<>();
+        ArrayList<Item> three = new ArrayList<>();
 
 		Assertions.assertNull(a[0].GetTypes(), "blad w tescie 1");
 		Assertions.assertNull(a[1].GetTypes(), "blad w tescie 2");

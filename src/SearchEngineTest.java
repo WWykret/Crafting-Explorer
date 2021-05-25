@@ -1,14 +1,11 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-import java.util.LinkedList;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
 class SearchEngineTest{
 	@Test
 	void filterRecepies(){
-		LinkedList<Recepture> list = new LinkedList<>();
+		ArrayList<Recepture> list = new ArrayList<>();
 		Item[] items = new Item[10];
 
 		ItemWindowTest.ItemsArrayCreator(items);
@@ -24,23 +21,23 @@ class SearchEngineTest{
 		list.add(new Recepture(0, "crafting_table", null, items[8], 0));
 		list.add(new Recepture(0, "crafting_table", null, items[9], 0));
 
-		LinkedList<Recepture> test1 = new LinkedList<Recepture>();
+		ArrayList<Recepture> test1 = new ArrayList<Recepture>();
 		test1.add(list.get(1));
 		test1.add(list.get(2));
 		test1.add(list.get(9));
 
-		LinkedList<Recepture> test2 = new LinkedList<Recepture>();
+		ArrayList<Recepture> test2 = new ArrayList<Recepture>();
 
-		LinkedList<Recepture> test3 = new LinkedList<Recepture>();
+		ArrayList<Recepture> test3 = new ArrayList<Recepture>();
 		test3.add(list.get(1));
 		test3.add(list.get(2));
 
-		LinkedList<Recepture> test4 = new LinkedList<Recepture>();
+		ArrayList<Recepture> test4 = new ArrayList<Recepture>();
 
-		LinkedList<Recepture> test5 = new LinkedList<Recepture>();
+		ArrayList<Recepture> test5 = new ArrayList<Recepture>();
 		test5.add(list.get(6));
 
-		LinkedList<Recepture> test6 = new LinkedList<Recepture>();
+		ArrayList<Recepture> test6 = new ArrayList<Recepture>();
 		test6.add(list.get(7));
 		test6.add(list.get(8));
 
