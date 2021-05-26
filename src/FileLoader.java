@@ -12,6 +12,13 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/*
+Single responsibility principle - jedyne zadanie jakie ma FileLoader to wczytanie plików z pliku .jar minecrafta do aplikacji
+Open/closed principle -
+Liskov substitution principle - Nic nie dziedziczy z tej klasy, a korzystanie z klasy nie wymaga jej znajomości
+Interface segregation principle - Jedyne interfejsy z jakich korzystamy to te we wbudowanych klasach Javy (np. List)
+Dependency inversion principle -
+*/
 public class FileLoader {
     private String path;
 
@@ -350,6 +357,15 @@ public class FileLoader {
         return result;
     }
 }
+
+
+/*
+Single responsibility principle - jedyne zadanie tej klasy to przechowywanie wyniku działania FileLoader
+Open/closed principle - to tylko pojemnik na dane
+Liskov substitution principle - Nic nie dziedziczy z tej klasy, a korzystanie z klasy nie wymaga jej znajomości
+Interface segregation principle - Jedyne interfejsy z jakich korzystamy to te we wbudowanych klasach Javy (np. List)
+Dependency inversion principle -
+*/
 
 class LoadedFiles {
     public ArrayList<Item> items;
