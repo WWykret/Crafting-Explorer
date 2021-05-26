@@ -3,7 +3,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SearchEngine{
-
 	public static ArrayList<Recepture> FilterRecepies(ArrayList<Recepture> original, String filter) {
 		ArrayList<Recepture> filtered = new ArrayList<>();
 		Pattern compiledPattern = Pattern.compile(filter);
@@ -33,5 +32,4 @@ public class SearchEngine{
 		}
 		return filtered;
 	}
-
 }
