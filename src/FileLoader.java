@@ -31,7 +31,11 @@ public class FileLoader {
         Path sourcePath = Paths.get(path);
         Path destPath;
         try {
-            destPath = Paths.get(new File("./files/minecraft.jar").getCanonicalPath());
+            File destDir = new File("./files");
+            if (!destDir.exists()) {
+                destDir.mkdir();
+            }
+            destPath = Paths.get(destDir.getCanonicalPath() + "/minecraft.jar");
             ClearDir(destPath.getParent());
             Files.copy(sourcePath, destPath);
         } catch (Exception e) {
