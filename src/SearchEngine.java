@@ -14,6 +14,7 @@ public class SearchEngine{
 				if (matcher.find()) {
 					filtered.add(i);
 				}
+
 			}
 		}
 		return filtered;
@@ -29,9 +30,9 @@ public class SearchEngine{
 				if (matcher.find()) {
 					filtered.add(i);
 				}
+
 			}
 		}
 		return filtered;
 	}
-
 }
