@@ -5,12 +5,16 @@ public class Main{
 	private static ArrayList<Recepture> receptures;
 
 	public static void main(String[] args) {
+
+		FileLoader f = new FileLoader("D:\\Studia\\4 Semestr\\IO\\Zadania\\github repo\\Projekt-IO\\resources\\example.jar");
+		LoadedFiles lo = f.LoadFiles();
+
+		items=lo.items;
+		receptures=lo.receptures;
+
 		Window window = new Window();
 		window.displayWindow();
-		/*
-        FileLoader f = new FileLoader("");
-        f.LoadFiles();
-        */
+
     }
 	
 	public static ArrayList<Item> GetItems() {
@@ -29,7 +33,11 @@ public class Main{
 		receptures = _receptures;
 	}
 
-    public static void Update() {
+    public static void Update(String path) {
+		FileLoader f = new FileLoader(path);
+		LoadedFiles lo = f.LoadFiles();
 
+		items=lo.items;
+		receptures=lo.receptures;
     }
 }

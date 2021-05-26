@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class SearchEngine{
-
 	public static ArrayList<Recepture> FilterRecepies(ArrayList<Recepture> original, String filter) {
 		ArrayList<Recepture> filtered = new ArrayList<>();
 		for (Recepture i : original) {
@@ -13,5 +12,4 @@ public class SearchEngine{
 		}
 		return filtered;
 	}
-
 }
