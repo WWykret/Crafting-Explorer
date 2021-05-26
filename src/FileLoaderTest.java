@@ -79,7 +79,6 @@ class FileLoaderTest {
         Recepture torchRec2 = new Recepture(0, "minecraft:crafting_shaped", new ArrayList<>(Arrays.asList(charcoal, null, null, stick, null, null)),torch, 4);
         result.receptures = new ArrayList<>(Arrays.asList(stickRec, torchRec1, torchRec2));
 
-        LoadedFiles actual = loader.LoadFiles();
-        assertEquals(result, actual);
+        assertEquals(result, loader.LoadFiles());
     }
 }
