@@ -14,7 +14,7 @@ public class SearchEngine{
 				if (matcher.find()) {
 					filtered.add(i);
 				}
-<<<<<<< Updated upstream
+
 			}
 		}
 		return filtered;
@@ -30,26 +30,9 @@ public class SearchEngine{
 				if (matcher.find()) {
 					filtered.add(i);
 				}
-=======
->>>>>>> Stashed changes
+
 			}
 		}
 		return filtered;
 	}
-
-	public static ArrayList<Item> FilterItems(ArrayList<Item> original, String filter) {
-		ArrayList<Item> filtered = new ArrayList<>();
-		Pattern compiledPattern = Pattern.compile(filter);
-
-		for (Item i : original) {
-			if (i != null) {
-				Matcher matcher = compiledPattern.matcher(i.GetName());
-				if (matcher.find()) {
-					filtered.add(i);
-				}
-			}
-		}
-		return filtered;
-	}
-
 }

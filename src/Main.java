@@ -12,7 +12,6 @@ public class Main{
 		items=lo.items;
 		receptures=lo.receptures;
 
-		System.out.println(items.get(1).GetName());
 		Window window = new Window();
 		window.displayWindow();
     }
