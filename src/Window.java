@@ -74,7 +74,7 @@ public class Window implements ActionListener {
         JButton b17 = new JButton("7");
         JButton b18 = new JButton("8");
         JButton b19 = new JButton("9");
-
+        
         craftingscreen.add(b11);
         craftingscreen.add(b12);
         craftingscreen.add(b13);
@@ -85,6 +85,7 @@ public class Window implements ActionListener {
         craftingscreen.add(b18);
         craftingscreen.add(b19);
 
+<<<<<<< Updated upstream
 
         JButton b20 = new JButton("X");
         ItemPanel.add(b20);
@@ -93,6 +94,10 @@ public class Window implements ActionListener {
         ClickableItem ci1 = new ClickableItem(Main.GetItems().get(1),this);
         ItemPanel.add(ci1);
 
+=======
+        JButton b20 = new JButton("X");
+        ItemPanel.add(b20);
+>>>>>>> Stashed changes
 
     }
 
