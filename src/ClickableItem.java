@@ -1,20 +1,21 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
-public class ClickableItem extends JButton implements ActionListener{
-    private  Item heldItem;
-    private  Window parentWindow;
+public class ClickableItem extends JButton implements ActionListener {
+    private Item heldItem;
+    private Window parentWindow;
 
-    private  JButton b1;
+    private JButton b1;
 
-    private  ClickableItemList cl;
-    private  boolean subtypedisplayed;
-    private  Popup po;
-    private  PopupFactory factory;
+    private ClickableItemList cl;
+    private boolean subtypedisplayed;
+    private Popup po;
+    private PopupFactory factory;
 
     public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
         BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
@@ -36,13 +37,16 @@ public class ClickableItem extends JButton implements ActionListener{
     }
     */
 
-    ClickableItem(Item itemIn, Window windowIn){
-        subtypedisplayed=false;
+    ClickableItem(Item itemIn, Window windowIn) {
+        setBackground(Color.GRAY);
+        Border b = BorderFactory.createLineBorder(Color.BLACK);
+        setBorder(b);
+        subtypedisplayed = false;
         setLayout(null);
-        heldItem=itemIn;
-        parentWindow=windowIn;
+        heldItem = itemIn;
+        parentWindow = windowIn;
 
-        BufferedImage bi=heldItem.GetGraphics();
+        BufferedImage bi = heldItem.GetGraphics();
 
         //bi=(BufferedImage) getScaledImage(heldItem.GetGraphics(),100,100);
         //bi = new MultiStepRescaleOp(100, 100, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(bi, null);
@@ -55,34 +59,32 @@ public class ClickableItem extends JButton implements ActionListener{
 */
 
 
-
-        bi=resizeImage(bi,50,50);
-        ImageIcon ii=new ImageIcon(bi);
+        bi = resizeImage(bi, 50, 50);
+        ImageIcon ii = new ImageIcon(bi);
         setIcon(ii);
-        setPreferredSize(new Dimension(50,50));
+        setPreferredSize(new Dimension(50, 50));
         addActionListener(this);
-
 
 
         b1 = new JButton("dupa");
         add(b1);
-        b1.setSize(10,10);
+        b1.setSize(10, 10);
         b1.addActionListener(this);
-        b1.setBounds(0,getPreferredSize().height-10,10,10);
-
+        b1.setBounds(0, getPreferredSize().height - 10, 10, 10);
 
 
     }
+
     void displaySubtype() {
         if (subtypedisplayed) {
             remove(cl);
             po.hide();
             subtypedisplayed = false;
         } else {
-            cl = new ClickableItemList(heldItem.GetTypes(), parentWindow);
+            cl = new ClickableItemList(heldItem.GetTypes(), parentWindow, heldItem);
             add(cl);
             factory = PopupFactory.getSharedInstance();
-            po = factory.getPopup(this, cl, getLocationOnScreen().x, getLocationOnScreen().y+getHeight());
+            po = factory.getPopup(this, cl, getLocationOnScreen().x, getLocationOnScreen().y + getHeight());
 
             po.show();
             subtypedisplayed = true;
@@ -90,18 +92,17 @@ public class ClickableItem extends JButton implements ActionListener{
         //cl.setBounds(0,getPreferredSize().height,cl.getWidth(),cl.getHeight());
     }
 
-    void displayItemWindow(){
+    void displayItemWindow() {
         parentWindow.displayItemWindow(heldItem);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(this)){
+        if (e.getSource().equals(this)) {
             parentWindow.displayItemWindow(heldItem);
-        }else {
+        } else {
             displaySubtype();
         }
-
     }
 }
 
