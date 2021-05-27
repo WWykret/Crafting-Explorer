@@ -96,13 +96,10 @@ public class ClickableItem extends JButton implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("lol1");
         if(e.getSource().equals(this)){
             parentWindow.displayItemWindow(heldItem);
         }else {
-            System.out.println("lol2");
             displaySubtype();
-
         }
 
     }

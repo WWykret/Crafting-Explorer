@@ -85,19 +85,11 @@ public class Window implements ActionListener {
         craftingscreen.add(b18);
         craftingscreen.add(b19);
 
-<<<<<<< Updated upstream
-
         JButton b20 = new JButton("X");
         ItemPanel.add(b20);
-
 
         ClickableItem ci1 = new ClickableItem(Main.GetItems().get(1),this);
         ItemPanel.add(ci1);
-
-=======
-        JButton b20 = new JButton("X");
-        ItemPanel.add(b20);
->>>>>>> Stashed changes
 
     }
 
@@ -120,7 +112,7 @@ public class Window implements ActionListener {
                 Main.Update(selectedFile.getAbsolutePath());
             }
         }else if(e.getSource().equals(t)){
-            cil = new ClickableItemList(SearchEngine.FilterRecepies(Main.GetReceptures(),t.getText()),this);
+            cil = new ClickableItemList(SearchEngine.FilterItems(Main.GetItems(),t.getText()),this);
         }
 
     }

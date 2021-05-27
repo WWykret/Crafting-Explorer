@@ -5,7 +5,6 @@ public class Main{
 	private static ArrayList<Recepture> receptures;
 
 	public static void main(String[] args) {
-<<<<<<< Updated upstream
 
 		FileLoader f = new FileLoader("D:\\Studia\\4 Semestr\\IO\\Zadania\\github repo\\Projekt-IO\\resources\\example.jar");
 		LoadedFiles lo = f.LoadFiles();
@@ -15,15 +14,6 @@ public class Main{
 
 		Window window = new Window();
 		window.displayWindow();
-
-=======
-		Window window = new Window();
-		window.displayWindow();
-		/*
-        FileLoader f = new FileLoader("");
-        f.LoadFiles();
-        */
->>>>>>> Stashed changes
     }
 	
 	public static ArrayList<Item> GetItems() {
