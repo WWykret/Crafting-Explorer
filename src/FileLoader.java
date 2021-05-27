@@ -157,9 +157,9 @@ public class FileLoader {
         HashMap<String, ArrayList<String>> queuedItemsToAdd = new HashMap<>(); //przedmioty, do których trzeba dodać podprzedmioty i jakie podprzedmioty dodać
 
         for (String path : tagPaths) {
-            FileReader fr = new FileReader(path);
-            JSONObject obj = (JSONObject) jsonParser.parse(fr);
-            fr.close();
+            FileReader fileReader = new FileReader(path);
+            JSONObject obj = (JSONObject) jsonParser.parse(fileReader);
+            fileReader.close();
             JSONArray tagValues = (JSONArray) obj.get("values"); //wszystkie tagi w danym pliku
 
             subItems.clear();
@@ -233,9 +233,9 @@ public class FileLoader {
         LinkedHashSet<Recepture> recipes = new LinkedHashSet<>();
 
         for (String path : recipePaths) {
-            FileReader fr = new FileReader(path);
-            JSONObject obj = (JSONObject) jsonParser.parse(fr);
-            fr.close();
+            FileReader fileReader = new FileReader(path);
+            JSONObject obj = (JSONObject) jsonParser.parse(fileReader);
+            fileReader.close();
             String craftingType = (String) obj.get("type"); //w jaki sposób jest wytwarzany przedmiot
 
             if (craftingType.equals("minecraft:crafting_shaped")) {
