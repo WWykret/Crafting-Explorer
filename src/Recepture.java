@@ -11,7 +11,7 @@ public class Recepture {
         this.id = id;
         this.method = method;
         if (ingredients != null) this.ingredients = new ArrayList<Item>(ingredients);
-        else this.ingredients =null;
+        else this.ingredients = null;
         this.result = result;
         this.resultQuantity = resultQuantity;
     }
@@ -38,27 +38,31 @@ public class Recepture {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || obj.getClass() != this.getClass()) return false;
+        if (obj == null) return false;
+        else if (obj.getClass() != this.getClass()) return false;
+
         if (obj == this) return true;
 
         Recepture other = (Recepture) obj;
         boolean ingredientsOK = true;
-        if (this.ingredients == null && other.ingredients == null) ingredientsOK = true;
-        else {
+        if (this.ingredients != null && other.ingredients != null) { //niepuste składniki
             if (ingredients.size() != other.GetIngredients().size()) return false;
+
             for (int i = 0; i < ingredients.size(); i++) {
-                if (this.ingredients.get(i) == null && other.GetIngredients().get(i) != null) ingredientsOK = false;
-                else if (this.ingredients.get(i) != null && other.GetIngredients().get(i) == null)
-                    ingredientsOK = false;
-                else if (this.ingredients.get(i) != null) {
-                    if (!this.ingredients.get(i).equals(other.GetIngredients().get(i))) ingredientsOK = false;
+                if ((this.ingredients.get(i) == null) == (other.ingredients.get(i) == null)) { //oba mają/nie mają naraz null
+                    if (this.ingredients.get(i) != null && !this.ingredients.get(i).equals(other.ingredients.get(i))) {
+                        ingredientsOK = false;
+                    }
                 }
             }
+        } else {
+            ingredientsOK = (this.ingredients == null && other.ingredients == null); //puste składniki
         }
+
         boolean resultOk = this.result.equals(other.GetResult());
         boolean countOk = this.resultQuantity == other.GetResultQuantity();
         boolean methodOK = this.method.equals(other.GetMethod());
-        return ingredientsOK && resultOk && countOk && methodOK;
+        return (ingredientsOK && resultOk && countOk && methodOK);
     }
 
 }

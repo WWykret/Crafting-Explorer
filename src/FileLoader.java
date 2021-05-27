@@ -403,21 +403,25 @@ class LoadedFiles {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        LoadedFiles files = (LoadedFiles) obj;
+        if (obj == null) return false;
+        else if (obj.getClass() != this.getClass()) return false;
+
+        //oba obiekty są tej samej klasy
+        if (obj == this) return true;
+        LoadedFiles other = (LoadedFiles) obj;
         boolean itemsOK, recipesOK;
-        if (this.items == null && files.items == null) itemsOK = true;
-        else if (this.items != null && files.items != null) {
-            itemsOK = this.items.containsAll(files.items) && files.items.containsAll(this.items);
-        } else itemsOK = false;
-        if (this.receptures == null && files.receptures == null) recipesOK = true;
-        else if (this.receptures != null && files.receptures != null) {
-            boolean is1in2 = this.receptures.containsAll(files.receptures);
-            boolean is2in1 = files.receptures.containsAll(this.receptures);
-            recipesOK = is1in2 && is2in1;
+
+        if (this.items == null && other.items == null) itemsOK = true; //oba nie mają przedmiotów
+        else if (this.items != null && other.items != null) {
+            itemsOK = this.items.containsAll(other.items) && other.items.containsAll(this.items); //sprawdzanie czy zawierają te same przedmioty (ignorowanie kolejności)
+        } else itemsOK = false; //kiedy jedna jeden nie ma przedmiptów a drugi ma
+
+        //analogicznie jak przedmioty
+        if (this.receptures == null && other.receptures == null) recipesOK = true;
+        else if (this.receptures != null && other.receptures != null) {
+            recipesOK = this.receptures.containsAll(other.receptures) && other.receptures.containsAll(this.receptures);
         } else recipesOK = false;
-        return itemsOK && recipesOK && this.success == files.success;
+
+        return (itemsOK && recipesOK && this.success == other.success);
     }
 }
-
-//zmiana parsera na singleton zamiast tworzenie go w każdej funkcji
