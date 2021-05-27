@@ -24,7 +24,7 @@ public class ItemWindow{
 
 	public void NextRecepture() {
 		index++;
-		if (index >= receptures.size()) index = 0;;
+		if (index >= receptures.size()) index = 0;
 	}
 
 	public void PrevRecepture() {
