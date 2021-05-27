@@ -16,6 +16,7 @@ public class ClickableItem extends JButton implements ActionListener {
     private boolean subtypedisplayed;
     private Popup po;
     private PopupFactory factory;
+    private JDialog poop;
 
     public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
         BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
@@ -37,59 +38,50 @@ public class ClickableItem extends JButton implements ActionListener {
     }
     */
 
-    ClickableItem(Item itemIn, Window windowIn) {
-        setBackground(Color.GRAY);
+    ClickableItem(Item itemIn, Window windowIn,BufferedImage arrow) {
+        setBackground(new Color(140,140,140));
+        /*
         Border b = BorderFactory.createLineBorder(Color.BLACK);
         setBorder(b);
+        */
         subtypedisplayed = false;
         setLayout(null);
         heldItem = itemIn;
         parentWindow = windowIn;
 
         BufferedImage bi = heldItem.GetGraphics();
-
-        //bi=(BufferedImage) getScaledImage(heldItem.GetGraphics(),100,100);
-        //bi = new MultiStepRescaleOp(100, 100, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(bi, null);
-/*
-        bi = new BufferedImage(100, 100,);
-        Graphics2D graphics2D = scaledImage.createGraphics();
-        graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        graphics2D.drawImage(imageToScale, 0, 0, dWidth, dHeight, null);
-        graphics2D.dispose();
-*/
-
+        setBorderPainted(false);
 
         bi = resizeImage(bi, 50, 50);
         ImageIcon ii = new ImageIcon(bi);
         setIcon(ii);
         setPreferredSize(new Dimension(50, 50));
+        setMaximumSize(new Dimension(50, 50));
+        setMaximumSize(new Dimension(50, 50));
         addActionListener(this);
-
-
-        b1 = new JButton("dupa");
-        add(b1);
-        b1.setSize(10, 10);
-        b1.addActionListener(this);
-        b1.setBounds(0, getPreferredSize().height - 10, 10, 10);
+        if (heldItem.GetTypes()!=null) {
+            b1 = new JButton(new ImageIcon(arrow));
+            //b1.setIcon( new ImageIcon(arrow));
+            add(b1);
+            b1.setBorderPainted(false);
+            b1.setPreferredSize(new Dimension(10, 10));
+            b1.addActionListener(this);
+            b1.setBounds(0, getPreferredSize().width - 10, 10, 10);
+        }
 
 
     }
 
     void displaySubtype() {
-        if (subtypedisplayed) {
-            remove(cl);
-            po.hide();
-            subtypedisplayed = false;
-        } else {
-            cl = new ClickableItemList(heldItem.GetTypes(), parentWindow, heldItem);
-            add(cl);
-            factory = PopupFactory.getSharedInstance();
-            po = factory.getPopup(this, cl, getLocationOnScreen().x, getLocationOnScreen().y + getHeight());
-
-            po.show();
-            subtypedisplayed = true;
-        }
-        //cl.setBounds(0,getPreferredSize().height,cl.getWidth(),cl.getHeight());
+        poop = new JDialog(parentWindow.frame);
+        poop.setTitle(heldItem.GetName());
+        poop.setSize(200, 200);
+        poop.setResizable(false);
+        //poop.setLocationRelativeTo(parentWindow.frame);
+        poop.setLocation(getLocationOnScreen().x, getLocationOnScreen().y+getHeight());
+        cl = new ClickableItemList(heldItem.GetTypes(), parentWindow, heldItem, new Dimension(200, 200));
+        poop.add(cl);
+        poop.setVisible(true);
     }
 
     void displayItemWindow() {

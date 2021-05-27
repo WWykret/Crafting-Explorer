@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class ClickableItemList extends JScrollPane {
@@ -9,10 +10,16 @@ public class ClickableItemList extends JScrollPane {
     private JLabel[] lables;
     private JPanel panel;
     private Window windwo;
+    private Dimension preferd;
+    private Item  mainItem;
+    private JPanel infopan;
+    private JLabel namelabel;
 
-    ClickableItemList(ArrayList<Item> listIn, Window windwoIn, Item mainitem) {
+
+    ClickableItemList(ArrayList<Item> listIn, Window windwoIn, Item mainitemIn,Dimension preferedIn) {
+        mainItem=mainitemIn;
         windwo = windwoIn;
-
+        preferd=preferedIn;
         panel = new JPanel();
         add(panel);
 
@@ -21,45 +28,25 @@ public class ClickableItemList extends JScrollPane {
         }
         heldcount = 0;
 
-
-        panel.setPreferredSize(new Dimension(200, listIn.size() * 50));
-
-        panel.setBackground(Color.GRAY);
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
+        panel.setBackground(Color.DARK_GRAY);
+        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
         //SearchPanel.add(scrolspace);
 
         setViewportView(panel);
-        setPreferredSize(new Dimension(200, 100));
+        setPreferredSize(preferd);
+
+        panel.setPreferredSize(new Dimension((int) preferd.getWidth(), 400));
+        panel.setMinimumSize(preferd);
         //scrolpane.setPreferredSize(new Dimension(100,1000));
 
-        setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        Update(listIn, mainitem);
-/*
-        planes = new JPanel[listIn.size()];
-        items = new ClickableItem[listIn.size()];
-        lables = new JLabel[listIn.size()];
-
-        for (int i = 0; i < listIn.size(); i++) {
-            planes[i] = new JPanel();
-            panel.add(planes[i]);
-            planes[i].setBackground(Color.CYAN);
-            planes[i].setPreferredSize(new Dimension(200, 50));
-            planes[i].setLayout(new GridLayout(1, 2));
-
-            items[i] = new ClickableItem(listIn.get(i), windwoIn);
-            planes[i].add(items[i]);
-
-            lables[i] = new JLabel(listIn.get(i).GetName());
-            planes[i].add(lables[i]);
-
-        }
-        */
+        Update(listIn, mainItem);
     }
 
-    void Update(ArrayList<Item> listIn, Item mainItem) {
+    void Update(ArrayList<Item> listIn, Item mainItemIn) {
+        mainItem=mainItemIn;
         for (int i = 0; i < heldcount; i++) {
             planes[i].remove(items[i]);
             planes[i].remove(lables[i]);
@@ -70,29 +57,26 @@ public class ClickableItemList extends JScrollPane {
         items = new ClickableItem[listIn.size()];
         lables = new JLabel[listIn.size()];
 
-        if (mainItem != null) {
-            JPanel infopan = new JPanel();
-            infopan.setBackground(Color.WHITE);
-            JLabel namelabel = new JLabel(mainItem.GetName());
-            panel.add(infopan);
-            infopan.add(namelabel);
-        }
 
         for (int i = 0; i < listIn.size(); i++) {
             planes[i] = new JPanel();
+            planes[i].setPreferredSize(new Dimension(getPreferredSize().width,50));
+            planes[i].setMaximumSize(new Dimension(getPreferredSize().width,50));
             panel.add(planes[i]);
-            planes[i].setBackground(Color.DARK_GRAY);
-            planes[i].setPreferredSize(new Dimension(200, 50));
-            planes[i].setLayout(new GridLayout(1, 2));
+            planes[i].setBackground(Color.LIGHT_GRAY);
+            planes[i].setLayout(new BorderLayout(5,5));
 
-            items[i] = new ClickableItem(listIn.get(i), windwo);
-            planes[i].add(items[i]);
+            items[i] = new ClickableItem(listIn.get(i), windwo,windwo.img4);
+            planes[i].add(items[i],BorderLayout.LINE_START);
 
             lables[i] = new JLabel(listIn.get(i).GetName());
-            planes[i].add(lables[i]);
+            lables[i].setFont(windwo.customFont);
+            planes[i].add(lables[i],BorderLayout.CENTER);
 
         }
+        panel.setPreferredSize(new Dimension(getPreferredSize().width, heldcount*50));
         windwo.frame.repaint();
         windwo.frame.revalidate();
     }
+
 }
