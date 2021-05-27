@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+//Ta klasa jest iteratorem wg. tej definicji
+//czynnościowy wzorzec projektowy (obiektowy), którego celem jest zapewnienie sekwencyjnego dostępu do podobiektów zgrupowanych w większym obiekcie
 public class ItemWindow {
 	private Item mainItem;
 	private ArrayList<Recepture> receptures;
@@ -25,7 +27,6 @@ public class ItemWindow {
 				}
 			}
 		}
-
 	}
 
 	public ArrayList<Recepture> GetReceptures() {

@@ -5,7 +5,7 @@ public class Main {
     private static ArrayList<Recepture> receptures;
 
     public static void main(String[] args) {
-        FileLoader f = new FileLoader("D:\\Studia\\4 Semestr\\IO\\Zadania\\github repo\\Projekt-IO\\resources\\example.jar");
+		FileLoader f = new FileLoader("D:\\Studia\\4 Semestr\\IO\\Zadania\\github repo\\Projekt-IO\\resources\\example.jar");
         LoadedFiles lo = f.LoadFiles();
 
         items = lo.items;
@@ -13,7 +13,7 @@ public class Main {
 
         Window window = new Window();
         window.displayWindow();
-    }
+	}
 
     public static ArrayList<Item> GetItems() {
         return items;
