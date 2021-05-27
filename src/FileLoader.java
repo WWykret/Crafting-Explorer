@@ -130,6 +130,7 @@ public class FileLoader {
     private Pair<LinkedHashSet<Item>, LinkedHashSet<Recepture>> ReadItemsAndRecipesFromFiles(Path dir) throws IOException, org.json.simple.parser.ParseException {
         ArrayList<File> files = GetAllFilesFromDir(dir.toString());
 
+        System.out.println("szukanie ścieżek...");
         //rodzdzielanie ścieżek do plików
         ArrayList<String> tagsPath = new ArrayList<>();
         ArrayList<String> recipePath = new ArrayList<>();
@@ -141,13 +142,16 @@ public class FileLoader {
             else if (Pattern.matches(".*/textures/.*", filePath)) texturePath.add(filePath);
         }
 
+        System.out.println("tworzenie przedmiotów...");
         //tagi z plikow z katalogu .../tags/...
         LinkedHashSet<Item> allItems = GetItemsFromTagFiles(tagsPath, texturePath);
         allItems.addAll(GetItemsFromRecipeFiles(recipePath, texturePath));
 
+        System.out.println("szukanie receptur...");
         //receptury z plikow z katalogu .../recipes/...
         LinkedHashSet<Recepture> allRecipes = GetRecipesFromFiles(recipePath, allItems);
 
+        System.out.println("wczytywanie gotowe!");
         return new Pair<>(allItems, allRecipes);
     }
 
@@ -269,7 +273,14 @@ public class FileLoader {
         }
         String resultItemName = (String) ((JSONObject) jsonRecipeObj.get("result")).get("item");
         Item resultItem = GetItemFromHashSet(resultItemName, allItems);
-        long itemQuantity = (long) ((JSONObject) jsonRecipeObj.get("result")).get("count");
+
+        long itemQuantity;
+        try {
+            itemQuantity = (long) ((JSONObject) jsonRecipeObj.get("result")).get("count"); //receptura może nie mieć tego pola dla wartości 1
+        } catch (NullPointerException e) {
+            itemQuantity = 1;
+        }
+
         for (ArrayList<Item> recipe : recipesList) {
             recipes.add(new Recepture(0, craftingMethod, recipe, resultItem, (int) itemQuantity));
         }
