@@ -5,57 +5,83 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 class ItemWindowTest {
-    /*
+
     @Test
     void getReceptures() {
         ArrayList<Recepture> arr = new ArrayList<>();
+        ArrayList<Item> arr2 = new ArrayList<>();
         Item[] items = new Item[10];
 
         ItemsArrayCreator(items);
         ReceptureArrayCreator(arr, items);
+        for (int i = 0; i < 10; i++) {
+            arr2.add(items[i]);
+        }
 
-        ItemWindow window = new ItemWindow(arr, null);
-        Assertions.assertEquals(arr, window.GetReceptures());
+        Main.SetItems(arr2);
+        Main.SetReceptures(arr);
+
+        ItemWindow window = new ItemWindow(items[1]);
+        Assertions.assertEquals(new ArrayList<Item>(), window.GetReceptures());
     }
 
     @Test
     void getNextItems() {
         ArrayList<Recepture> arr = new ArrayList<>();
+        ArrayList<Item> arr2 = new ArrayList<>();
         Item[] items = new Item[10];
 
         ItemsArrayCreator(items);
         ReceptureArrayCreator(arr, items);
+        for (int i = 0; i < 10; i++) {
+            arr2.add(items[i]);
+        }
 
-        ArrayList<Item> nextItems = new ArrayList<>();
-        nextItems.add(new Item(0, "stick", null, null));
-        nextItems.add(new Item(1, "flint", null, null));
-        nextItems.add(new Item(2, "cooked porkchop", null, null));
+        Main.SetItems(arr2);
+        Main.SetReceptures(arr);
 
-        ItemWindow window = new ItemWindow(arr, nextItems);
-        Assertions.assertEquals(nextItems, window.GetNextItems());
+
+        ItemWindow window = new ItemWindow(items[1]);
+        ArrayList<Item> test = new ArrayList<>();
+        test.add(items[0]);
+        Assertions.assertEquals(new ArrayList<Item>(), window.GetReceptures());
     }
 
     @Test
     void getCurrentRecepture() {
         ArrayList<Recepture> arr = new ArrayList<>();
+        ArrayList<Item> arr2 = new ArrayList<>();
         Item[] items = new Item[10];
 
         ItemsArrayCreator(items);
         ReceptureArrayCreator(arr, items);
-        ItemWindow window = new ItemWindow(arr, null);
-        Recepture r1 = arr.get(0);
-        Recepture r2 = window.GetCurrentRecepture();
+        for (int i = 0; i < 10; i++) {
+            arr2.add(items[i]);
+        }
+
+        Main.SetItems(arr2);
+        Main.SetReceptures(arr);
+
+        ItemWindow window = new ItemWindow(items[0]);
         Assertions.assertEquals(arr.get(0), window.GetCurrentRecepture());
     }
 
     @Test
     void nextRecepture() {
         ArrayList<Recepture> arr = new ArrayList<>();
+        ArrayList<Item> arr2 = new ArrayList<>();
         Item[] items = new Item[10];
 
         ItemsArrayCreator(items);
         ReceptureArrayCreator(arr, items);
-        ItemWindow window = new ItemWindow((ArrayList<Recepture>) arr.clone(), null);
+        for (int i = 0; i < 10; i++) {
+            arr2.add(items[i]);
+        }
+
+        Main.SetItems(arr2);
+        Main.SetReceptures(arr);
+
+        ItemWindow window = new ItemWindow(items[0]);
 
         window.NextRecepture();
         Assertions.assertEquals(arr.get(1), window.GetCurrentRecepture());
@@ -72,11 +98,19 @@ class ItemWindowTest {
     @Test
     void prevRecepture() {
         ArrayList<Recepture> arr = new ArrayList<>();
+        ArrayList<Item> arr2 = new ArrayList<>();
         Item[] items = new Item[10];
 
         ItemsArrayCreator(items);
         ReceptureArrayCreator(arr, items);
-        ItemWindow window = new ItemWindow((ArrayList<Recepture>) arr.clone(), null);
+        for (int i = 0; i < 10; i++) {
+            arr2.add(items[i]);
+        }
+
+        Main.SetItems(arr2);
+        Main.SetReceptures(arr);
+
+        ItemWindow window = new ItemWindow(items[0]);
 
         window.PrevRecepture();
         Assertions.assertEquals(arr.get(4), window.GetCurrentRecepture());
@@ -89,27 +123,47 @@ class ItemWindowTest {
         window.PrevRecepture();
         Assertions.assertEquals(arr.get(0), window.GetCurrentRecepture());
     }
-*/
+
+    @Test
+    void GetMainItem() {
+        ArrayList<Recepture> arr = new ArrayList<>();
+        ArrayList<Item> arr2 = new ArrayList<>();
+        Item[] items = new Item[10];
+
+        ItemsArrayCreator(items);
+        ReceptureArrayCreator(arr, items);
+        for (int i = 0; i < 10; i++) {
+            arr2.add(items[i]);
+        }
+
+        Main.SetItems(arr2);
+        Main.SetReceptures(arr);
+
+        ItemWindow window = new ItemWindow(items[2]);
+        Assertions.assertEquals(items[2], window.GetMainItem());
+    }
+
     private static void ReceptureArrayCreator(ArrayList<Recepture> arr, Item[] items) {
-		ArrayList<Item> rec1 = new ArrayList<>(Arrays.asList(items[1], items[0], items[0],
-			items[1], items[0], items[0],
-			items[0], items[0], items[0]));
+		ArrayList<Item> rec1 = new ArrayList<>(Arrays.asList(
+		        items[1], items[0], items[0],
+			    items[1], items[0], items[0],
+			    items[0], items[0], items[0]));
 		ArrayList<Item> rec2 = new ArrayList<>(Arrays.asList(
-			items[8], items[8], items[0],
-			items[8], items[8], items[0],
-			items[0], items[0], items[0]));
+			    items[8], items[8], items[0],
+			    items[8], items[8], items[0],
+			    items[0], items[0], items[0]));
 		ArrayList<Item> rec3 = new ArrayList<>(Arrays.asList(
-			items[5], items[0], items[0],
-			items[0], items[0], items[0],
-			items[0], items[0], items[0]));
+			    items[5], items[0], items[0],
+			    items[0], items[0], items[0],
+			    items[0], items[0], items[0]));
 		ArrayList<Item> rec4 = new ArrayList<>(Arrays.asList(
-			items[3], items[4], items[0],
-			items[1], items[0], items[0],
-			items[0], items[0], items[0]));
+			    items[3], items[4], items[0],
+			    items[1], items[0], items[0],
+			    items[0], items[0], items[0]));
 		ArrayList<Item> rec5 = new ArrayList<>(Arrays.asList(
-			items[7], items[0], items[0],
-			items[0], items[0], items[0],
-			items[0], items[0], items[0]));
+			    items[7], items[0], items[0],
+			    items[0], items[0], items[0],
+			    items[0], items[0], items[0]));
 
         arr.add(new Recepture(0, "crafting_table", rec1, items[0], 0));
         arr.add(new Recepture(0, "crafting_table", rec2, items[0], 0));

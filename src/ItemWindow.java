@@ -13,7 +13,7 @@ public class ItemWindow {
 		receptures = new ArrayList<Recepture>();
 		nextStep = new ArrayList<Item>();
 		for (int i = 0; i < Main.GetReceptures().size(); i++) {
-			if (Main.GetReceptures().get(i).result.equals(mainItem)) {
+			if (Main.GetReceptures().get(i).result == mainItem) {
 				receptures.add(Main.GetReceptures().get(i));
 			}
 		}

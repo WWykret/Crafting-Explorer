@@ -40,9 +40,11 @@ public class Main {
     }
 
     public static void Update(String path) {
+        System.out.println("starting the loading");
         LoadedFiles loadedFiles = FileLoader.GetInstance().LoadFiles(path);
 
         items = loadedFiles.items;
         receptures = loadedFiles.receptures;
+        System.out.println("files successfully loaded");
     }
 }
