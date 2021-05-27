@@ -8,18 +8,27 @@ import java.util.ArrayList;
 
 public class Window implements ActionListener {
 
-    private JFrame frame;
+    JFrame frame;
     private Container cp;
     private JMenuBar menu;
     private JMenu i1;
     private JMenuItem i2;
     private JTextField t;
     private ClickableItemList cil;
-
+    private ClickableItemList cil2;
+    private JPanel ItemPanel;
+    private JPanel SearchPanel;
+    private JPanel craftingscreen;
+    private JPanel mainitempanel;
+    private JLabel amountlabl;
+    private JButton next;
+    private JButton prev;
+    private ItemWindow iw;
 
     void displayWindow() {
         frame = new JFrame();
-        frame.setSize(600, 600);
+        frame.setSize(800, 600);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
@@ -38,69 +47,83 @@ public class Window implements ActionListener {
         JPanel ItemPanel = new JPanel();
         JPanel SearchPanel = new JPanel();
 
-
         cp.add(ItemPanel);
         cp.add(SearchPanel);
 
-        ItemPanel.setBackground(Color.BLUE);
-        SearchPanel.setBackground(Color.RED);
+        ItemPanel.setBackground(Color.DARK_GRAY);
+        SearchPanel.setBackground(Color.LIGHT_GRAY);
 
         ItemPanel.setLayout(new FlowLayout());
         SearchPanel.setLayout(new FlowLayout());
 
-        JTextField t = new JTextField(20);
-        t.setPreferredSize(new Dimension(100,30));
+        t = new JTextField(20);
+        t.setPreferredSize(new Dimension(100, 30));
         t.addActionListener(this);
 
         SearchPanel.add(t);
 
-        ClickableItemList cil = new ClickableItemList(new ArrayList<Item>(),this);
+        cil = new ClickableItemList(Main.GetItems(), this, null);
         SearchPanel.add(cil);
 
         //SearchPanel.add(cil);
 
-        JPanel craftingscreen = new JPanel();
-        craftingscreen.setLayout(new GridLayout(3,3));
-        craftingscreen.setBackground(Color.GRAY);
+///////////////////////////////////////////////////////////////////
 
+        craftingscreen = new JPanel();
+        craftingscreen.setLayout(new GridLayout(3, 3));
+        craftingscreen.setBackground(Color.GRAY);
         ItemPanel.add(craftingscreen);
 
-        JButton b11 = new JButton("1");
-        JButton b12 = new JButton("2");
-        JButton b13 = new JButton("3");
-        JButton b14 = new JButton("4");
-        JButton b15 = new JButton("5");
-        JButton b16 = new JButton("6");
-        JButton b17 = new JButton("7");
-        JButton b18 = new JButton("8");
-        JButton b19 = new JButton("9");
-        
-        craftingscreen.add(b11);
-        craftingscreen.add(b12);
-        craftingscreen.add(b13);
-        craftingscreen.add(b14);
-        craftingscreen.add(b15);
-        craftingscreen.add(b16);
-        craftingscreen.add(b17);
-        craftingscreen.add(b18);
-        craftingscreen.add(b19);
+        next = new JButton("Next");
+        prev = new JButton("Prev");
+        next.addActionListener(this);
+        prev.addActionListener(this);
+        ItemPanel.add(next);
+        ItemPanel.add(prev);
 
-        JButton b20 = new JButton("X");
-        ItemPanel.add(b20);
+        mainitempanel = new JPanel();
+        ItemPanel.add(mainitempanel);
 
-        ClickableItem ci1 = new ClickableItem(Main.GetItems().get(1),this);
-        ItemPanel.add(ci1);
+        amountlabl = new JLabel();
+        ItemPanel.add(amountlabl);
 
+        cil2 = new ClickableItemList(Main.GetItems(), this, null);
+        ItemPanel.add(cil2);
+        frame.repaint();
+        frame.revalidate();
     }
 
 
-    void displayItemWindow(Item itemIn){
+    void displayItemWindow(Item itemIn) {
+        iw = new ItemWindow(itemIn);
+        craftingscreen.removeAll();
+        mainitempanel.removeAll();
 
+        for (int i = 0; i < 9; i++) {
+            if (iw.GetCurrentRecepture() == null || i >= iw.GetCurrentRecepture().ingredients.size() || iw.GetCurrentRecepture().ingredients.get(i) == null) {
+                JPanel jp = new JPanel();
+                jp.setPreferredSize(new Dimension(50, 50));
+                craftingscreen.add(jp);
+            } else {
+                craftingscreen.add(new ClickableItem(iw.GetCurrentRecepture().ingredients.get(i), this));
+            }
+        }
+        mainitempanel.add(new ClickableItem(iw.GetMainItem(), this));
+
+        if (iw.GetCurrentRecepture() != null) {
+            Integer x = iw.GetCurrentRecepture().resultQuantity;
+            amountlabl.setText(x.toString());
+        } else {
+            amountlabl.setText("");
+        }
+        cil2.Update(iw.GetNextItems(), null);
+        frame.repaint();
+        frame.revalidate();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(i2)){
+        if (e.getSource().equals(i2)) {
             JFileChooser jfc = new JFileChooser();
             int returnValue = jfc.showOpenDialog(null);
 
@@ -111,8 +134,36 @@ public class Window implements ActionListener {
                 FileLoader f = new FileLoader(selectedFile.getAbsolutePath());
                 Main.Update(selectedFile.getAbsolutePath());
             }
-        }else if(e.getSource().equals(t)){
-            cil = new ClickableItemList(SearchEngine.FilterItems(Main.GetItems(),t.getText()),this);
+        } else if (e.getSource().equals(t)) {
+            cil.Update(SearchEngine.FilterItems(Main.GetItems(), t.getText()), null);
+        } else if (e.getSource().equals(next)) {
+            iw.NextRecepture();
+            craftingscreen.removeAll();
+            for (int i = 0; i < 9; i++) {
+                if (iw.GetCurrentRecepture() == null || i >= iw.GetCurrentRecepture().ingredients.size() || iw.GetCurrentRecepture().ingredients.get(i) == null) {
+                    JPanel jp = new JPanel();
+                    jp.setPreferredSize(new Dimension(50, 50));
+                    craftingscreen.add(jp);
+                } else {
+                    craftingscreen.add(new ClickableItem(iw.GetCurrentRecepture().ingredients.get(i), this));
+                }
+            }
+            frame.repaint();
+            frame.revalidate();
+        } else if (e.getSource().equals(prev)) {
+            iw.PrevRecepture();
+            craftingscreen.removeAll();
+            for (int i = 0; i < 9; i++) {
+                if (iw.GetCurrentRecepture() == null || i >= iw.GetCurrentRecepture().ingredients.size() || iw.GetCurrentRecepture().ingredients.get(i) == null) {
+                    JPanel jp = new JPanel();
+                    jp.setPreferredSize(new Dimension(50, 50));
+                    craftingscreen.add(jp);
+                } else {
+                    craftingscreen.add(new ClickableItem(iw.GetCurrentRecepture().ingredients.get(i), this));
+                }
+            }
+            frame.repaint();
+            frame.revalidate();
         }
 
     }
