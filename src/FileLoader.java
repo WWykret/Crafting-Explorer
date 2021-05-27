@@ -19,9 +19,11 @@ Dependency inversion principle -
 */
 public class FileLoader {
     private String path;
+    private JSONParser jsonParser;
 
     public FileLoader(String _path) {
         this.path = _path;
+        jsonParser = new JSONParser();
     }
 
     public void ChangePath(String newPath) {
@@ -150,13 +152,12 @@ public class FileLoader {
     }
 
     private LinkedHashSet<Item> GetItemsFromTagFiles(ArrayList<String> tagPaths, ArrayList<String> texturePaths) throws IOException, org.json.simple.parser.ParseException {
-        LinkedHashSet<Item> items = new LinkedHashSet<Item>();
-        ArrayList<Item> subItems = new ArrayList<Item>();
-        HashMap<String, ArrayList<String>> queuedItemsToAdd = new HashMap<String, ArrayList<String>>(); //przedmioty, do których trzeba dodać podprzedmioty i jakie podprzedmioty dodać
+        LinkedHashSet<Item> items = new LinkedHashSet<>();
+        ArrayList<Item> subItems = new ArrayList<>();
+        HashMap<String, ArrayList<String>> queuedItemsToAdd = new HashMap<>(); //przedmioty, do których trzeba dodać podprzedmioty i jakie podprzedmioty dodać
 
-        JSONParser parser = new JSONParser();
         for (String path : tagPaths) {
-            JSONObject obj = (JSONObject) parser.parse(new FileReader(path));
+            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader(path));
             JSONArray tagValues = (JSONArray) obj.get("values"); //wszystkie tagi w danym pliku
 
             subItems.clear();
@@ -194,7 +195,7 @@ public class FileLoader {
 
         //przypadek kiedy dany przemiot nie ma jeszcze poddypów do dodania
         if (!queuedItemsToAdd.containsKey(parentTag)) {
-            itemsToAddList = new ArrayList<String>();
+            itemsToAddList = new ArrayList<>();
             itemsToAddList.add(childTagName);
             queuedItemsToAdd.put(parentTag, itemsToAddList);
         } else { //przypadek kiedy jakiś podtyp przedmiotu jest już w kolejce do dodania
@@ -205,7 +206,7 @@ public class FileLoader {
 
     private void AddQueuedItemSubTypes(LinkedHashSet<Item> itemSet, HashMap<String, ArrayList<String>> queuedItemsToAdd) {
         for (Map.Entry<String, ArrayList<String>> item : queuedItemsToAdd.entrySet()) { //dla każdego zakolejkowanego przedmiotu
-            ArrayList<Item> childItems = new ArrayList<Item>();
+            ArrayList<Item> childItems = new ArrayList<>();
             for (String itemName : item.getValue()) {
                 childItems.add(GetItemFromHashSet(itemName, itemSet));
             }
@@ -215,7 +216,7 @@ public class FileLoader {
     }
 
     private LinkedHashSet<Item> GetItemsFromRecipeFiles(ArrayList<String> recipePaths, ArrayList<String> texturePaths) {
-        LinkedHashSet<Item> items = new LinkedHashSet<Item>();
+        LinkedHashSet<Item> items = new LinkedHashSet<>();
 
         //plik receptury zawsze jako wynik daje to, jak jest nazwany (np. 'torch.json' daje recepturę na 'torch')
         for (String path : recipePaths) {
@@ -227,11 +228,10 @@ public class FileLoader {
     }
 
     private LinkedHashSet<Recepture> GetRecipesFromFiles(ArrayList<String> recipePaths, LinkedHashSet<Item> allItems) throws IOException, org.json.simple.parser.ParseException {
-        LinkedHashSet<Recepture> recipes = new LinkedHashSet<Recepture>();
+        LinkedHashSet<Recepture> recipes = new LinkedHashSet<>();
 
-        JSONParser parser = new JSONParser();
         for (String path : recipePaths) {
-            JSONObject obj = (JSONObject) parser.parse(new FileReader(path));
+            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader(path));
             String craftingType = (String) obj.get("type"); //w jaki sposób jest wytwarzany przedmiot
 
             if (craftingType.equals("minecraft:crafting_shaped")) {
@@ -249,8 +249,8 @@ public class FileLoader {
         JSONArray craftingPattern = (JSONArray) jsonRecipeObj.get("pattern");
         String patternString = ConvertCraftingGridToString(craftingPattern);
 
-        ArrayList<ArrayList<Item>> recipesList = new ArrayList<ArrayList<Item>>(); //każdy przedmiot może mieć wiele receptur
-        recipesList.add(new ArrayList<Item>());
+        ArrayList<ArrayList<Item>> recipesList = new ArrayList<>(); //każdy przedmiot może mieć wiele receptur
+        recipesList.add(new ArrayList<>());
 
         for (int i = 0; i < patternString.length(); i++) {
             String ingredient = "" + patternString.charAt(i); //konwersja znaku na napis
@@ -285,21 +285,21 @@ public class FileLoader {
 
     private ArrayList<ArrayList<Item>> AddMultipleItemsToRecipe(JSONObject ingredientsDict, String ingredientSymbol, ArrayList<ArrayList<Item>> recipesList, LinkedHashSet<Item> allItems) {
         JSONArray dictList = (JSONArray) ingredientsDict.get(ingredientSymbol);
-        ArrayList<ArrayList<Item>> tempRecipes = new ArrayList<ArrayList<Item>>();
+        ArrayList<ArrayList<Item>> tempRecipes = new ArrayList<>();
         for (Object dictObj : dictList) { //dla każdego wariantu przedmiotu
             JSONObject itemDict = (JSONObject) dictObj;
 
             Item itemVariant = GetItemFromJSON(itemDict, allItems);
 
-            ArrayList<ArrayList<Item>> recipesWithItem = new ArrayList<ArrayList<Item>>();
+            ArrayList<ArrayList<Item>> recipesWithItem = new ArrayList<>();
             for (ArrayList<Item> recipe : recipesList) {
-                ArrayList<Item> recipeWithItem = new ArrayList<Item>(recipe);
+                ArrayList<Item> recipeWithItem = new ArrayList<>(recipe);
                 recipeWithItem.add(itemVariant);
                 recipesWithItem.add(recipeWithItem);
             }
             tempRecipes.addAll(recipesWithItem);
         }
-        return new ArrayList<ArrayList<Item>>(tempRecipes);
+        return new ArrayList<>(tempRecipes);
     }
 
     private String ConvertCraftingGridToString(JSONArray craftingPattern) {
@@ -317,7 +317,7 @@ public class FileLoader {
             JSONObject ingredientObj = (JSONObject) jsonRecipeObj.get("ingredient"); //co jest przepalane
 
             Item ingredientItem = GetItemFromJSON(ingredientObj, allItems);
-            ArrayList<Item> smeltItem = new ArrayList<Item>();
+            ArrayList<Item> smeltItem = new ArrayList<>();
             smeltItem.add(ingredientItem);
             String resultItemName = (String) jsonRecipeObj.get("result");
             Item resultItem = GetItemFromHashSet(resultItemName, allItems);
@@ -353,7 +353,7 @@ public class FileLoader {
     }
 
     private ArrayList<File> GetAllFilesFromDir(String dir) {
-        ArrayList<File> files = new ArrayList<File>();
+        ArrayList<File> files = new ArrayList<>();
 
         File[] filesInDir = new File(dir).listFiles(); //zwraca null dla pliku
 
@@ -377,8 +377,8 @@ public class FileLoader {
             UnpackJar(jarPath);
             Pair<LinkedHashSet<Item>, LinkedHashSet<Recepture>> itemsAndRecipes = ReadItemsAndRecipesFromFiles(jarPath.getParent());
 
-            result.items = new ArrayList<Item>(itemsAndRecipes.getKey());
-            result.receptures = new ArrayList<Recepture>(itemsAndRecipes.getValue());
+            result.items = new ArrayList<>(itemsAndRecipes.getKey());
+            result.receptures = new ArrayList<>(itemsAndRecipes.getValue());
             result.success = true;
         } catch (Exception e) {
             System.out.println(e.getClass() + " --- " + e.getMessage());
