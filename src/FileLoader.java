@@ -19,7 +19,7 @@ Dependency inversion principle -
 */
 public class FileLoader {
     private JSONParser jsonParser;
-    private static FileLoader fileLoaderInstance = null; //singleton :)
+    private static FileLoader fileLoaderInstance = null; //instancja singletonu :)
 
     public FileLoader() {
         jsonParser = new JSONParser();
@@ -307,6 +307,8 @@ public class FileLoader {
             while (line.length() < 3) line.append(" "); //uzupełnia każdą linię do 3
             patternString.append(line);
         }
+        //dopełnienie do siatki 3x3
+        while (patternString.length() < 9) patternString.append(" ");
         return patternString.toString();
     }
 

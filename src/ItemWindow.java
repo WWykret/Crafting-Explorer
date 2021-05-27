@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+//ta klasa jest iteratorem
+//Iterator – czynnościowy wzorzec projektowy (obiektowy), którego celem jest zapewnienie sekwencyjnego dostępu do podobiektów zgrupowanych w większym obiekcie
 public class ItemWindow{
 	static private ArrayList<Recepture> receptures;
 	static private ArrayList<Item> nextStep;

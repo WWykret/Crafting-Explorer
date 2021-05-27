@@ -39,9 +39,9 @@ class FileLoaderTest {
         Item torch = new Item(0, "minecraft:torch", "..\\resources\\example_data\\assets\\minecraft\\textures\\bloc\\torch.png", null);
         result.items = new ArrayList<>(Arrays.asList(coal, charcoal, coals, oakPlank, plank, stick, torch));
 
-        Recepture stickRec = new Recepture(0, "minecraft:crafting_shaped", new ArrayList<>(Arrays.asList(oakPlank, null, null, oakPlank, null, null)),stick, 4);
-        Recepture torchRec1 = new Recepture(0, "minecraft:crafting_shaped", new ArrayList<>(Arrays.asList(coal, null, null, stick, null, null)),torch, 4);
-        Recepture torchRec2 = new Recepture(0, "minecraft:crafting_shaped", new ArrayList<>(Arrays.asList(charcoal, null, null, stick, null, null)),torch, 4);
+        Recepture stickRec = new Recepture(0, "minecraft:crafting_shaped", new ArrayList<>(Arrays.asList(oakPlank, null, null, oakPlank, null, null, null, null, null)),stick, 4);
+        Recepture torchRec1 = new Recepture(0, "minecraft:crafting_shaped", new ArrayList<>(Arrays.asList(coal, null, null, stick, null, null, null, null, null)),torch, 4);
+        Recepture torchRec2 = new Recepture(0, "minecraft:crafting_shaped", new ArrayList<>(Arrays.asList(charcoal, null, null, stick, null, null, null, null, null)),torch, 4);
         result.receptures = new ArrayList<>(Arrays.asList(stickRec, torchRec1, torchRec2));
 
         assertEquals(result, FileLoader.GetInstance().LoadFiles(path));
