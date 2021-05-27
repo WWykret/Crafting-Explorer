@@ -10,7 +10,7 @@ public class SearchEngine{
 
 		for (Recepture i : original) {
 			if (i.GetResult() != null) {
-				Matcher matcher = compiledPattern.matcher(i.GetResult().GetName());
+				Matcher matcher = compiledPattern.matcher(i.GetResult().GetName().toLowerCase());
 				if (matcher.find()) {
 					filtered.add(i);
 				}

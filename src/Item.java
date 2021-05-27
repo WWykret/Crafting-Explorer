@@ -10,6 +10,7 @@ public class Item{
 	private BufferedImage graphics;
 	private ArrayList<Item> types;
 	private String description;
+	private String graphicsPath;
 
 	public Item(int id, String name, String graphicsPath, ArrayList<Item> types, String description) {
 		this.id = id;
@@ -21,6 +22,7 @@ public class Item{
 		if (types != null && types.size() > 0) this.types = new ArrayList<Item>(types);
 		else this.types = null;
 		this.description = description;
+		this.graphicsPath = graphicsPath;
 	}
 
 	public Item(int id, String name, String graphicsPath, ArrayList<Item> types) {
@@ -40,6 +42,12 @@ public class Item{
 	}
 
 	public String GetName() {
+		String formattedName = this.name.replace('_', ' ').substring(10);
+		String finalName = formattedName.substring(0,1).toUpperCase() + formattedName.substring(1);
+		return finalName;
+	}
+
+	public String GetRawName() {
 		return this.name;
 	}
 
@@ -56,6 +64,10 @@ public class Item{
 		return types;
 	}
 
+	public String GetGraphicsPath() {
+		return this.graphicsPath;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null || obj.getClass() != this.getClass()) return false;
@@ -67,7 +79,7 @@ public class Item{
 			subItemsOk = this.types.containsAll(other.GetTypes()) && other.GetTypes().containsAll(this.types);
 		}
 		else subItemsOk = false;
-		boolean nameOk = other.GetName().equals(this.name);
+		boolean nameOk = other.GetRawName().equals(this.name);
 		return nameOk && subItemsOk;
 	}
 }

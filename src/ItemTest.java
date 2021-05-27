@@ -135,27 +135,27 @@ class ItemTest {
 
     @Test
     void getName() {
-        Assertions.assertEquals("Fishing Rod", a[0].GetName(), "blad w tescie 1");
-        Assertions.assertEquals("Wooden Sword", a[1].GetName(), "blad w tescie 2");
-        Assertions.assertEquals("Iron Sword", a[2].GetName(), "blad w tescie 3");
-        Assertions.assertEquals("Diamond Sword", a[3].GetName(), "blad w tescie 4");
+        Assertions.assertEquals("Fishing Rod", a[0].GetRawName(), "blad w tescie 1");
+        Assertions.assertEquals("Wooden Sword", a[1].GetRawName(), "blad w tescie 2");
+        Assertions.assertEquals("Iron Sword", a[2].GetRawName(), "blad w tescie 3");
+        Assertions.assertEquals("Diamond Sword", a[3].GetRawName(), "blad w tescie 4");
 
-        Assertions.assertEquals("Bow", a[4].GetName(), "blad w tescie 5");
-        Assertions.assertEquals("Stick", a[5].GetName(), "blad w tescie 6");
-        Assertions.assertEquals("Ladder", a[6].GetName(), "blad w tescie 7");
-        Assertions.assertEquals("Minecart", a[7].GetName(), "blad w tescie 8");
+        Assertions.assertEquals("Bow", a[4].GetRawName(), "blad w tescie 5");
+        Assertions.assertEquals("Stick", a[5].GetRawName(), "blad w tescie 6");
+        Assertions.assertEquals("Ladder", a[6].GetRawName(), "blad w tescie 7");
+        Assertions.assertEquals("Minecart", a[7].GetRawName(), "blad w tescie 8");
 
-        Assertions.assertEquals("Oak Wood", a[8].GetName(), "blad w tescie 9");
-        Assertions.assertEquals("Spruce Wood", a[9].GetName(), "blad w tescie 10");
-        Assertions.assertEquals("Birch Wood", a[10].GetName(), "blad w tescie 11");
-        Assertions.assertEquals("Wood", a[11].GetName(), "blad w tescie 12");
+        Assertions.assertEquals("Oak Wood", a[8].GetRawName(), "blad w tescie 9");
+        Assertions.assertEquals("Spruce Wood", a[9].GetRawName(), "blad w tescie 10");
+        Assertions.assertEquals("Birch Wood", a[10].GetRawName(), "blad w tescie 11");
+        Assertions.assertEquals("Wood", a[11].GetRawName(), "blad w tescie 12");
 
-        Assertions.assertEquals("Oak Button", a[12].GetName(), "blad w tescie 13");
-        Assertions.assertEquals("Spruce Button", a[13].GetName(), "blad w tescie 14");
-        Assertions.assertEquals("Birch Button", a[14].GetName(), "blad w tescie 15");
-        Assertions.assertEquals("Wood Button", a[15].GetName(), "blad w tescie 16");
-        Assertions.assertEquals("Stone Button", a[16].GetName(), "blad w tescie 17");
-        Assertions.assertEquals("Button", a[17].GetName(), "blad w tescie 18");
+        Assertions.assertEquals("Oak Button", a[12].GetRawName(), "blad w tescie 13");
+        Assertions.assertEquals("Spruce Button", a[13].GetRawName(), "blad w tescie 14");
+        Assertions.assertEquals("Birch Button", a[14].GetRawName(), "blad w tescie 15");
+        Assertions.assertEquals("Wood Button", a[15].GetRawName(), "blad w tescie 16");
+        Assertions.assertEquals("Stone Button", a[16].GetRawName(), "blad w tescie 17");
+        Assertions.assertEquals("Button", a[17].GetRawName(), "blad w tescie 18");
     }
 
     @Test

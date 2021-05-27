@@ -41,7 +41,7 @@ public class FileLoader {
 
             destPath = Paths.get(destDir.getCanonicalPath() + "/minecraft.jar");
 
-            ClearDir(destPath.getParent()); //kopiowanie nie nadpisuje plików, więc trzeba usunąć poprzednie
+            Utils.ClearDir(destPath.getParent()); //kopiowanie nie nadpisuje plików, więc trzeba usunąć poprzednie
 
             Files.copy(sourcePath, destPath);
         } catch (Exception e) {
@@ -49,32 +49,6 @@ public class FileLoader {
             System.out.println(e.getClass() + " --- " + e.getMessage());
         }
         return destPath;
-    }
-
-    private void ClearDir(Path dirPath) throws Exception {
-        File dir = new File(dirPath.toString());
-        File[] files = dir.listFiles();
-
-        if (files == null) return;
-        for (File file : files) {
-            boolean success;
-            if (file.isDirectory()) success = DeleteDirectory(file);
-            else success = file.delete();
-
-            if (!success) {
-                throw new Exception("nie udalo sie usunac " + file.toString());
-            }
-        }
-    }
-
-    boolean DeleteDirectory(File directoryToBeDeleted) {
-        File[] allContents = directoryToBeDeleted.listFiles(); //dla pliku zwraca null
-        if (allContents != null) { //sprawdzanie czy allContents to plik
-            for (File file : allContents) {
-                DeleteDirectory(file);
-            }
-        }
-        return directoryToBeDeleted.delete(); //czy udało się usunąć katalog
     }
 
     private void UnpackJar(Path jarPath) throws IOException {
@@ -354,7 +328,7 @@ public class FileLoader {
 
     private Item GetItemFromHashSet(String itemName, LinkedHashSet<Item> allItems) {
         //wybieranie ze zbioru elementu o podanej nazwie (lambda!)
-        return allItems.stream().filter(item -> itemName.equals(item.GetName())).findFirst().orElse(null);
+        return allItems.stream().filter(item -> itemName.equals(item.GetRawName())).findFirst().orElse(null);
     }
 
     private String GetTextureForTag(String tag, ArrayList<String> texturePaths) {
@@ -397,6 +371,8 @@ public class FileLoader {
             result.items = new ArrayList<>(itemsAndRecipes.getKey());
             result.receptures = new ArrayList<>(itemsAndRecipes.getValue());
             result.success = true;
+
+            FileKeeper.GetInstance().SaveItemsAndRecipesAsXML(itemsAndRecipes.getKey(), itemsAndRecipes.getValue());
         } catch (Exception e) {
             System.out.println(e.getClass() + " --- " + e.getMessage());
         }

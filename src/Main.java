@@ -1,4 +1,3 @@
-import java.io.File;
 import java.util.ArrayList;
 
 public class Main {
@@ -6,18 +5,19 @@ public class Main {
     private static ArrayList<Recepture> receptures;
 
     public static void main(String[] args) {
-        File file = new File("./resources/example.jar");
-        String path;
-        try{
-            path = file.getCanonicalPath();
-        } catch (Exception e) {
-            path = "";
-        }
-
-        LoadedFiles loadedFiles = FileLoader.GetInstance().LoadFiles(path);
-
-        items = loadedFiles.items;
-        receptures = loadedFiles.receptures;
+//        File file = new File("./resources/example.jar");
+//        String path;
+//        try{
+//            path = file.getCanonicalPath();
+//        } catch (Exception e) {
+//            path = "";
+//        }
+        items = FileKeeper.GetInstance().ReadItemsFromXML();
+        receptures = FileKeeper.GetInstance().ReadRecipesFromXML(items);
+//        LoadedFiles loadedFiles = FileLoader.GetInstance().LoadFiles(path);
+//
+//        items = loadedFiles.items;
+//        receptures = loadedFiles.receptures;
 
         Window window = new Window();
         window.displayWindow();
