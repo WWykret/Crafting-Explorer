@@ -21,7 +21,7 @@ public class ItemWindow {
 		for (int i = 0; i < Main.GetReceptures().size(); i++) {
 			h=false;
 			for (int j = 0; j < Main.GetReceptures().get(i).ingredients.size() && !h; j++) {
-				if (Main.GetReceptures().get(i).ingredients.get(j).equals(mainItem)) {
+				if (Main.GetReceptures().get(i).ingredients.get(j) == mainItem) {
 					nextStep.add(Main.GetReceptures().get(i).result);
 					h=true;
 				}
