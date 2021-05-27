@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 class ItemWindowTest {
+    /*
     @Test
     void getReceptures() {
         ArrayList<Recepture> arr = new ArrayList<>();
@@ -88,7 +89,7 @@ class ItemWindowTest {
         window.PrevRecepture();
         Assertions.assertEquals(arr.get(0), window.GetCurrentRecepture());
     }
-
+*/
     private static void ReceptureArrayCreator(ArrayList<Recepture> arr, Item[] items) {
 		ArrayList<Item> rec1 = new ArrayList<>(Arrays.asList(items[1], items[0], items[0],
 			items[1], items[0], items[0],
@@ -129,4 +130,6 @@ class ItemWindowTest {
         items[8] = new Item(7, "k k", null, null);
         items[9] = new Item(8, "a", null, null);
     }
+
+
 }
