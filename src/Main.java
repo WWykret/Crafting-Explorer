@@ -5,8 +5,7 @@ public class Main{
 	private static ArrayList<Recepture> receptures;
 
 	public static void main(String[] args) {
-        FileLoader f = new FileLoader("");
-        f.LoadFiles();
+		FileLoader.GetInstance().LoadFiles("");
     }
 	
 	public static ArrayList<Item> GetItems() {

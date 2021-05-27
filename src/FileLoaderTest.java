@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -8,50 +7,17 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FileLoaderTest {
-    @Test
-    void getPath() {
-        FileLoader loader;
-        loader = new FileLoader("C:/Users/Admin/");
-        assertEquals("C:/Users/Admin/", loader.GetPath());
-
-        loader = new FileLoader("C:\\Users\\Admin\\AppData\\Roaming\\.minecraft");
-        assertEquals("C:\\Users\\Admin\\AppData\\Roaming\\.minecraft", loader.GetPath());
-
-        loader = new FileLoader("");
-        assertEquals("", loader.GetPath());
-    }
-
-    @Test
-    void changePath() {
-        FileLoader loader;
-        loader = new FileLoader("C:/Users/Admin/");
-        loader.ChangePath("C:/Users/Admin/");
-        Assertions.assertEquals("C:/Users/Admin/", loader.GetPath());
-
-        loader = new FileLoader("C:/Users/Admin/");
-        loader.ChangePath("C:/Users/Admin/minecraft/");
-        Assertions.assertEquals("C:/Users/Admin/minecraft/", loader.GetPath());
-
-        loader = new FileLoader("C:/Users/Admin/");
-        loader.ChangePath("C:\\Users\\Admin\\AppData\\Roaming\\.minecraft");
-        Assertions.assertEquals("C:\\Users\\Admin\\AppData\\Roaming\\.minecraft", loader.GetPath());
-
-        loader = new FileLoader("C:/Users/Admin/");
-        loader.ChangePath("");
-        Assertions.assertEquals("", loader.GetPath());
-    }
 
     @Test
     void loadFiles() {
         FileLoader loader;
         LoadedFiles result;
 
-        loader = new FileLoader("C:/");
         result = new LoadedFiles();
         result.success = false;
         result.items = null;
         result.receptures = null;
-        assertEquals(result, loader.LoadFiles());
+        assertEquals(result, FileLoader.GetInstance().LoadFiles("C:/"));
 
         File file = new File("./resources/example.jar");
         String path;
@@ -61,7 +27,6 @@ class FileLoaderTest {
             path = "";
         }
 
-        loader = new FileLoader(path);
         result = new LoadedFiles();
         result.success = true;
 
@@ -79,6 +44,6 @@ class FileLoaderTest {
         Recepture torchRec2 = new Recepture(0, "minecraft:crafting_shaped", new ArrayList<>(Arrays.asList(charcoal, null, null, stick, null, null)),torch, 4);
         result.receptures = new ArrayList<>(Arrays.asList(stickRec, torchRec1, torchRec2));
 
-        assertEquals(result, loader.LoadFiles());
+        assertEquals(result, FileLoader.GetInstance().LoadFiles(path));
     }
 }

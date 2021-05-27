@@ -18,23 +18,21 @@ Interface segregation principle - Jedyne interfejsy z jakich korzystamy to te we
 Dependency inversion principle -
 */
 public class FileLoader {
-    private String path;
     private JSONParser jsonParser;
+    private static FileLoader fileLoaderInstance = null; //singleton :)
 
-    public FileLoader(String _path) {
-        this.path = _path;
+    public FileLoader() {
         jsonParser = new JSONParser();
     }
 
-    public void ChangePath(String newPath) {
-        this.path = newPath;
+    public static FileLoader GetInstance() {
+        if (fileLoaderInstance == null) {
+            fileLoaderInstance = new FileLoader();
+        }
+        return fileLoaderInstance;
     }
 
-    public String GetPath() {
-        return path;
-    }
-
-    private Path CopyFiles() {
+    private Path CopyFiles(String path) {
         Path sourcePath = Paths.get(path); //ścieżka do oryginału
         Path destPath; //ścieżka do kopii
         try {
@@ -365,12 +363,12 @@ public class FileLoader {
         return files;
     }
 
-    public LoadedFiles LoadFiles() {
+    public LoadedFiles LoadFiles(String path) {
         //domyślny wynik działania funckji
         LoadedFiles result = new LoadedFiles();
         result.success = false;
 
-        Path jarPath = CopyFiles(); //ścieżka do pliku .jar
+        Path jarPath = CopyFiles(path); //ścieżka do pliku .jar
 
         if (jarPath == null) return result;
         try {
