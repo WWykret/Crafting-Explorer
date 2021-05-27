@@ -174,15 +174,15 @@ class ItemWindowTest {
 
     public static void ItemsArrayCreator(Item[] items) {
         items[0] = null;
-        items[1] = new Item(0, "aa", null, null);
-        items[2] = new Item(1, "aab", null, null);
-        items[3] = new Item(2, "bab", null, null);
-        items[4] = new Item(3, "c", null, null);
-        items[5] = new Item(4, "g", null, null);
-        items[6] = new Item(5, "z", null, null);
-        items[7] = new Item(6, "k klet", null, null);
-        items[8] = new Item(7, "k k", null, null);
-        items[9] = new Item(8, "a", null, null);
+        items[1] = new Item(0, "minecraft:aa", null, null);
+        items[2] = new Item(1, "minecraft:aab", null, null);
+        items[3] = new Item(2, "minecraft:bab", null, null);
+        items[4] = new Item(3, "minecraft:c", null, null);
+        items[5] = new Item(4, "minecraft:g", null, null);
+        items[6] = new Item(5, "minecraft:z", null, null);
+        items[7] = new Item(6, "minecraft:k klet", null, null);
+        items[8] = new Item(7, "minecraft:k k", null, null);
+        items[9] = new Item(8, "minecraft:a", null, null);
     }
 
 
