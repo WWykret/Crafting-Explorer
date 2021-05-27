@@ -18,8 +18,8 @@ Interface segregation principle - Jedyne interfejsy z jakich korzystamy to te we
 Dependency inversion principle -
 */
 public class FileLoader {
-    private JSONParser jsonParser;
     private static FileLoader fileLoaderInstance = null; //instancja singletonu :)
+    private JSONParser jsonParser;
 
     public FileLoader() {
         jsonParser = new JSONParser();
@@ -61,7 +61,9 @@ public class FileLoader {
             if (file.isDirectory()) success = DeleteDirectory(file);
             else success = file.delete();
 
-            if (!success) throw new Exception("nie udalo sie usunac " + file.toString());
+            if (!success) {
+                throw new Exception("nie udalo sie usunac " + file.toString());
+            }
         }
     }
 
@@ -155,7 +157,9 @@ public class FileLoader {
         HashMap<String, ArrayList<String>> queuedItemsToAdd = new HashMap<>(); //przedmioty, do których trzeba dodać podprzedmioty i jakie podprzedmioty dodać
 
         for (String path : tagPaths) {
-            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader(path));
+            FileReader fr = new FileReader(path);
+            JSONObject obj = (JSONObject) jsonParser.parse(fr);
+            fr.close();
             JSONArray tagValues = (JSONArray) obj.get("values"); //wszystkie tagi w danym pliku
 
             subItems.clear();
@@ -229,7 +233,9 @@ public class FileLoader {
         LinkedHashSet<Recepture> recipes = new LinkedHashSet<>();
 
         for (String path : recipePaths) {
-            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader(path));
+            FileReader fr = new FileReader(path);
+            JSONObject obj = (JSONObject) jsonParser.parse(fr);
+            fr.close();
             String craftingType = (String) obj.get("type"); //w jaki sposób jest wytwarzany przedmiot
 
             if (craftingType.equals("minecraft:crafting_shaped")) {
