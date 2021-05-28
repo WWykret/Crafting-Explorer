@@ -1,42 +1,50 @@
 import java.util.ArrayList;
 
-public class Main{
-	private static ArrayList<Item> items;
-	private static ArrayList<Recepture> receptures;
+public class Main {
+    private static ArrayList<Item> items;
+    private static ArrayList<Recepture> receptures;
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
+//        File file = new File("./resources/example.jar");
+//        String path;
+//        try{
+//            path = file.getCanonicalPath();
+//        } catch (Exception e) {
+//            path = "";
+//        }
+        items = FileKeeper.GetInstance().ReadItemsFromXML();
+        receptures = FileKeeper.GetInstance().ReadRecipesFromXML(items);
+//        LoadedFiles loadedFiles = FileLoader.GetInstance().LoadFiles(path);
+//
+//        items = loadedFiles.items;
+//        receptures = loadedFiles.receptures;
 
-		FileLoader f = new FileLoader("D:\\Studia\\4 Semestr\\IO\\Zadania\\github repo\\Projekt-IO\\resources\\example.jar");
-		LoadedFiles lo = f.LoadFiles();
+        Window window = new Window();
+        window.displayWindow();
+	}
 
-		items=lo.items;
-		receptures=lo.receptures;
-
-		Window window = new Window();
-		window.displayWindow();
+    public static ArrayList<Item> GetItems() {
+        return items;
     }
 
-	public static ArrayList<Item> GetItems() {
-		return items;
-	}
+    public static void SetItems(ArrayList<Item> _items) {
+        items = _items;
+    }
 
-	public static void SetItems(ArrayList<Item> _items) {
-		items = _items;
-	}
+    public static ArrayList<Recepture> GetReceptures() {
+        return receptures;
+    }
 
-	public static ArrayList<Recepture> GetReceptures() {
-		return receptures;
-	}
-
-	public static void SetReceptures(ArrayList<Recepture> _receptures) {
-		receptures = _receptures;
-	}
+    public static void SetReceptures(ArrayList<Recepture> _receptures) {
+        receptures = _receptures;
+    }
 
     public static void Update(String path) {
-		FileLoader f = new FileLoader(path);
-		LoadedFiles lo = f.LoadFiles();
+        System.out.println("starting the loading");
+        LoadedFiles loadedFiles = FileLoader.GetInstance().LoadFiles(path);
 
-		items=lo.items;
-		receptures=lo.receptures;
+        items = loadedFiles.items;
+        receptures = loadedFiles.receptures;
+        System.out.println("files successfully loaded");
     }
 }
