@@ -381,11 +381,17 @@ public class FileLoader {
             UnpackJar(jarPath);
             Pair<LinkedHashSet<Item>, LinkedHashSet<Recepture>> itemsAndRecipes = ReadItemsAndRecipesFromFiles(jarPath.getParent());
 
-            result.items = new ArrayList<>(itemsAndRecipes.getKey());
-            result.receptures = new ArrayList<>(itemsAndRecipes.getValue());
-            result.success = true;
-
+            System.out.println("Zapisywanie plików do XML...");
             FileKeeper.GetInstance().SaveItemsAndRecipesAsXML(itemsAndRecipes.getKey(), itemsAndRecipes.getValue());
+
+            System.out.println("wczytywanie przedmiotów z XML...");
+            ArrayList<Item> allItems = FileKeeper.GetInstance().ReadItemsFromXML();
+            System.out.println("wczytywanie receptur z XML...");
+            ArrayList<Recepture> allRecipes = FileKeeper.GetInstance().ReadRecipesFromXML(allItems);
+
+            result.items = allItems;
+            result.receptures = allRecipes;
+            result.success = true;
         } catch (Exception e) {
             System.out.println(e.getClass() + " --- " + e.getMessage());
         }
