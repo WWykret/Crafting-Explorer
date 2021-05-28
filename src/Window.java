@@ -12,23 +12,27 @@ import java.util.ArrayList;
 public class Window implements ActionListener {
 
     JFrame frame;
-    private Container cp;
-    private JMenuBar menu;
-    private JMenu i1;
-    private JMenuItem i2;
-    private JTextField t;
-    private ClickableItemList cil;
-    private ClickableItemList cil2;
+    private Container frameContainer;
+    private JMenuBar menubar;
+    private JMenu FilesMenuItem;
+    private JMenuItem ImporFilesButton;
+    private JTextField searchField;
+    private ClickableItemList searchResultList;
+    private ClickableItemList craftingResultList;
     private JPanel ItemPanel;
     private JPanel SearchPanel;
     private JPanel craftingscreen;
     private JPanel mainitempanel;
     private JLabel amountlabl;
-    private JButton next;
-    private JButton prev;
-    private ItemWindow iw;
-    BufferedImage img4;
-    BufferedImage img5;
+    private JButton nextRecepieButton;
+    private JButton prevRecepieButton;
+    private ItemWindow itemWindow;
+    BufferedImage Left_Arrow_Active;
+    BufferedImage Right_Arrow_Active;
+    BufferedImage Right_Arrow;
+    BufferedImage Down_Arrow;
+    BufferedImage Furnace_Fire;
+    BufferedImage Crafting_Table_Icon;
     private JLabel nameLabel;
     Font customFont;
 
@@ -37,208 +41,202 @@ public class Window implements ActionListener {
         frame.setSize(800, 600);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        frame.setTitle("Crafting Explorer");
 
+        frameContainer = frame.getContentPane();
+        frameContainer.setLayout(new BoxLayout(frameContainer, BoxLayout.X_AXIS));
 
+        menubar = new JMenuBar();
+        frameContainer.add(menubar);
+        frame.setJMenuBar(menubar);
 
-        cp = frame.getContentPane();
-        cp.setLayout(new BoxLayout(cp, BoxLayout.X_AXIS));
+        FilesMenuItem = new JMenu("Files");
+        menubar.add(FilesMenuItem);
 
-        menu = new JMenuBar();
-        cp.add(menu);
-        frame.setJMenuBar(menu);
-        i1 = new JMenu("Dupa");
-        menu.add(i1);
-        i2 = new JMenuItem("Kupa");
-        i1.add(i2);
-        i2.addActionListener(this);
+        ImporFilesButton = new JMenuItem("Import Minecraft Files");
+        ImporFilesButton.addActionListener(this);
+        FilesMenuItem.add(ImporFilesButton);
 
+        downloadFiles();
 
-
-       // System.out.println(cp.getHeight()+" "+cp.getWidth());
-
-        BufferedImage img1=null;
-        BufferedImage img2 =null;
-        BufferedImage img3 =null;
-        img4 =null;
-        img5=null;
-        String filePath = new File("").getAbsolutePath();
-        try {
-            img1 = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Left_Arrow_Active.png")));
-            img2 = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Right_Arrow_Active.png")));
-            img3 = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Right_Arrow.png")));
-            img4 = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Down_Arrow.png")));
-            img5 = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Furnace_Fire.png")));
-        } catch (IOException e){
-            System.out.println("lol");
-        }
-
-        try {
-            //create the font to use. Specify the size!
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File(filePath.concat("\\resources\\custom_images\\Minecraft.ttf"))).deriveFont(12f);
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            //register the font
-            ge.registerFont(customFont);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch(FontFormatException e) {
-            e.printStackTrace();
-        }
+        frame.setIconImage(Crafting_Table_Icon);
 
         ItemPanel = new JPanel();
-        SearchPanel = new JPanel();
-
-        cp.add(ItemPanel);
-        cp.add(SearchPanel);
-
-        ItemPanel.setBackground(new Color(197,197,197));
-        SearchPanel.setBackground(Color.LIGHT_GRAY);
-
+        ItemPanel.setBackground(new Color(197, 197, 197));
         ItemPanel.setLayout(null);
-        SearchPanel.setLayout(new BoxLayout(SearchPanel, BoxLayout.Y_AXIS));
-
         ItemPanel.setPreferredSize(new Dimension(600, 600));
+        frameContainer.add(ItemPanel);
+
+        SearchPanel = new JPanel();
+        SearchPanel.setBackground(new Color(197, 197, 197));
+        SearchPanel.setLayout(new BoxLayout(SearchPanel, BoxLayout.Y_AXIS));
         SearchPanel.setPreferredSize(new Dimension(200, 600));
-        System.out.println(ItemPanel.getWidth()+" "+ItemPanel.getHeight());
+        frameContainer.add(SearchPanel);
 
-        t = new JTextField(40);
-        t.setPreferredSize(new Dimension(SearchPanel.getPreferredSize().width, 25));
-        t.addActionListener(this);
-        t.setFont(customFont);
-        SearchPanel.add(t);
-        cil = new ClickableItemList(Main.GetItems(), this, null, new Dimension(SearchPanel.getPreferredSize().width, SearchPanel.getPreferredSize().height - t.getPreferredSize().height));
-        SearchPanel.add(cil);
+        searchField = new JTextField(40);
+        searchField.setPreferredSize(new Dimension(SearchPanel.getPreferredSize().width, 25));
+        searchField.addActionListener(this);
+        searchField.setFont(customFont);
+        SearchPanel.add(searchField);
 
-        //SearchPanel.add(cil);
+        searchResultList = new ClickableItemList(Main.GetItems(), this, null, new Dimension(SearchPanel.getPreferredSize().width, SearchPanel.getPreferredSize().height - searchField.getPreferredSize().height));
+        SearchPanel.add(searchResultList);
 
-///////////////////////////////////////////////////////////////////
-
-
-
-        System.out.println(ItemPanel.getWidth()+" "+ItemPanel.getHeight());
         craftingscreen = new JPanel();
-        craftingscreen.setLayout(new GridLayout(3, 3,2,2));
-        craftingscreen.setBackground(new Color(197,197,197));
+        craftingscreen.setLayout(new GridLayout(3, 3, 2, 2));
+        craftingscreen.setBackground(new Color(197, 197, 197));
+        craftingscreen.setBounds(30, 223 - 20, 154, 154);
         ItemPanel.add(craftingscreen);
-        craftingscreen.setBounds(30, 223, 154, 154);
 
-        for (int i = 0; i < 9; i++){
-            JPanel jp = new JPanel();
-            jp.setPreferredSize(new Dimension(50, 50));
-            jp.setBackground(new Color(140,140,140));
-            craftingscreen.add(jp);
+        for (int i = 0; i < 9; i++) {
+            JPanel filler = new JPanel();
+            filler.setPreferredSize(new Dimension(50, 50));
+            filler.setBackground(new Color(140, 140, 140));
+            craftingscreen.add(filler);
         }
 
-        next = new JButton(new ImageIcon(img2));
-        prev = new JButton(new ImageIcon(img1));
-        next.addActionListener(this);
-        prev.addActionListener(this);
-        next.setBorderPainted(false);
-        prev.setBorderPainted(false);
-        next.setVisible(false);
-        prev.setVisible(false);
-        ItemPanel.add(next);
-        ItemPanel.add(prev);
-        prev.setBounds(30, 175, 24, 24);
-        //prev.setBounds(50, 100, 25, 25);
-        next.setBounds(179-20, 175, 24, 24);
-        //next.setBounds(150, 100, 25, 25);
+        prevRecepieButton = new JButton(new ImageIcon(Left_Arrow_Active));
+        prevRecepieButton.addActionListener(this);
+        prevRecepieButton.setBorderPainted(false);
+        prevRecepieButton.setVisible(false);
+        prevRecepieButton.setBounds(30, 175 - 20, 24, 24);
+        ItemPanel.add(prevRecepieButton);
 
-        JLabel imglabel1 = new JLabel(new ImageIcon(img3));
-        JLabel imglabel2 = new JLabel(new ImageIcon(img3));
+        nextRecepieButton = new JButton(new ImageIcon(Right_Arrow_Active));
+        nextRecepieButton.addActionListener(this);
+        nextRecepieButton.setBorderPainted(false);
+        nextRecepieButton.setVisible(false);
+        nextRecepieButton.setBounds(179 - 20, 175 - 20, 24, 24);
+        ItemPanel.add(nextRecepieButton);
 
-        ItemPanel.add(imglabel1);
-        imglabel1.setBounds(50+154+7-15, 223+154/2-25/2, 25, 25);
-        ItemPanel.add(imglabel2);
-        imglabel2.setBounds(50+154+7+25+50+18+7, 223+154/2-25/2, 25, 25);
+
+        JLabel Right_ArrowLabel1 = new JLabel(new ImageIcon(Right_Arrow));
+        JLabel Right_ArrowLabel2 = new JLabel(new ImageIcon(Right_Arrow));
+
+        ItemPanel.add(Right_ArrowLabel1);
+        Right_ArrowLabel1.setBounds(50 + 154 + 7 - 15, 223 + 154 / 2 - 25 / 2 - 20, 25, 25);
+        ItemPanel.add(Right_ArrowLabel2);
+        Right_ArrowLabel2.setBounds(50 + 154 + 7 + 25 + 50 + 18 + 7, 223 + 154 / 2 - 25 / 2 - 20, 25, 25);
 
         mainitempanel = new JPanel();
         mainitempanel.setLayout(new GridLayout(1, 1));
-        mainitempanel.setBackground(new Color(140,140,140));
+        mainitempanel.setBackground(new Color(140, 140, 140));
+        mainitempanel.setBounds(250 - 15, 223 + 154 / 2 - 50 / 2 - 20, 50, 50);
         ItemPanel.add(mainitempanel);
-        mainitempanel.setBounds(250-15, 223+154/2-50/2, 50, 50);
 
         nameLabel = new JLabel();
         nameLabel.setFont(customFont);
+        nameLabel.setBounds(mainitempanel.getX() - 20, mainitempanel.getY() + mainitempanel.getHeight(), 100, 20);
         ItemPanel.add(nameLabel);
-        nameLabel.setBounds(mainitempanel.getX()-20, mainitempanel.getY()+mainitempanel.getHeight(), 100, 20);
 
         amountlabl = new JLabel();
         amountlabl.setFont(customFont);
+        amountlabl.setBounds(nameLabel.getX(), nameLabel.getY() + nameLabel.getHeight(), 25, 20);
         ItemPanel.add(amountlabl);
-        amountlabl.setBounds(nameLabel.getX(), nameLabel.getY()+nameLabel.getHeight(), 25, 20);
 
-        cil2 = new ClickableItemList(Main.GetItems(), this, null, new Dimension(200, 400));
-        ItemPanel.add(cil2);
-        cil2.setBounds(350, 25, 200, 500);
+        craftingResultList = new ClickableItemList(new ArrayList<Item>(), this, null, new Dimension(200, 400));
+        craftingResultList.setBounds(350, 20, 200, 500);
+        ItemPanel.add(craftingResultList);
+
         frame.repaint();
         frame.revalidate();
-
+        frame.setVisible(true);
     }
 
+    void downloadFiles() {
+        Left_Arrow_Active = null;
+        Right_Arrow_Active = null;
+        Right_Arrow = null;
+        Down_Arrow = null;
+        Furnace_Fire = null;
+        Crafting_Table_Icon = null;
+        String filePath = new File("").getAbsolutePath();
+        try {
+            Left_Arrow_Active = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Left_Arrow_Active.png")));
+            Right_Arrow_Active = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Right_Arrow_Active.png")));
+            Right_Arrow = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Right_Arrow.png")));
+            Down_Arrow = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Down_Arrow.png")));
+            Furnace_Fire = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Furnace_Fire.png")));
+            Crafting_Table_Icon = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Crafting_Table_Icon.jpg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    void displayItemWindow(Item itemIn) {
-        iw = new ItemWindow(itemIn);
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File(filePath.concat("\\resources\\custom_images\\Minecraft.ttf"))).deriveFont(12f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(customFont);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void displayItemWindow(Item itemIn, boolean newitem) {
+        if (newitem) {
+            itemWindow = new ItemWindow(itemIn);
+        }
         craftingscreen.removeAll();
         mainitempanel.removeAll();
-        if(iw.GetCurrentRecepture() == null){
-            for (int i = 0; i < 9; i++){
+        if (itemWindow.GetCurrentRecepture() == null) {
+            for (int i = 0; i < 9; i++) {
                 JPanel jp = new JPanel();
                 jp.setPreferredSize(new Dimension(50, 50));
-                jp.setBackground(new Color(140,140,140));
+                jp.setBackground(new Color(140, 140, 140));
                 craftingscreen.add(jp);
             }
-        }else if(iw.GetCurrentRecepture().GetMethod()=="minecraft:smelting"){
+        } else if (itemWindow.GetCurrentRecepture().GetMethod() == "minecraft:smelting") {
             for (int i = 0; i < 9; i++) {
-                if(i==4){
-                    craftingscreen.add(new ClickableItem(iw.GetCurrentRecepture().ingredients.get(0), this,img4));
+                if (i == 4) {
+                    craftingscreen.add(new ClickableItem(itemWindow.GetCurrentRecepture().ingredients.get(0), this, Down_Arrow));
                 } else if (i == 7) {
-                    JLabel imglabel5 = new JLabel(new ImageIcon(img5));
+                    JLabel imglabel5 = new JLabel(new ImageIcon(Furnace_Fire));
                     craftingscreen.add(imglabel5);
-                }else{
+                } else {
                     JPanel jp = new JPanel();
                     jp.setPreferredSize(new Dimension(50, 50));
-                    jp.setBackground(new Color(140,140,140));
+                    jp.setBackground(new Color(140, 140, 140));
                     craftingscreen.add(jp);
                 }
             }
 
-        }else{
+        } else {
             for (int i = 0; i < 9; i++) {
-                if (i >= iw.GetCurrentRecepture().ingredients.size() || iw.GetCurrentRecepture().ingredients.get(i) == null) {
+                if (i >= itemWindow.GetCurrentRecepture().ingredients.size() || itemWindow.GetCurrentRecepture().ingredients.get(i) == null) {
                     JPanel jp = new JPanel();
                     jp.setPreferredSize(new Dimension(50, 50));
-                    jp.setBackground(new Color(140,140,140));
+                    jp.setBackground(new Color(140, 140, 140));
                     craftingscreen.add(jp);
                 } else {
-                    craftingscreen.add(new ClickableItem(iw.GetCurrentRecepture().ingredients.get(i), this,img4));
+                    craftingscreen.add(new ClickableItem(itemWindow.GetCurrentRecepture().ingredients.get(i), this, Down_Arrow));
                 }
             }
         }
-        mainitempanel.add(new ClickableItem(iw.GetMainItem(), this,img4));
+        mainitempanel.add(new ClickableItem(itemWindow.GetMainItem(), this, Down_Arrow));
         nameLabel.setText(itemIn.GetName());
-        if (iw.GetCurrentRecepture() != null) {
-            Integer x = iw.GetCurrentRecepture().resultQuantity;
-            amountlabl.setText("X "+x.toString());
+        if (itemWindow.GetCurrentRecepture() != null) {
+            Integer x = itemWindow.GetCurrentRecepture().resultQuantity;
+            amountlabl.setText("X " + x.toString());
         } else {
             amountlabl.setText("");
         }
-        if (iw.GetReceptures().size()>1) {
-            next.setVisible(true);
-            prev.setVisible(true);
+        if (itemWindow.GetReceptures().size() > 1) {
+            nextRecepieButton.setVisible(true);
+            prevRecepieButton.setVisible(true);
         } else {
-            next.setVisible(false);
-            prev.setVisible(false);
+            nextRecepieButton.setVisible(false);
+            prevRecepieButton.setVisible(false);
         }
 
-        cil2.Update(iw.GetNextItems(), null);
+        craftingResultList.Update(itemWindow.GetNextItems(), null);
         frame.repaint();
         frame.revalidate();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(i2)) {
+        if (e.getSource().equals(ImporFilesButton)) {
             JFileChooser jfc = new JFileChooser();
             int returnValue = jfc.showOpenDialog(null);
 
@@ -246,40 +244,16 @@ public class Window implements ActionListener {
                 File selectedFile = jfc.getSelectedFile();
                 Main.Update(selectedFile.getAbsolutePath());
             }
-            cil.Update(SearchEngine.FilterItems(Main.GetItems(), ""), null);
-        } else if (e.getSource().equals(t)) {
-            cil.Update(SearchEngine.FilterItems(Main.GetItems(), t.getText()), null);
-        } else if (e.getSource().equals(next)) {
-            iw.NextRecepture();
-            craftingscreen.removeAll();
-            for (int i = 0; i < 9; i++) {
-                if (iw.GetCurrentRecepture() == null || i >= iw.GetCurrentRecepture().ingredients.size() || iw.GetCurrentRecepture().ingredients.get(i) == null) {
-                    JPanel jp = new JPanel();
-                    jp.setPreferredSize(new Dimension(50, 50));
-                    jp.setBackground(new Color(140,140,140));
-                    craftingscreen.add(jp);
-                } else {
-                    craftingscreen.add(new ClickableItem(iw.GetCurrentRecepture().ingredients.get(i), this,img4));
-                }
-            }
-            frame.repaint();
-            frame.revalidate();
-        } else if (e.getSource().equals(prev)) {
-            iw.PrevRecepture();
-            craftingscreen.removeAll();
-            for (int i = 0; i < 9; i++) {
-                if (iw.GetCurrentRecepture() == null || i >= iw.GetCurrentRecepture().ingredients.size() || iw.GetCurrentRecepture().ingredients.get(i) == null) {
-                    JPanel jp = new JPanel();
-                    jp.setPreferredSize(new Dimension(50, 50));
-                    craftingscreen.add(jp);
-                } else {
-                    craftingscreen.add(new ClickableItem(iw.GetCurrentRecepture().ingredients.get(i), this,img4));
-                }
-            }
-            frame.repaint();
-            frame.revalidate();
+            searchResultList.Update(SearchEngine.FilterItems(Main.GetItems(), ""), null);
+        } else if (e.getSource().equals(searchField)) {
+            searchResultList.Update(SearchEngine.FilterItems(Main.GetItems(), searchField.getText()), null);
+        } else if (e.getSource().equals(nextRecepieButton)) {
+            itemWindow.NextRecepture();
+            displayItemWindow(itemWindow.GetMainItem(), false);
+        } else if (e.getSource().equals(prevRecepieButton)) {
+            itemWindow.PrevRecepture();
+            displayItemWindow(itemWindow.GetMainItem(), false);
         }
-
     }
 }
 

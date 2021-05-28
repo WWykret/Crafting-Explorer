@@ -10,34 +10,26 @@ public class ClickableItemList extends JScrollPane {
     private JLabel[] lables;
     private JPanel panel;
     private Window windwo;
-    private Dimension preferd;
-    private Item  mainItem;
-    private JPanel infopan;
-    private JLabel namelabel;
+    private Item mainItem;
 
-
-    ClickableItemList(ArrayList<Item> listIn, Window windwoIn, Item mainitemIn,Dimension preferedIn) {
-        mainItem=mainitemIn;
+    ClickableItemList(ArrayList<Item> listIn, Window windwoIn, Item mainitemIn, Dimension preferedIn) {
+        mainItem = mainitemIn;
         windwo = windwoIn;
-        preferd=preferedIn;
         panel = new JPanel();
         add(panel);
-
         if (listIn == null) {
             listIn = new ArrayList<Item>();
         }
         heldcount = 0;
 
         panel.setBackground(Color.DARK_GRAY);
-        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-        //SearchPanel.add(scrolspace);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         setViewportView(panel);
-        setPreferredSize(preferd);
+        setPreferredSize(preferedIn);
 
-        panel.setPreferredSize(new Dimension((int) preferd.getWidth(), 400));
-        panel.setMinimumSize(preferd);
-        //scrolpane.setPreferredSize(new Dimension(100,1000));
+        panel.setPreferredSize(new Dimension((int) preferedIn.getWidth(), 400));
+        panel.setMinimumSize(preferedIn);
 
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -46,7 +38,7 @@ public class ClickableItemList extends JScrollPane {
     }
 
     void Update(ArrayList<Item> listIn, Item mainItemIn) {
-        mainItem=mainItemIn;
+        mainItem = mainItemIn;
         for (int i = 0; i < heldcount; i++) {
             planes[i].remove(items[i]);
             planes[i].remove(lables[i]);
@@ -57,26 +49,23 @@ public class ClickableItemList extends JScrollPane {
         items = new ClickableItem[listIn.size()];
         lables = new JLabel[listIn.size()];
 
-
         for (int i = 0; i < listIn.size(); i++) {
             planes[i] = new JPanel();
-            planes[i].setPreferredSize(new Dimension(getPreferredSize().width,50));
-            planes[i].setMaximumSize(new Dimension(getPreferredSize().width,50));
+            planes[i].setPreferredSize(new Dimension(getPreferredSize().width, 50));
+            planes[i].setMaximumSize(new Dimension(getPreferredSize().width, 50));
+            planes[i].setBackground(new Color(197, 197, 197));
+            planes[i].setLayout(new BorderLayout(5, 5));
             panel.add(planes[i]);
-            planes[i].setBackground(Color.LIGHT_GRAY);
-            planes[i].setLayout(new BorderLayout(5,5));
 
-            items[i] = new ClickableItem(listIn.get(i), windwo,windwo.img4);
-            planes[i].add(items[i],BorderLayout.LINE_START);
+            items[i] = new ClickableItem(listIn.get(i), windwo, windwo.Down_Arrow);
+            planes[i].add(items[i], BorderLayout.LINE_START);
 
             lables[i] = new JLabel(listIn.get(i).GetName());
             lables[i].setFont(windwo.customFont);
-            planes[i].add(lables[i],BorderLayout.CENTER);
-
+            planes[i].add(lables[i], BorderLayout.CENTER);
         }
-        panel.setPreferredSize(new Dimension(getPreferredSize().width, heldcount*50));
+        panel.setPreferredSize(new Dimension(getPreferredSize().width, heldcount * 50));
         windwo.frame.repaint();
         windwo.frame.revalidate();
     }
-
 }
