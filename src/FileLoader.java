@@ -86,6 +86,7 @@ public class FileLoader {
         String[] dirs = new String[]{
             "(.*/)?data/minecraft/tags/",
             "(.*/)?data/minecraft/recipes/",
+            "(.*/)?data/minecraft/loot_tables/blocks/",
             "(.*/)?assets/minecraft/textures/"
         }; //regexy dozwolonych ścieżek :)
 
@@ -108,18 +109,30 @@ public class FileLoader {
         //rodzdzielanie ścieżek do plików
         ArrayList<String> tagsPath = new ArrayList<>();
         ArrayList<String> recipePath = new ArrayList<>();
+        ArrayList<String> dropsPath = new ArrayList<>();
         ArrayList<String> texturePath = new ArrayList<>();
         for (File f : files) {
             String filePath = f.toString().replace("\\", "/"); //jak są \\ zamiast / to się regex psuje
             if (Pattern.matches(".*/tags/.*", filePath)) tagsPath.add(filePath);
             else if (Pattern.matches(".*/recipes/.*", filePath)) recipePath.add(filePath);
+            else if (Pattern.matches(".*/loot_tables/.*", filePath)) dropsPath.add(filePath);
             else if (Pattern.matches(".*/textures/.*", filePath)) texturePath.add(filePath);
         }
 
         System.out.println("tworzenie przedmiotów...");
         //tagi z plikow z katalogu .../tags/...
         LinkedHashSet<Item> allItems = GetItemsFromTagFiles(tagsPath, texturePath);
-        allItems.addAll(GetItemsFromRecipeFiles(recipePath, texturePath));
+
+        HashSet<Item> itemsFromRecipes = GetItemsFromRecipeFiles(recipePath, texturePath);
+        HashSet<Item> itemsFromLoot = GetItemsFromRecipeFiles(dropsPath, texturePath);
+
+        for (Item item: itemsFromRecipes) {
+            if (GetItemFromHashSet(item.GetRawName(), allItems) == null) allItems.add(item);
+        }
+
+        for (Item item: itemsFromLoot) {
+            if (GetItemFromHashSet(item.GetRawName(), allItems) == null) allItems.add(item);
+        }
 
         System.out.println("szukanie receptur...");
         //receptury z plikow z katalogu .../recipes/...
