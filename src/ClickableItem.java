@@ -24,8 +24,13 @@ public class ClickableItem extends JButton implements ActionListener {
         setLayout(null);
         heldItem = itemIn;
         parentWindow = windowIn;
+        BufferedImage bi;
+        if (heldItem.GetGraphics() != null) {
+            bi = heldItem.GetGraphics();
+        } else {
+            bi = windowIn.No_Image_Icon;
+        }
 
-        BufferedImage bi = heldItem.GetGraphics();
         setBorderPainted(false);
 
         bi = resizeImage(bi, 50, 50);
