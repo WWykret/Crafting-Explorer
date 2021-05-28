@@ -1,10 +1,8 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.Graphics2D;
 
 public class ClickableItem extends JButton implements ActionListener {
     private Item heldItem;
@@ -20,6 +18,15 @@ public class ClickableItem extends JButton implements ActionListener {
     }
 
     ClickableItem(Item itemIn, Window windowIn, BufferedImage arrow) {
+        setBorderPainted(false);
+        setFocusPainted(false);
+
+        if (itemIn == null) {
+            setBackground(new Color(197, 197, 197));
+            setEnabled(false);
+            return;
+        }
+
         setBackground(new Color(140, 140, 140));
         setLayout(null);
         heldItem = itemIn;
@@ -30,9 +37,6 @@ public class ClickableItem extends JButton implements ActionListener {
         } else {
             bi = windowIn.No_Image_Icon;
         }
-
-        setBorderPainted(false);
-        setFocusPainted(false);
 
         bi = resizeImage(bi, 50, 50);
         ImageIcon ii = new ImageIcon(bi);
