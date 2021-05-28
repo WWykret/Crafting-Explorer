@@ -9,13 +9,7 @@ import java.awt.Graphics2D;
 public class ClickableItem extends JButton implements ActionListener {
     private Item heldItem;
     private Window parentWindow;
-
-    private JButton b1;
-
-    private ClickableItemList cl;
-    private boolean subtypedisplayed;
-    private Popup po;
-    private PopupFactory factory;
+    private JButton subtypesButton;
 
     public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
         BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
@@ -24,83 +18,56 @@ public class ClickableItem extends JButton implements ActionListener {
         graphics2D.dispose();
         return resizedImage;
     }
-/*
-    private Image getScaledImage(Image srcImg, int w, int h){
-        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = resizedImg.createGraphics();
 
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2.drawImage(srcImg, 0, 0, w, h, null);
-        g2.dispose();
-
-        return resizedImg;
-    }
-    */
-
-    ClickableItem(Item itemIn, Window windowIn) {
-        setBackground(Color.GRAY);
-        Border b = BorderFactory.createLineBorder(Color.BLACK);
-        setBorder(b);
-        subtypedisplayed = false;
+    ClickableItem(Item itemIn, Window windowIn, BufferedImage arrow) {
+        setBackground(new Color(140, 140, 140));
         setLayout(null);
         heldItem = itemIn;
         parentWindow = windowIn;
 
         BufferedImage bi = heldItem.GetGraphics();
-
-        //bi=(BufferedImage) getScaledImage(heldItem.GetGraphics(),100,100);
-        //bi = new MultiStepRescaleOp(100, 100, RenderingHints.VALUE_INTERPOLATION_BILINEAR).filter(bi, null);
-/*
-        bi = new BufferedImage(100, 100,);
-        Graphics2D graphics2D = scaledImage.createGraphics();
-        graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        graphics2D.drawImage(imageToScale, 0, 0, dWidth, dHeight, null);
-        graphics2D.dispose();
-*/
-
+        setBorderPainted(false);
 
         bi = resizeImage(bi, 50, 50);
         ImageIcon ii = new ImageIcon(bi);
         setIcon(ii);
         setPreferredSize(new Dimension(50, 50));
+        setMaximumSize(new Dimension(50, 50));
+        setMaximumSize(new Dimension(50, 50));
         addActionListener(this);
-
-
-        b1 = new JButton("dupa");
-        add(b1);
-        b1.setSize(10, 10);
-        b1.addActionListener(this);
-        b1.setBounds(0, getPreferredSize().height - 10, 10, 10);
-
-
+        if (heldItem.GetTypes() != null) {
+            subtypesButton = new JButton(new ImageIcon(arrow));
+            add(subtypesButton);
+            subtypesButton.setBorderPainted(false);
+            subtypesButton.setPreferredSize(new Dimension(10, 10));
+            subtypesButton.addActionListener(this);
+            subtypesButton.setBounds(0, getPreferredSize().width - 10, 10, 10);
+        }
     }
 
     void displaySubtype() {
-        if (subtypedisplayed) {
-            remove(cl);
-            po.hide();
-            subtypedisplayed = false;
-        } else {
-            cl = new ClickableItemList(heldItem.GetTypes(), parentWindow, heldItem);
-            add(cl);
-            factory = PopupFactory.getSharedInstance();
-            po = factory.getPopup(this, cl, getLocationOnScreen().x, getLocationOnScreen().y + getHeight());
+        JDialog subtypeDialog = new JDialog(parentWindow.frame);
+        subtypeDialog.setTitle(heldItem.GetName());
+        subtypeDialog.setIconImage(heldItem.GetGraphics());
+        subtypeDialog.setSize(200, 200);
+        subtypeDialog.setResizable(false);
+        subtypeDialog.setLocation(getLocationOnScreen().x, getLocationOnScreen().y + getHeight());
 
-            po.show();
-            subtypedisplayed = true;
-        }
-        //cl.setBounds(0,getPreferredSize().height,cl.getWidth(),cl.getHeight());
+        ClickableItemList cl = new ClickableItemList(heldItem.GetTypes(), parentWindow, heldItem, new Dimension(200, 200));
+        subtypeDialog.add(cl);
+
+        subtypeDialog.setVisible(true);
     }
 
     void displayItemWindow() {
-        parentWindow.displayItemWindow(heldItem);
+        parentWindow.displayItemWindow(heldItem, true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this)) {
-            parentWindow.displayItemWindow(heldItem);
-        } else {
+            displayItemWindow();
+        } else if (e.getSource().equals(subtypesButton)) {
             displaySubtype();
         }
     }

@@ -33,7 +33,6 @@ public class ItemWindow {
 						nextStep.add(Main.GetReceptures().get(i).GetResult());
 						h=true;
 					}
-
 				}
 			}
 		}
