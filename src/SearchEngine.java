@@ -6,7 +6,7 @@ public class SearchEngine{
 
 	public static ArrayList<Recepture> FilterRecepies(ArrayList<Recepture> original, String filter) {
 		ArrayList<Recepture> filtered = new ArrayList<>();
-		Pattern compiledPattern = Pattern.compile(filter);
+		Pattern compiledPattern = Pattern.compile(filter.toLowerCase());
 
 		for (Recepture i : original) {
 			if (i.GetResult() != null) {
@@ -22,11 +22,11 @@ public class SearchEngine{
 
 	public static ArrayList<Item> FilterItems(ArrayList<Item> original, String filter) {
 		ArrayList<Item> filtered = new ArrayList<>();
-		Pattern compiledPattern = Pattern.compile(filter);
+		Pattern compiledPattern = Pattern.compile(filter.toLowerCase());
 
 		for (Item i : original) {
 			if (i != null) {
-				Matcher matcher = compiledPattern.matcher(i.GetName());
+				Matcher matcher = compiledPattern.matcher(i.GetName().toLowerCase());
 				if (matcher.find()) {
 					filtered.add(i);
 				}
