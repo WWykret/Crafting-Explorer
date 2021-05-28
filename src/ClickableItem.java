@@ -32,6 +32,7 @@ public class ClickableItem extends JButton implements ActionListener {
         }
 
         setBorderPainted(false);
+        setFocusPainted(false);
 
         bi = resizeImage(bi, 50, 50);
         ImageIcon ii = new ImageIcon(bi);

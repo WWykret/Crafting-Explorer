@@ -44,8 +44,22 @@ public class Window implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Crafting Explorer");
 
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         frameContainer = frame.getContentPane();
         frameContainer.setLayout(new BoxLayout(frameContainer, BoxLayout.X_AXIS));
+
 
         menubar = new JMenuBar();
         frameContainer.add(menubar);
