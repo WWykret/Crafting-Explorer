@@ -7,10 +7,13 @@ public class ClickableItemList extends JScrollPane {
     private int heldcount;
     private JPanel[] planes;
     private ClickableItem[] items;
-    private JLabel[] lables;
+    //private JLabel[] lables;
     private JPanel panel;
     private Window windwo;
     private Item mainItem;
+    private JTextArea[] ar1;
+    private JPanel[] dummy;
+
 
     ClickableItemList(ArrayList<Item> listIn, Window windwoIn, Item mainitemIn, Dimension preferedIn) {
         mainItem = mainitemIn;
@@ -41,13 +44,15 @@ public class ClickableItemList extends JScrollPane {
         mainItem = mainItemIn;
         for (int i = 0; i < heldcount; i++) {
             planes[i].remove(items[i]);
-            planes[i].remove(lables[i]);
+            planes[i].remove(ar1[i]);
+            planes[i].remove(dummy[i]);
             panel.remove(planes[i]);
         }
         heldcount = listIn.size();
         planes = new JPanel[listIn.size()];
         items = new ClickableItem[listIn.size()];
-        lables = new JLabel[listIn.size()];
+        ar1=new JTextArea[listIn.size()];
+        dummy=new JPanel[listIn.size()];
 
         for (int i = 0; i < listIn.size(); i++) {
             planes[i] = new JPanel();
@@ -60,9 +65,18 @@ public class ClickableItemList extends JScrollPane {
             items[i] = new ClickableItem(listIn.get(i), windwo, windwo.Down_Arrow);
             planes[i].add(items[i], BorderLayout.LINE_START);
 
-            lables[i] = new JLabel(listIn.get(i).GetName());
-            lables[i].setFont(windwo.customFont);
-            planes[i].add(lables[i], BorderLayout.CENTER);
+            ar1[i] = new JTextArea(listIn.get(i).GetName());
+            ar1[i].setLineWrap(true);
+            ar1[i].setWrapStyleWord(true);
+            ar1[i].setBackground(new Color(197, 197, 197));
+            ar1[i].setFont(windwo.customFont);
+            planes[i].add(ar1[i], BorderLayout.CENTER);
+
+            dummy[i]=new JPanel();
+            dummy[i].setBackground(new Color(197, 197, 197));
+            dummy[i].setPreferredSize(new Dimension(10,50));
+            planes[i].add(dummy[i], BorderLayout.LINE_END);
+
         }
         panel.setPreferredSize(new Dimension(getPreferredSize().width, heldcount * 50));
         windwo.frame.repaint();

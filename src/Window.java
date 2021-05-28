@@ -35,6 +35,7 @@ public class Window implements ActionListener {
     BufferedImage Crafting_Table_Icon;
     private JLabel nameLabel;
     Font customFont;
+    BufferedImage No_Image_Icon;
 
     void displayWindow() {
         frame = new JFrame();
@@ -150,6 +151,7 @@ public class Window implements ActionListener {
         Down_Arrow = null;
         Furnace_Fire = null;
         Crafting_Table_Icon = null;
+        No_Image_Icon=null;
         String filePath = new File("").getAbsolutePath();
         try {
             Left_Arrow_Active = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Left_Arrow_Active.png")));
@@ -158,6 +160,7 @@ public class Window implements ActionListener {
             Down_Arrow = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Down_Arrow.png")));
             Furnace_Fire = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Furnace_Fire.png")));
             Crafting_Table_Icon = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Crafting_Table_Icon.jpg")));
+            No_Image_Icon = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\No_Image.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,12 +184,12 @@ public class Window implements ActionListener {
         mainitempanel.removeAll();
         if (itemWindow.GetCurrentRecepture() == null) {
             for (int i = 0; i < 9; i++) {
-                JPanel jp = new JPanel();
-                jp.setPreferredSize(new Dimension(50, 50));
-                jp.setBackground(new Color(140, 140, 140));
-                craftingscreen.add(jp);
+                JPanel filler = new JPanel();
+                filler.setPreferredSize(new Dimension(50, 50));
+                filler.setBackground(new Color(140, 140, 140));
+                craftingscreen.add(filler);
             }
-        } else if (itemWindow.GetCurrentRecepture().GetMethod() == "minecraft:smelting") {
+        } else if (itemWindow.GetCurrentRecepture().GetMethod().equals("minecraft:smelting")) {
             for (int i = 0; i < 9; i++) {
                 if (i == 4) {
                     craftingscreen.add(new ClickableItem(itemWindow.GetCurrentRecepture().ingredients.get(0), this, Down_Arrow));
@@ -194,20 +197,20 @@ public class Window implements ActionListener {
                     JLabel imglabel5 = new JLabel(new ImageIcon(Furnace_Fire));
                     craftingscreen.add(imglabel5);
                 } else {
-                    JPanel jp = new JPanel();
-                    jp.setPreferredSize(new Dimension(50, 50));
-                    jp.setBackground(new Color(140, 140, 140));
-                    craftingscreen.add(jp);
+                    JPanel filler = new JPanel();
+                    filler.setPreferredSize(new Dimension(50, 50));
+                    filler.setBackground(new Color(140, 140, 140));
+                    craftingscreen.add(filler);
                 }
             }
 
         } else {
             for (int i = 0; i < 9; i++) {
                 if (i >= itemWindow.GetCurrentRecepture().ingredients.size() || itemWindow.GetCurrentRecepture().ingredients.get(i) == null) {
-                    JPanel jp = new JPanel();
-                    jp.setPreferredSize(new Dimension(50, 50));
-                    jp.setBackground(new Color(140, 140, 140));
-                    craftingscreen.add(jp);
+                    JPanel filler = new JPanel();
+                    filler.setPreferredSize(new Dimension(50, 50));
+                    filler.setBackground(new Color(140, 140, 140));
+                    craftingscreen.add(filler);
                 } else {
                     craftingscreen.add(new ClickableItem(itemWindow.GetCurrentRecepture().ingredients.get(i), this, Down_Arrow));
                 }
@@ -215,7 +218,7 @@ public class Window implements ActionListener {
         }
         mainitempanel.add(new ClickableItem(itemWindow.GetMainItem(), this, Down_Arrow));
         nameLabel.setText(itemIn.GetName());
-        if (itemWindow.GetCurrentRecepture() != null) {
+        if (itemWindow.GetCurrentRecepture() != null && itemWindow.GetCurrentRecepture().resultQuantity>1) {
             Integer x = itemWindow.GetCurrentRecepture().resultQuantity;
             amountlabl.setText("X " + x.toString());
         } else {
