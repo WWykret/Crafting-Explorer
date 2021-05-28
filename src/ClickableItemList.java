@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-
+//klasa implmetująca listę klikalnych przycisków
 public class ClickableItemList extends JScrollPane {
     private int heldcount;
     private JPanel[] planes;
@@ -13,7 +13,6 @@ public class ClickableItemList extends JScrollPane {
     private Item mainItem;
     private JTextArea[] ar1;
     private JPanel[] dummy;
-
 
     ClickableItemList(ArrayList<Item> listIn, Window windwoIn, Item mainitemIn, Dimension preferedIn) {
         mainItem = mainitemIn;
@@ -39,7 +38,7 @@ public class ClickableItemList extends JScrollPane {
 
         Update(listIn, mainItem);
     }
-
+    //funkcj aktualizująca listę nowymi przedmiotami, jej stara zawartośc jest usuwana
     void Update(ArrayList<Item> listIn, Item mainItemIn) {
         mainItem = mainItemIn;
         for (int i = 0; i < heldcount; i++) {
@@ -51,8 +50,8 @@ public class ClickableItemList extends JScrollPane {
         heldcount = listIn.size();
         planes = new JPanel[listIn.size()];
         items = new ClickableItem[listIn.size()];
-        ar1=new JTextArea[listIn.size()];
-        dummy=new JPanel[listIn.size()];
+        ar1 = new JTextArea[listIn.size()];
+        dummy = new JPanel[listIn.size()];
 
         for (int i = 0; i < listIn.size(); i++) {
             planes[i] = new JPanel();
@@ -72,9 +71,9 @@ public class ClickableItemList extends JScrollPane {
             ar1[i].setFont(windwo.customFont);
             planes[i].add(ar1[i], BorderLayout.CENTER);
 
-            dummy[i]=new JPanel();
+            dummy[i] = new JPanel();
             dummy[i].setBackground(new Color(197, 197, 197));
-            dummy[i].setPreferredSize(new Dimension(10,50));
+            dummy[i].setPreferredSize(new Dimension(10, 50));
             planes[i].add(dummy[i], BorderLayout.LINE_END);
 
         }
