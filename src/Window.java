@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+//klasa odpowiedzialna za rysowanie głównego okna aplikacji
 public class Window implements ActionListener {
 
     JFrame frame;
@@ -38,15 +39,16 @@ public class Window implements ActionListener {
     BufferedImage No_Image_Icon;
 
     void displayWindow() {
+        //wstępna inicjalizacja okna
         frame = new JFrame();
         frame.setSize(800, 600);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Crafting Explorer");
-
-        try{
+        //próba zmiany look and fell na systemowy
+        try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -55,11 +57,9 @@ public class Window implements ActionListener {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
+        //inicjalizacja podstawowych komponentów okna
         frameContainer = frame.getContentPane();
         frameContainer.setLayout(new BoxLayout(frameContainer, BoxLayout.X_AXIS));
-
 
         menubar = new JMenuBar();
         frameContainer.add(menubar);
@@ -76,6 +76,7 @@ public class Window implements ActionListener {
 
         frame.setIconImage(Crafting_Table_Icon);
 
+        //kolejna inicjalizacja wszyskiech elemętów IU właściwej aplikacji
         ItemPanel = new JPanel();
         ItemPanel.setBackground(new Color(197, 197, 197));
         ItemPanel.setLayout(null);
@@ -153,11 +154,13 @@ public class Window implements ActionListener {
         craftingResultList.setBounds(350, 20, 200, 500);
         ItemPanel.add(craftingResultList);
 
+        //odśiwrzenie głównego okna
         frame.repaint();
         frame.revalidate();
         frame.setVisible(true);
     }
 
+    //próba załadowana customowych grafik
     void downloadFiles() {
         Left_Arrow_Active = null;
         Right_Arrow_Active = null;
@@ -165,7 +168,7 @@ public class Window implements ActionListener {
         Down_Arrow = null;
         Furnace_Fire = null;
         Crafting_Table_Icon = null;
-        No_Image_Icon=null;
+        No_Image_Icon = null;
         String filePath = new File("").getAbsolutePath();
         try {
             Left_Arrow_Active = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Left_Arrow_Active.png")));
@@ -191,6 +194,7 @@ public class Window implements ActionListener {
     }
 
     void displayItemWindow(Item itemIn, boolean newitem) {
+        //funkcja odświeża przedmioty trzymane w głównym oknie
         if (newitem) {
             itemWindow = new ItemWindow(itemIn);
         }
@@ -232,7 +236,7 @@ public class Window implements ActionListener {
         }
         mainitempanel.add(new ClickableItem(itemWindow.GetMainItem(), this, Down_Arrow));
         nameLabel.setText(itemIn.GetName());
-        if (itemWindow.GetCurrentRecepture() != null && itemWindow.GetCurrentRecepture().resultQuantity>1) {
+        if (itemWindow.GetCurrentRecepture() != null && itemWindow.GetCurrentRecepture().resultQuantity > 1) {
             Integer x = itemWindow.GetCurrentRecepture().resultQuantity;
             amountlabl.setText("X " + x.toString());
         } else {
@@ -254,6 +258,7 @@ public class Window implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(ImporFilesButton)) {
+            //wywołanie pobrania nowych plików minecrafa
             JFileChooser jfc = new JFileChooser();
             int returnValue = jfc.showOpenDialog(null);
 
@@ -263,11 +268,14 @@ public class Window implements ActionListener {
             }
             searchResultList.Update(SearchEngine.FilterItems(Main.GetItems(), ""), null);
         } else if (e.getSource().equals(searchField)) {
+            //wywowałanie wyszuania na podstawie wpisanych wartości
             searchResultList.Update(SearchEngine.FilterItems(Main.GetItems(), searchField.getText()), null);
         } else if (e.getSource().equals(nextRecepieButton)) {
+            //wywołanie wyświetlenie kolejnej receptury przedmiotu
             itemWindow.NextRecepture();
             displayItemWindow(itemWindow.GetMainItem(), false);
         } else if (e.getSource().equals(prevRecepieButton)) {
+            //wywołanie wyświetlenie poprzedniej receptury przedmiotu
             itemWindow.PrevRecepture();
             displayItemWindow(itemWindow.GetMainItem(), false);
         }
