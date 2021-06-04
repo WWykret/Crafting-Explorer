@@ -169,21 +169,21 @@ public class Window implements ActionListener {
         Furnace_Fire = null;
         Crafting_Table_Icon = null;
         No_Image_Icon = null;
-        String filePath = new File("").getAbsolutePath();
         try {
-            Left_Arrow_Active = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Left_Arrow_Active.png")));
-            Right_Arrow_Active = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Right_Arrow_Active.png")));
-            Right_Arrow = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Right_Arrow.png")));
-            Down_Arrow = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Down_Arrow.png")));
-            Furnace_Fire = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Furnace_Fire.png")));
-            Crafting_Table_Icon = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\Crafting_Table_Icon.jpg")));
-            No_Image_Icon = ImageIO.read(new File(filePath.concat("\\resources\\custom_images\\No_Image.png")));
+            Left_Arrow_Active = ImageIO.read(new File("./resources/custom_images/Left_Arrow_Active.png"));
+            Right_Arrow_Active = ImageIO.read(new File("./resources/custom_images/Right_Arrow_Active.png"));
+            Right_Arrow = ImageIO.read(new File("./resources/custom_images/Right_Arrow.png"));
+            Down_Arrow = ImageIO.read(new File("./resources/custom_images/Down_Arrow.png"));
+            Furnace_Fire = ImageIO.read(new File("./resources/custom_images/Furnace_Fire.png"));
+            Crafting_Table_Icon = ImageIO.read(new File("./resources/custom_images/Crafting_Table_Icon.jpg"));
+            No_Image_Icon = ImageIO.read(new File("./resources/custom_images/No_Image.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
         try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File(filePath.concat("\\resources\\custom_images\\Minecraft.ttf"))).deriveFont(12f);
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("./resources/custom_images/Minecraft.ttf")).deriveFont(12f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customFont);
         } catch (IOException e) {
