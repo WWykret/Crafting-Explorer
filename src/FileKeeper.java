@@ -30,7 +30,7 @@ public class FileKeeper {
         }
     }
 
-    private void SaveRecipesAsXML(ArrayList<XMLRecipe> recipes) throws javax.xml.bind.JAXBException, Exception {
+    private void SaveRecipesAsXML(ArrayList<XMLRecipe> recipes) throws Exception {
         File file = new File("./savedObjects/Recipes");
         String dirPath = file.getCanonicalPath();
         if (!file.exists()) file.mkdirs();
