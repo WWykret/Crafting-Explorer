@@ -234,7 +234,10 @@ public class Window implements ActionListener {
             }
         }
         mainitempanel.add(new ClickableItem(itemWindow.GetMainItem(), this, Down_Arrow));
-        nameLabel.setText(itemIn.GetName());
+        if(itemIn==null)
+            nameLabel.setText("");
+        else
+            nameLabel.setText(itemIn.GetName());
         if (itemWindow.GetCurrentRecepture() != null && itemWindow.GetCurrentRecepture().resultQuantity > 1) {
             Integer x = itemWindow.GetCurrentRecepture().resultQuantity;
             amountlabl.setText("X " + x.toString());
@@ -283,6 +286,7 @@ public class Window implements ActionListener {
     public void FixAfterLoadingFiles() {
         frame.repaint();
         frame.revalidate();
+        displayItemWindow(null, true);
     }
 }
 
