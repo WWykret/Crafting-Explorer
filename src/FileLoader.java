@@ -394,6 +394,7 @@ public class FileLoader {
             result.success = true;
         } catch (Exception e) {
             System.out.println(e.getClass() + " --- " + e.getMessage());
+            FileKeeper.GetInstance().SaveItemsAndRecipesAsXML(new LinkedHashSet<Item>(), new LinkedHashSet<Recepture>());
         }
         return result;
     }
