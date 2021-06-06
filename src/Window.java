@@ -216,7 +216,7 @@ public class Window implements ActionListener {
                 } else {
                     JPanel filler = new JPanel();
                     filler.setPreferredSize(new Dimension(50, 50));
-                    filler.setBackground(new Color(140, 140, 140));
+                    filler.setBackground(new Color(197, 197, 197));
                     craftingscreen.add(filler);
                 }
             }

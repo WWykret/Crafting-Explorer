@@ -24,7 +24,7 @@ public class ClickableItem extends JButton implements ActionListener {
         setFocusPainted(false);
 
         if (itemIn == null) {
-            setBackground(new Color(197, 197, 197));
+            //setBackground(new Color(197, 197, 197));
             setEnabled(false);
             return;
         }
