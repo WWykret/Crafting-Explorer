@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 //klasa odpowiedzialna za rysowanie głównego okna aplikacji
@@ -169,25 +170,27 @@ public class Window implements ActionListener {
         Crafting_Table_Icon = null;
         No_Image_Icon = null;
         try {
-            Left_Arrow_Active = ImageIO.read(new File("./resources/custom_images/Left_Arrow_Active.png"));
-            Right_Arrow_Active = ImageIO.read(new File("./resources/custom_images/Right_Arrow_Active.png"));
-            Right_Arrow = ImageIO.read(new File("./resources/custom_images/Right_Arrow.png"));
-            Down_Arrow = ImageIO.read(new File("./resources/custom_images/Down_Arrow.png"));
-            Furnace_Fire = ImageIO.read(new File("./resources/custom_images/Furnace_Fire.png"));
-            Crafting_Table_Icon = ImageIO.read(new File("./resources/custom_images/Crafting_Table_Icon.jpg"));
-            No_Image_Icon = ImageIO.read(new File("./resources/custom_images/No_Image.png"));
-        } catch (IOException e) {
+            Left_Arrow_Active = ImageIO.read(Utils.GetFileFromResourceFile("custom_images/Left_Arrow_Active.png"));
+            Right_Arrow_Active = ImageIO.read(Utils.GetFileFromResourceFile("custom_images/Right_Arrow_Active.png"));
+            Right_Arrow = ImageIO.read(Utils.GetFileFromResourceFile("custom_images/Right_Arrow.png"));
+            Down_Arrow = ImageIO.read(Utils.GetFileFromResourceFile("custom_images/Down_Arrow.png"));
+            Furnace_Fire = ImageIO.read(Utils.GetFileFromResourceFile("custom_images/Furnace_Fire.png"));
+            Crafting_Table_Icon = ImageIO.read(Utils.GetFileFromResourceFile("custom_images/Crafting_Table_Icon.jpg"));
+            No_Image_Icon = ImageIO.read(Utils.GetFileFromResourceFile("custom_images/No_Image.png"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
 
         try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("./resources/custom_images/Minecraft.ttf")).deriveFont(12f);
+            customFont = Font.createFont(Font.TRUETYPE_FONT, Utils.GetFileFromResourceFile("custom_images/Minecraft.ttf")).deriveFont(12f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customFont);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
