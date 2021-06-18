@@ -19,13 +19,14 @@ class FileLoaderTest {
         result.receptures = null;
         assertEquals(result, FileLoader.GetInstance().LoadFiles("C:/"));
 
-        File file = new File("./resources/example.jar");
         String path;
         try{
+            File file = Utils.GetFileFromResourceFile("example.jar");
             path = file.getCanonicalPath();
         } catch (Exception e) {
             path = "";
         }
+
 
         result = new LoadedFiles();
         result.success = true;
