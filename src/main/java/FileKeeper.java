@@ -58,7 +58,7 @@ public class FileKeeper {
         Marshaller marshallerObj = contextObj.createMarshaller();
         marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-        String savePath = path + "\\" + item.getName() + ".xml";
+        String savePath = path + "\\" + item.getFileName() + ".xml";
         FileOutputStream outStream = new FileOutputStream(savePath);
         marshallerObj.marshal(item, outStream);
         outStream.close();
@@ -71,7 +71,7 @@ public class FileKeeper {
         marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 
-        String basePath = path + "\\" + xmlRecipe.getResult();
+        String basePath = path + "\\" + xmlRecipe.getFileName();
         String savePath;
 
         int orderNumber = 0;
@@ -146,7 +146,7 @@ public class FileKeeper {
         XMLItem xmlItem = (XMLItem) jaxbUnmarshaller.unmarshal(itemFile);
 
         xmlItems.add(xmlItem);
-        allItems.add(new Item(xmlItem.getID(), "minecraft:" + xmlItem.getName(), xmlItem.getGraphics(), null, xmlItem.getDescription()));
+        allItems.add(new Item(xmlItem.getID(), xmlItem.getItemName(), xmlItem.getGraphics(), null, xmlItem.getDescription()));
     }
 
     private void ReadRecipeFromXML(File recipeFile, ArrayList<Recepture> recipes, ArrayList<Item> allItems) throws javax.xml.bind.JAXBException {
@@ -156,7 +156,7 @@ public class FileKeeper {
         XMLRecipe xmlRecipe = (XMLRecipe) jaxbUnmarshaller.unmarshal(recipeFile);
 
         ArrayList<Item> ingredients = new ArrayList<>();
-        for (String ingredientName: xmlRecipe.ingredients) {
+        for (String ingredientName: xmlRecipe.getIngredients()) {
             ingredients.add(GetItemWithName(ingredientName, allItems));
         }
         Item result = GetItemWithName(xmlRecipe.getResult(), allItems);
@@ -166,6 +166,6 @@ public class FileKeeper {
 
     private Item GetItemWithName(String itemName, ArrayList<Item> allItems) {
         //wybieranie ze zbioru elementu o podanej nazwie (lambda!)
-        return allItems.stream().filter(item -> itemName.equals(item.GetName())).findFirst().orElse(null);
+        return allItems.stream().filter(item -> itemName.equals(item.GetRawName())).findFirst().orElse(null);
     }
 }

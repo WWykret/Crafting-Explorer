@@ -1,4 +1,5 @@
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Path;
 
 public class Utils {
@@ -26,5 +27,13 @@ public class Utils {
             }
         }
         return directoryToBeDeleted.delete(); //czy udało się usunąć katalog
+    }
+
+    public static File GetFileFromResourceFile(String name) throws java.net.URISyntaxException{
+        URL resource = Utils.class.getClassLoader().getResource(name);
+        if (resource == null) {
+            throw new IllegalArgumentException("file not found!");
+        }
+        return new File(resource.toURI());
     }
 }

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class XMLItem {
 
     private int id;
-    private String name;
+    private String itemName;
+    private String fileName;
     private String graphics;
     private ArrayList<String> types;
     private String description;
@@ -13,21 +14,23 @@ public class XMLItem {
     public XMLItem() {
     }
 
-    public XMLItem(int id, String name, String graphicsPath, ArrayList<String> types) {
+    public XMLItem(int id, String name, String fileName, String graphicsPath, ArrayList<String> types) {
         this.id = id;
-        this.name = name;
+        this.itemName = name;
+        this.fileName = fileName;
         this.graphics = graphicsPath;
         this.types = types;
     }
 
     public XMLItem(Item item) {
         this.id = item.GetID();
-        this.name = item.GetName();
+        this.itemName = item.GetRawName();
+        this.fileName = item.GetName();
         this.graphics = item.GetGraphicsPath();
 
         ArrayList<String> xmlTypes = new ArrayList<>();
         if (item.GetTypes() != null) {
-            for (Item subItem : item.GetTypes()) xmlTypes.add(subItem.GetName());
+            for (Item subItem : item.GetTypes()) xmlTypes.add(subItem.GetRawName());
         }
         this.types = xmlTypes;
     }
@@ -48,12 +51,20 @@ public class XMLItem {
         description = newDesc;
     }
 
-    public String getName() {
-        return this.name;
+    public String getItemName() {
+        return this.itemName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFileName() {
+        return this.fileName;
+    }
+
+    public void setItemName(String name) {
+        this.itemName = name;
+    }
+
+    public void setFileName(String name) {
+        this.fileName = name;
     }
 
     public ArrayList<String> getTypes() {

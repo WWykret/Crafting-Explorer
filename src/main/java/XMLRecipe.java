@@ -3,11 +3,12 @@ import java.util.ArrayList;
 
 @XmlRootElement
 public class XMLRecipe {
-    int id;
-    String method;
-    ArrayList<String> ingredients;
-    String result;
-    int resultQuantity;
+    private int id;
+    private String method;
+    private ArrayList<String> ingredients;
+    private String result;
+    private String fileName;
+    private int resultQuantity;
 
     public XMLRecipe() {}
 
@@ -18,11 +19,12 @@ public class XMLRecipe {
         ArrayList<String> ingredientNames = new ArrayList<>();
         for (Item item: recipe.GetIngredients()) {
             if (item == null) ingredientNames.add("NULL");
-            else ingredientNames.add(item.GetName());
+            else ingredientNames.add(item.GetRawName());
         }
         this.ingredients = ingredientNames;
 
-        this.result = recipe.GetResult().GetName();
+        this.result = recipe.GetResult().GetRawName();
+        this.fileName = recipe.GetResult().GetName();
         this.resultQuantity = recipe.GetResultQuantity();
     }
 
@@ -52,6 +54,10 @@ public class XMLRecipe {
 
     public String getResult() {
         return result;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public void setResult(String result) {
