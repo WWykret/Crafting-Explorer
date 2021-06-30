@@ -165,11 +165,11 @@ class ItemWindowTest {
 			    items[0], items[0], items[0],
 			    items[0], items[0], items[0]));
 
-        arr.add(new Recepture(0, "crafting_table", rec1, items[0], 0));
-        arr.add(new Recepture(0, "crafting_table", rec2, items[0], 0));
-        arr.add(new Recepture(0, "furnance", rec3, items[0], 0));
-        arr.add(new Recepture(0, "brewing_stand", rec4, items[0], 0));
-        arr.add(new Recepture(0, "smithing_table", rec5, items[0], 0));
+        arr.add(new Recepture(0, Utils.CraftingType.craft3x3, rec1, items[0], 0));
+        arr.add(new Recepture(0, Utils.CraftingType.craft3x3, rec2, items[0], 0));
+        arr.add(new Recepture(0, Utils.CraftingType.smelt, rec3, items[0], 0));
+        arr.add(new Recepture(0, Utils.CraftingType.brew, rec4, items[0], 0));
+        arr.add(new Recepture(0, Utils.CraftingType.smith, rec5, items[0], 0));
     }
 
     public static void ItemsArrayCreator(Item[] items) {

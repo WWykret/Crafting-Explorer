@@ -10,16 +10,16 @@ class SearchEngineTest{
 
 		ItemWindowTest.ItemsArrayCreator(items);
 
-		list.add(new Recepture(0, "crafting_table", null, items[0], 0));
-		list.add(new Recepture(0, "crafting_table", null, items[1], 0));
-		list.add(new Recepture(0, "crafting_table", null, items[2], 0));
-		list.add(new Recepture(0, "crafting_table", null, items[3], 0));
-		list.add(new Recepture(0, "crafting_table", null, items[4], 0));
-		list.add(new Recepture(0, "crafting_table", null, items[5], 0));
-		list.add(new Recepture(0, "crafting_table", null, items[6], 0));
-		list.add(new Recepture(0, "crafting_table", null, items[7], 0));
-		list.add(new Recepture(0, "crafting_table", null, items[8], 0));
-		list.add(new Recepture(0, "crafting_table", null, items[9], 0));
+		list.add(new Recepture(0, Utils.CraftingType.craft3x3, null, items[0], 0));
+		list.add(new Recepture(0, Utils.CraftingType.craft3x3, null, items[1], 0));
+		list.add(new Recepture(0, Utils.CraftingType.craft3x3, null, items[2], 0));
+		list.add(new Recepture(0, Utils.CraftingType.craft3x3, null, items[3], 0));
+		list.add(new Recepture(0, Utils.CraftingType.craft3x3, null, items[4], 0));
+		list.add(new Recepture(0, Utils.CraftingType.craft3x3, null, items[5], 0));
+		list.add(new Recepture(0, Utils.CraftingType.craft3x3, null, items[6], 0));
+		list.add(new Recepture(0, Utils.CraftingType.craft3x3, null, items[7], 0));
+		list.add(new Recepture(0, Utils.CraftingType.craft3x3, null, items[8], 0));
+		list.add(new Recepture(0, Utils.CraftingType.craft3x3, null, items[9], 0));
 
 		ArrayList<Recepture> test1 = new ArrayList<Recepture>();
 		test1.add(list.get(1));

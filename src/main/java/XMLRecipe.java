@@ -4,7 +4,7 @@ import java.util.ArrayList;
 @XmlRootElement
 public class XMLRecipe {
     private int id;
-    private String method;
+    private Utils.CraftingType method;
     private ArrayList<String> ingredients;
     private String result;
     private String fileName;
@@ -36,11 +36,11 @@ public class XMLRecipe {
         this.id = id;
     }
 
-    public String getMethod() {
+    public Utils.CraftingType getMethod() {
         return method;
     }
 
-    public void setMethod(String method) {
+    public void setMethod(Utils.CraftingType method) {
         this.method = method;
     }
 
