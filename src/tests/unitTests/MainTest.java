@@ -27,8 +27,8 @@ class MainTest {
                 items[8], items[8], items[0],
                 items[0], items[0], items[0]
         ));
-        receptures.add(new Recepture(0, "crafting", recepture1, items[3], 4));
-        receptures.add(new Recepture(0, "crafting", recepture2, items[3], 4));
+        receptures.add(new Recepture(0, Utils.CraftingType.craft3x3, recepture1, items[3], 4));
+        receptures.add(new Recepture(0, Utils.CraftingType.craft3x3, recepture2, items[3], 4));
     };
 
     @Test

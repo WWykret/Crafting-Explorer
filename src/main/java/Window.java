@@ -209,7 +209,7 @@ public class Window implements ActionListener {
                 filler.setBackground(new Color(140, 140, 140));
                 craftingscreen.add(filler);
             }
-        } else if (itemWindow.GetCurrentRecepture().GetMethod().equals("minecraft:smelting")) {
+        } else if (itemWindow.GetCurrentRecepture().GetMethod().equals(Utils.CraftingType.smelt)) {
             for (int i = 0; i < 9; i++) {
                 if (i == 4) {
                     craftingscreen.add(new ClickableItem(itemWindow.GetCurrentRecepture().ingredients.get(0), this, Down_Arrow));

@@ -46,16 +46,16 @@ class ReceptureTest{
 		three.add(a[16]);
 		a[17]=new Item(1530,"Button","C:/Users/Apka/Button.jpg",three);
 
-		b[0]=new Recepture(1,"crafting_table",new ArrayList<>(Arrays.asList(a[5], a[6], null,   a[5], null, a[6],   a[5], a[6], null)),a[4],64);
-		b[1]=new Recepture(2,"crafting_table",new ArrayList<>(Arrays.asList(null, null, null,   null, a[11], null,   null, null, null)),a[12],6);
-		b[2]=new Recepture(3,"crafting_table",new ArrayList<>(Arrays.asList(a[11], a[11], a[11],   null, a[5], null,   null, a[5], null)),a[1],1);
-		b[3]=new Recepture(4,"crafting_table",new ArrayList<>(Arrays.asList(a[15], a[15], null,   a[15], a[15], null,   null, null, null)),a[15],4);
-		b[4]=new Recepture(546,"furnance",new ArrayList<>(Arrays.asList(a[9])),a[10],1);
-		b[5]=new Recepture(15,"furnance",new ArrayList<>(Arrays.asList(a[2], a[5])),a[3],500);
-		b[6]=new Recepture(546643442,"brewing_stand",new ArrayList<>(Arrays.asList(a[12], a[13], a[14])),a[15],5645737);
-		b[7]=new Recepture(200,"smithing_table",new ArrayList<>(Arrays.asList(a[5])),a[0],0);
-		b[8]=new Recepture(27,"smithing_table",new ArrayList<>(Arrays.asList()),a[8],2);
-		b[9]=new Recepture(56,"",new ArrayList<>(Arrays.asList(null, null, null,a[6],a[6],a[6])),a[4],17);
+		b[0]=new Recepture(1,Utils.CraftingType.craft3x3,new ArrayList<>(Arrays.asList(a[5], a[6], null,   a[5], null, a[6],   a[5], a[6], null)),a[4],64);
+		b[1]=new Recepture(2,Utils.CraftingType.craft3x3,new ArrayList<>(Arrays.asList(null, null, null,   null, a[11], null,   null, null, null)),a[12],6);
+		b[2]=new Recepture(3,Utils.CraftingType.craft3x3,new ArrayList<>(Arrays.asList(a[11], a[11], a[11],   null, a[5], null,   null, a[5], null)),a[1],1);
+		b[3]=new Recepture(4,Utils.CraftingType.craft3x3,new ArrayList<>(Arrays.asList(a[15], a[15], null,   a[15], a[15], null,   null, null, null)),a[15],4);
+		b[4]=new Recepture(546,Utils.CraftingType.smelt,new ArrayList<>(Arrays.asList(a[9])),a[10],1);
+		b[5]=new Recepture(15,Utils.CraftingType.smelt,new ArrayList<>(Arrays.asList(a[2], a[5])),a[3],500);
+		b[6]=new Recepture(546643442,Utils.CraftingType.brew,new ArrayList<>(Arrays.asList(a[12], a[13], a[14])),a[15],5645737);
+		b[7]=new Recepture(200,Utils.CraftingType.smith,new ArrayList<>(Arrays.asList(a[5])),a[0],0);
+		b[8]=new Recepture(27,Utils.CraftingType.smith,new ArrayList<>(Arrays.asList()),a[8],2);
+		b[9]=new Recepture(56, Utils.CraftingType.unknown,new ArrayList<>(Arrays.asList(null, null, null,a[6],a[6],a[6])),a[4],17);
 	}
 
 	@Test
@@ -73,16 +73,16 @@ class ReceptureTest{
 	}
 	@Test
 	void getMethod(){
-		Assertions.assertEquals("crafting_table",b[0].GetMethod(),"blad w tescie 1");
-		Assertions.assertEquals("crafting_table",b[1].GetMethod(),"blad w tescie 2");
-		Assertions.assertEquals("crafting_table",b[2].GetMethod(),"blad w tescie 3");
-		Assertions.assertEquals("crafting_table",b[3].GetMethod(),"blad w tescie 4");
-		Assertions.assertEquals("furnance",b[4].GetMethod(),"blad w tescie 5");
-		Assertions.assertEquals("furnance",b[5].GetMethod(),"blad w tescie 6");
-		Assertions.assertEquals("brewing_stand",b[6].GetMethod(),"blad w tescie 7");
-		Assertions.assertEquals("smithing_table",b[7].GetMethod(),"blad w tescie 8");
-		Assertions.assertEquals("smithing_table",b[8].GetMethod(),"blad w tescie 9");
-		Assertions.assertEquals("",b[9].GetMethod(),"blad w tescie 10");
+		Assertions.assertEquals(Utils.CraftingType.craft3x3,b[0].GetMethod(),"blad w tescie 1");
+		Assertions.assertEquals(Utils.CraftingType.craft3x3,b[1].GetMethod(),"blad w tescie 2");
+		Assertions.assertEquals(Utils.CraftingType.craft3x3,b[2].GetMethod(),"blad w tescie 3");
+		Assertions.assertEquals(Utils.CraftingType.craft3x3,b[3].GetMethod(),"blad w tescie 4");
+		Assertions.assertEquals(Utils.CraftingType.smelt,b[4].GetMethod(),"blad w tescie 5");
+		Assertions.assertEquals(Utils.CraftingType.smelt,b[5].GetMethod(),"blad w tescie 6");
+		Assertions.assertEquals(Utils.CraftingType.brew,b[6].GetMethod(),"blad w tescie 7");
+		Assertions.assertEquals(Utils.CraftingType.smith,b[7].GetMethod(),"blad w tescie 8");
+		Assertions.assertEquals(Utils.CraftingType.smith,b[8].GetMethod(),"blad w tescie 9");
+		Assertions.assertEquals(Utils.CraftingType.unknown,b[9].GetMethod(),"blad w tescie 10");
 	}
 	@Test
 	void getIngredients(){

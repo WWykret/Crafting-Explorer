@@ -227,11 +227,11 @@ public class FileLoader {
             FileReader fileReader = new FileReader(path);
             JSONObject obj = (JSONObject) jsonParser.parse(fileReader);
             fileReader.close();
-            String craftingType = (String) obj.get("type"); //w jaki sposób jest wytwarzany przedmiot
+            Utils.CraftingType craftingType = Utils.GetCraftingType((String) obj.get("type")); //w jaki sposób jest wytwarzany przedmiot
 
-            if (craftingType.equals("minecraft:crafting_shaped")) {
+            if (craftingType == Utils.CraftingType.craft3x3) {
                 CreateReceptureCraftingType(obj, recipes, craftingType, allItems);
-            } else if (craftingType.equals("minecraft:smelting")) {
+            } else if (craftingType == Utils.CraftingType.smelt) {
                 //(zakładam że surowiec to zawsze obiekt)
                 CreateReceptureSmeltingType(obj, recipes, craftingType, allItems);
             }
@@ -240,7 +240,7 @@ public class FileLoader {
         return recipes;
     }
 
-    private void CreateReceptureCraftingType(JSONObject jsonRecipeObj, LinkedHashSet<Recepture> recipes, String craftingMethod, LinkedHashSet<Item> allItems) {
+    private void CreateReceptureCraftingType(JSONObject jsonRecipeObj, LinkedHashSet<Recepture> recipes, Utils.CraftingType craftingMethod, LinkedHashSet<Item> allItems) {
         JSONArray craftingPattern = (JSONArray) jsonRecipeObj.get("pattern");
         String patternString = ConvertCraftingGridToString(craftingPattern);
 
@@ -316,7 +316,7 @@ public class FileLoader {
         return patternString.toString();
     }
 
-    private void CreateReceptureSmeltingType(JSONObject jsonRecipeObj, LinkedHashSet<Recepture> recipes, String craftingMethod, LinkedHashSet<Item> allItems) {
+    private void CreateReceptureSmeltingType(JSONObject jsonRecipeObj, LinkedHashSet<Recepture> recipes, Utils.CraftingType craftingMethod, LinkedHashSet<Item> allItems) {
         try {
             JSONObject ingredientObj = (JSONObject) jsonRecipeObj.get("ingredient"); //co jest przepalane
 

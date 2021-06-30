@@ -2,12 +2,12 @@ import java.util.ArrayList;
 
 public class Recepture {
     int id;
-    String method;
+    Utils.CraftingType method;
     ArrayList<Item> ingredients;
     Item result;
     int resultQuantity;
 
-    public Recepture(int id, String method, ArrayList<Item> ingredients, Item result, int resultQuantity) {
+    public Recepture(int id, Utils.CraftingType method, ArrayList<Item> ingredients, Item result, int resultQuantity) {
         this.id = id;
         this.method = method;
         if (ingredients != null) this.ingredients = new ArrayList<Item>(ingredients);
@@ -20,7 +20,7 @@ public class Recepture {
         return id;
     }
 
-    public String GetMethod() {
+    public Utils.CraftingType GetMethod() {
         return method;
     }
 
