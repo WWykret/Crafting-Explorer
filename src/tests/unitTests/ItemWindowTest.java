@@ -165,15 +165,15 @@ class ItemWindowTest {
 			    items[0], items[0], items[0],
 			    items[0], items[0], items[0]));
 
-        arr.add(new Recepture(0, Utils.CraftingType.craft3x3, rec1, items[0], 0));
-        arr.add(new Recepture(0, Utils.CraftingType.craft3x3, rec2, items[0], 0));
-        arr.add(new Recepture(0, Utils.CraftingType.smelt, rec3, items[0], 0));
-        arr.add(new Recepture(0, Utils.CraftingType.brew, rec4, items[0], 0));
-        arr.add(new Recepture(0, Utils.CraftingType.smith, rec5, items[0], 0));
+        arr.add(new Recepture(0, Utils.CraftingType.craft3x3, rec1, items[0], 1));
+        arr.add(new Recepture(0, Utils.CraftingType.craft3x3, rec2, items[0], 1));
+        arr.add(new Recepture(0, Utils.CraftingType.smelt, rec3, items[0], 1));
+        arr.add(new Recepture(0, Utils.CraftingType.brew, rec4, items[0], 1));
+        arr.add(new Recepture(0, Utils.CraftingType.smith, rec5, items[0], 1));
     }
 
     public static void ItemsArrayCreator(Item[] items) {
-        items[0] = null;
+        items[0] = new Item(420, "minecraft:ix", null, null);
         items[1] = new Item(0, "minecraft:aa", null, null);
         items[2] = new Item(1, "minecraft:aab", null, null);
         items[3] = new Item(2, "minecraft:bab", null, null);
